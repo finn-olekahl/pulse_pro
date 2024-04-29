@@ -1,0 +1,36 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "pulsepro (dev mode)",
+            "request": "launch",
+            "type": "dart",
+            "noDebug": true,
+            "args": [
+                "--flavor",
+                "dev"
+            ]
+        },
+        {
+            "name": "pulsepro (prod mode)",
+            "request": "launch",
+            "type": "dart",
+            "noDebug": true,
+            "args": [
+                "--flavor",
+                "prod"
+            ]
+        },
+        {
+            "name": "pulsepro PERFORMANCE TEST",
+            "request": "launch",
+            "type": "dart",
+            "noDebug": true,
+            "args": [
+                "--profile",
+                "--flavor",
+                "dev"
+            ]
+        }
+    ]
+}
