@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "pulsepro (dev mode)",
+            "name": "Pulse Pro (dev mode)",
             "request": "launch",
             "type": "dart",
             "noDebug": true,
@@ -12,7 +12,7 @@
             ]
         },
         {
-            "name": "pulsepro (prod mode)",
+            "name": "Pulse Pro (prod mode)",
             "request": "launch",
             "type": "dart",
             "noDebug": true,
@@ -22,7 +22,7 @@
             ]
         },
         {
-            "name": "pulsepro PERFORMANCE TEST",
+            "name": "Pulse Pro PERFORMANCE TEST",
             "request": "launch",
             "type": "dart",
             "noDebug": true,
