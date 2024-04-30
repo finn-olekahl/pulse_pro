@@ -3,10 +3,10 @@ import 'package:equatable/equatable.dart';
 import 'package:pulse_pro/repositories/authencitation_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-part 'logout_state.dart';
+part 'home_state.dart';
 
-class LogOutCubit extends Cubit<LogoutState> {
-  LogOutCubit({required this.authenticationRepository}) : super(LogoutInitial());
+class HomeCubit extends Cubit<HomeState> {
+  HomeCubit({required this.authenticationRepository}) : super(HomeInitial());
 
   final AuthenticationRepository authenticationRepository;
 
