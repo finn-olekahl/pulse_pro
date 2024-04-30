@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "532886091218",
-    "project_id": "pulse-pro-test",
-    "storage_bucket": "pulse-pro-test.appspot.com"
+    "project_number": "970528886497",
+    "project_id": "pulse-pro-dev",
+    "storage_bucket": "pulse-pro-dev.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:532886091218:android:e43580bc8037754517c40b",
+        "mobilesdk_app_id": "1:970528886497:android:d6572f7facc6ffaa8031a0",
         "android_client_info": {
           "package_name": "ai.pulsepro.dev"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBkFfktqIZPf5ZIAABccFrvxQE1fK6gcQ8"
+          "current_key": "AIzaSyDKSz8ML-zINizi_BpZ6H0Q7b6EheAfpoY"
         }
       ],
       "services": {

@@ -2,22 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CLIENT_ID</key>
-	<string>532886091218-6bk5s3nr107dt7tsar5733bdvncgsfdu.apps.googleusercontent.com</string>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.532886091218-6bk5s3nr107dt7tsar5733bdvncgsfdu</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCmSROb-fxiL_oPNi42a1S5oSyKRb4UR8M</string>
+	<string>AIzaSyB0o4Q9puvDtwPDthm82-LQXm2vb92Ec-c</string>
 	<key>GCM_SENDER_ID</key>
-	<string>532886091218</string>
+	<string>970528886497</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>ai.pulsepro.dev</string>
 	<key>PROJECT_ID</key>
-	<string>pulse-pro-test</string>
+	<string>pulse-pro-dev</string>
 	<key>STORAGE_BUCKET</key>
-	<string>pulse-pro-test.appspot.com</string>
+	<string>pulse-pro-dev.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:532886091218:ios:a65568a128c7f58917c40b</string>
+	<string>1:970528886497:ios:9ceef536c88a7b1d8031a0</string>
 </dict>
 </plist>
