@@ -12,3 +12,9 @@ class _AuthStreamChange extends AppStateEvent {
 
   final User? authUser;
 }
+
+class _LocalUserStreamChange extends AppStateEvent {
+  const _LocalUserStreamChange(this.pulseProUser);
+
+  final PulseProUser? pulseProUser;
+}

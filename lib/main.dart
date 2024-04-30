@@ -6,17 +6,26 @@ import 'package:pulse_pro/app/app_router.dart';
 import 'package:pulse_pro/app/color_palette.dart';
 import 'package:pulse_pro/bloc/app_state_bloc.dart';
 import 'package:pulse_pro/repositories/authencitation_repository.dart';
+import 'package:pulse_pro/repositories/user_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
   await Firebase.initializeApp();
 
-  runApp(RepositoryProvider(
-    create: (context) => AuthenticationRepository(),
+  runApp(MultiRepositoryProvider(
+    providers: [
+      RepositoryProvider(
+        create: (context) => AuthenticationRepository(),
+      ),
+      RepositoryProvider(
+        create: (context) => UserRepository(),
+      ),
+    ],
     child: BlocProvider(
       lazy: false,
       create: (context) => AppStateBloc(),
@@ -34,8 +43,14 @@ class PulseProApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'PulsePro',
       themeMode: ThemeMode.system,
-      theme: ThemeData(useMaterial3: true, colorSchemeSeed: sapphire, brightness: Brightness.light),
-      darkTheme: ThemeData(useMaterial3: true, colorSchemeSeed: oxfordBlue, brightness: Brightness.dark),
+      theme: ThemeData(
+          useMaterial3: true,
+          colorSchemeSeed: sapphire,
+          brightness: Brightness.light),
+      darkTheme: ThemeData(
+          useMaterial3: true,
+          colorSchemeSeed: oxfordBlue,
+          brightness: Brightness.dark),
       routerConfig: AppRouter(context).router,
     );
   }
