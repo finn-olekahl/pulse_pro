@@ -12,7 +12,20 @@
           "package_name": "ai.pulsepro.dev"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "970528886497-ta82i0vk8o9aqcbjm7o07bgg1dnkhmq9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ai.pulsepro.dev",
+            "certificate_hash": "940306825b3f530d5849df56f43e15491e56c8cd"
+          }
+        },
+        {
+          "client_id": "970528886497-pmsavbk94lp5eesi7m83ks72e62uappb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDKSz8ML-zINizi_BpZ6H0Q7b6EheAfpoY"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "970528886497-eqc382adq84uv6gsc674q9uu8nirh4o5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "970528886497-s6ds9jiqbeouq3d8t6togf3202mlujoj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ai.pulsepro.dev"
+              }
+            }
+          ]
         }
       }
     }
