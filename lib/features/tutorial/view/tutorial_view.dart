@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class TutorialView extends StatelessWidget {
   final VoidCallback onStartPressed;
 
-  TutorialView({required this.onStartPressed});
+  const TutorialView({super.key, required this.onStartPressed});
 
   @override
   Widget build(BuildContext context) {
