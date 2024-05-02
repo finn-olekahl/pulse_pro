@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'package:flutter_bloc/flutter_bloc.dart';
-//import 'package:pulse_pro/features/home/cubit/home_cubit.dart';
+import 'package:pulse_pro/features/profile/profile_page.dart';
 
 class TutorialView extends StatelessWidget {
   final VoidCallback onStartPressed;
@@ -34,7 +33,9 @@ class TutorialView extends StatelessWidget {
             _buildStep('4', 'Ernährungsplan: Finde passende Ernährungspläne und Tipps für deine Fitnessziele.'),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: onStartPressed,
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
+              },
               child: const Text('Los geht\'s!'),
             ),
           ],
