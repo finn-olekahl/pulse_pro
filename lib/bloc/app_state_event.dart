@@ -18,3 +18,7 @@ class _LocalUserStreamChange extends AppStateEvent {
 
   final PulseProUser? pulseProUser;
 }
+
+class LocalUserLookUp extends AppStateEvent {
+  const LocalUserLookUp();
+}

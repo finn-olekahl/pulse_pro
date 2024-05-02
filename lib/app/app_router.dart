@@ -41,6 +41,7 @@ class AppRouter {
 
         if (appState is AppStateLoading) return '/splash';
         if (appState is AppStateInitial) return '/login';
+        if (appState is AppStateNoAccount) return '/tutorial';
 
         if (isOnSplashScreen || isOnLoginPage) return '/';
 

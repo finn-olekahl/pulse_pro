@@ -28,7 +28,8 @@ void main() async {
     ],
     child: BlocProvider(
       lazy: false,
-      create: (context) => AppStateBloc(),
+      create: (context) => AppStateBloc(
+        userRepository: context.read<UserRepository>()),
       child: const PulseProApp(),
     ),
   ));
