@@ -5,7 +5,7 @@ import 'package:pulse_pro/features/home/cubit/home_cubit.dart';
 import 'package:pulse_pro/repositories/authencitation_repository.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Fitness App'),
-          backgroundColor: Color.fromARGB(255, 150, 150, 150).withOpacity(0.01), // Durchsichtiger Hintergrund
+          backgroundColor: const Color.fromARGB(255, 150, 150, 150).withOpacity(0.01), // Durchsichtiger Hintergrund
         ),
         body: const Column(
           children: [
