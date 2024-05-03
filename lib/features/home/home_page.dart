@@ -14,7 +14,19 @@ class HomePage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Fitness App'),
-          backgroundColor: const Color.fromARGB(255, 150, 150, 150).withOpacity(0.01), // Durchsichtiger Hintergrund
+          backgroundColor: const Color.fromARGB(0, 255, 255, 255), // Transparenter Hintergrund
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [
+                  Color.fromARGB(255, 80, 80, 80),
+                  Color.fromARGB(255, 40, 40, 40),
+                ],
+              ),
+            ),
+          ),
         ),
         body: const Column(
           children: [
@@ -26,7 +38,7 @@ class HomePage extends StatelessWidget {
             BottomBar(), // Bottom Bar außerhalb des SingleChildScrollView platzieren
           ],
         ),
-        backgroundColor: Colors.grey[200], // Hintergrundfarbe ändern
+        backgroundColor: const Color.fromARGB(255, 80, 80, 80), // Hintergrundfarbe ändern
       ),
     );
   }
@@ -66,20 +78,20 @@ class HomePageContent extends StatelessWidget {
               ),
               const Text(
                 'Willkommen zur Fitness App!',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 0, 0, 0), // Textfarbe ändern
-                  ),
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 0, 0, 0), // Textfarbe ändern
                 ),
-                const SizedBox(height: 20), // Abstand zum nächsten Text
-                const Text(
-                  'Entdecke eine neue Dimension des Trainings und der Gesundheit. olor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Color.fromARGB(255, 0, 0, 0), // Textfarbe ändern
-                  ),
+              ),
+              const SizedBox(height: 20), // Abstand zum nächsten Text
+              const Text(
+                'Entdecke eine neue Dimension des Trainings und der Gesundheit. olor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Color.fromARGB(255, 255, 255, 255), // Textfarbe ändern
                 ),
+              ),
             ],
           ),
         ),
@@ -99,7 +111,13 @@ class BottomBar extends StatelessWidget {
       bottom: 0,
       child: Container(
         height: 100, // Höhe der Leiste
-        color: Colors.grey[300], // Hintergrundfarbe der Leiste
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [Color.fromARGB(255, 0, 0, 0), Color.fromARGB(255, 70, 70, 70)],
+          ),
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -111,9 +129,15 @@ class BottomBar extends StatelessWidget {
                     // Aktion für Tagebuch ausführen
                   },
                   icon: const Icon(Icons.book),
+                  color: const Color.fromARGB(255, 255, 255, 255),
                 ),
                 const SizedBox(height: 4), // Abstand unter dem Text
-                const Text('Tagebuch'),
+                const Text(
+                  'Tagebuch',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255), // Textfarbe ändern
+                  ),
+                ),
               ],
             ),
             Column(
@@ -124,9 +148,15 @@ class BottomBar extends StatelessWidget {
                     // Aktion für Trainingspläne ausführen
                   },
                   icon: const Icon(Icons.fitness_center),
+                  color: const Color.fromARGB(255, 255, 255, 255),
                 ),
                 const SizedBox(height: 4), // Abstand unter dem Text
-                const Text('Trainingspläne'),
+                const Text(
+                  'Trainingspläne',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255), // Textfarbe ändern
+                  ),
+                ),
               ],
             ),
             Column(
@@ -137,9 +167,15 @@ class BottomBar extends StatelessWidget {
                     // Aktion für Fortschritte ausführen
                   },
                   icon: const Icon(Icons.trending_up),
+                  color: const Color.fromARGB(255, 255, 255, 255),
                 ),
                 const SizedBox(height: 4), // Abstand unter dem Text
-                const Text('Fortschritte'),
+                const Text(
+                  'Fortschritte',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255), // Textfarbe ändern
+                  ),
+                ),
               ],
             ),
             Column(
@@ -150,9 +186,15 @@ class BottomBar extends StatelessWidget {
                     // Aktion für Profil ausführen
                   },
                   icon: const Icon(Icons.person),
+                  color: const Color.fromARGB(255, 255, 255, 255),
                 ),
                 const SizedBox(height: 4), // Abstand unter dem Text
-                const Text('Profil'),
+                const Text(
+                  'Profil',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255), // Textfarbe ändern
+                  ),
+                ),
               ],
             ),
           ],
