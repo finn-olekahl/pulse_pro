@@ -1,8 +1,9 @@
 name: Flutter Build, Release And Deploy
-"on":
+on:
   push:
-    branches:
-      - main
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
 
 jobs:
   flutter_test:
