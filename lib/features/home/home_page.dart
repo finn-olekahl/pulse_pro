@@ -5,7 +5,7 @@ import 'package:pulse_pro/features/home/cubit/home_cubit.dart';
 import 'package:pulse_pro/repositories/authencitation_repository.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
 }
 
 class HomePageContent extends StatelessWidget {
-  const HomePageContent({Key? key}) : super(key: key);
+  const HomePageContent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -72,10 +72,10 @@ class HomePageContent extends StatelessWidget {
                     onPressed: () {
                       // Aktion für Tagebuch ausführen
                     },
-                    icon: Icon(Icons.book),
+                    icon: const Icon(Icons.book),
                   ),
                   const SizedBox(height: 4), // Abstand unter dem Text
-                  Text('Tagebuch'),
+                  const Text('Tagebuch'),
                 ],
               ),
               Column(
@@ -85,10 +85,10 @@ class HomePageContent extends StatelessWidget {
                     onPressed: () {
                       // Aktion für Trainingspläne ausführen
                     },
-                    icon: Icon(Icons.fitness_center),
+                    icon: const Icon(Icons.fitness_center),
                   ),
                   const SizedBox(height: 4), // Abstand unter dem Text
-                  Text('Trainingspläne'),
+                  const Text('Trainingspläne'),
                 ],
               ),
               Column(
@@ -98,10 +98,10 @@ class HomePageContent extends StatelessWidget {
                     onPressed: () {
                       // Aktion für Fortschritte ausführen
                     },
-                    icon: Icon(Icons.trending_up),
+                    icon: const Icon(Icons.trending_up),
                   ),
                   const SizedBox(height: 4), // Abstand unter dem Text
-                  Text('Fortschritte'),
+                  const Text('Fortschritte'),
                 ],
               ),
               Column(
@@ -111,10 +111,10 @@ class HomePageContent extends StatelessWidget {
                     onPressed: () {
                       // Aktion für Profil ausführen
                     },
-                    icon: Icon(Icons.person),
+                    icon: const Icon(Icons.person),
                   ),
                   const SizedBox(height: 4), // Abstand unter dem Text
-                  Text('Profil'),
+                  const Text('Profil'),
                 ],
               ),
             ],
