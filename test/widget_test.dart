@@ -15,7 +15,7 @@ import 'package:pulse_pro/main.dart';
 import 'package:pulse_pro/repositories/authencitation_repository.dart';
 import 'package:pulse_pro/repositories/user_repository.dart';
 
-void main() async {
+void main() {
 
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -23,11 +23,9 @@ void main() async {
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
-  await Firebase.initializeApp();
-
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
 
-
+    await Firebase.initializeApp();
     // Build our app and trigger a frame.
     await tester.pumpWidget(MultiRepositoryProvider(
     providers: [
