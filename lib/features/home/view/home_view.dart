@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pulse_pro/features/home/cubit/home_cubit.dart';
-import 'package:pulse_pro/features/tutorial/tutorial_page.dart'; // Importiere die TutorialPage
+
+import 'package:pulse_pro/features/home/view/widgets/bottom_bar.dart';
+import 'package:pulse_pro/features/home/view/widgets/home_content.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -10,28 +10,33 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Logout Button'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                context.read<HomeCubit>().signOut();
-              },
-              child: const Text('Logout'),
+        title: const Text('Fitness App'),
+        backgroundColor: const Color.fromARGB(0, 255, 255, 255), // Transparenter Hintergrund
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [
+                Color.fromARGB(255, 80, 80, 80),
+                Color.fromARGB(255, 40, 40, 40),
+              ],
             ),
-            const SizedBox(height: 20), // Abstand zwischen den Buttons
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const TutorialPage()));
-              },
-              child: const Text('Tutorial'),
-            ),
-          ],
+          ),
         ),
       ),
+      body: const Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: HomeContent(),
+            ),
+          ),
+          BottomBar(), // Bottom Bar außerhalb des SingleChildScrollView platzieren
+        ],
+      ),
+      backgroundColor: const Color.fromARGB(255, 80, 80, 80), // Hintergrundfarbe ändern
     );
   }
 }
+
