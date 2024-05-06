@@ -13,7 +13,12 @@ class HomePage extends StatelessWidget {
       create: (context) => HomeCubit(authenticationRepository: context.read<AuthenticationRepository>()),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Fitness App'),
+          title: const Text(
+            'Pulse Pro',
+            style: TextStyle(
+              color: Color.fromARGB(255, 255, 255, 255), // Textfarbe ändern
+            ),
+          ),
           backgroundColor: const Color.fromARGB(0, 255, 255, 255), // Transparenter Hintergrund
           flexibleSpace: Container(
             decoration: const BoxDecoration(
@@ -115,7 +120,10 @@ class BottomBar extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
-            colors: [Color.fromARGB(255, 0, 0, 0), Color.fromARGB(255, 70, 70, 70)],
+            colors: [
+              Color.fromARGB(255, 0, 0, 0),
+              Color.fromARGB(255, 80, 80, 80),
+            ],
           ),
         ),
         child: Row(
@@ -202,10 +210,4 @@ class BottomBar extends StatelessWidget {
       ),
     );
   }
-}
-
-void main() {
-  runApp(const MaterialApp(
-    home: HomePage(),
-  ));
 }
