@@ -30,7 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Print github context
-        run: echo "Run number: ${{ github.run_number }}"
+        run: "echo 'Run number: ${{ github.run_number }}'"
       - name: Get version.txt
         uses: actions/download-artifact@v4
         with:
