@@ -1,0 +1,11 @@
+{
+    "split": [
+        ["chest", "triceps"],
+        ["rest"],
+        ["back", "biceps"],
+        ["rest"],
+        ["legs"],
+        ["rest"],
+        ["rest"]
+    ]
+}
