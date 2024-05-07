@@ -102,5 +102,5 @@ jobs:
         packageName: ai.pulsepro.app
         releaseFiles: app-prod-release.aab
         track: production
-        status: completed
+        status: draft
         releaseName: $TAG_NAME
