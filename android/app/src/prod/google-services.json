@@ -7,12 +7,25 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:431841833917:android:2a9aac341272a5e198d8d4",
+        "mobilesdk_app_id": "1:431841833917:android:f866606a28b83ad498d8d4",
         "android_client_info": {
-          "package_name": "ai.pulsepro.app.test"
+          "package_name": "ai.pulsepro.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "431841833917-ersvbg962bbe1loj3f9mh3i46l5b3aqe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ai.pulsepro.app",
+            "certificate_hash": "940306825b3f530d5849df56f43e15491e56c8cd"
+          }
+        },
+        {
+          "client_id": "431841833917-kv71in46so31tgdedfq7bhe4j6c5insv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBX6c4nq4XW74IcmMpFFSlNnzql8LFjMhg"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "431841833917-kv71in46so31tgdedfq7bhe4j6c5insv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "431841833917-3dbgp69cjmboufldu1dtnlbkqhtthki7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ai.pulsepro.app"
+              }
+            }
+          ]
         }
       }
     }

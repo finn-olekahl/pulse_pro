@@ -1,0 +1,17 @@
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:pulse_pro/repositories/authencitation_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+part 'home_state.dart';
+
+class HomeCubit extends Cubit<HomeState> {
+  HomeCubit({required this.authenticationRepository}) : super(HomeInitial());
+
+  final AuthenticationRepository authenticationRepository;
+
+  Future<void> signOut() async {
+    FirebaseAuth.instance.signOut();
+  }
+
+}

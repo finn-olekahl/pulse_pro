@@ -1,26 +1,51 @@
 {
   "project_info": {
-    "project_number": "532886091218",
-    "project_id": "pulse-pro-test",
-    "storage_bucket": "pulse-pro-test.appspot.com"
+    "project_number": "970528886497",
+    "project_id": "pulse-pro-dev",
+    "storage_bucket": "pulse-pro-dev.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:532886091218:android:e43580bc8037754517c40b",
+        "mobilesdk_app_id": "1:970528886497:android:d6572f7facc6ffaa8031a0",
         "android_client_info": {
           "package_name": "ai.pulsepro.dev"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "970528886497-ta82i0vk8o9aqcbjm7o07bgg1dnkhmq9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ai.pulsepro.dev",
+            "certificate_hash": "940306825b3f530d5849df56f43e15491e56c8cd"
+          }
+        },
+        {
+          "client_id": "970528886497-pmsavbk94lp5eesi7m83ks72e62uappb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyBkFfktqIZPf5ZIAABccFrvxQE1fK6gcQ8"
+          "current_key": "AIzaSyDKSz8ML-zINizi_BpZ6H0Q7b6EheAfpoY"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "970528886497-eqc382adq84uv6gsc674q9uu8nirh4o5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "970528886497-s6ds9jiqbeouq3d8t6togf3202mlujoj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ai.pulsepro.dev"
+              }
+            }
+          ]
         }
       }
     }
