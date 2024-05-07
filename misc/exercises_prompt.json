@@ -1,0 +1,58 @@
+{
+    "prompts": [
+        {
+            "split": [
+                ["chest", "triceps"],
+                ["rest"],
+                ["back", "biceps"],
+                ["rest"],
+                ["legs"],
+                ["rest"],
+                ["rest"]
+            ],
+            "workout_goal": "fat loss",
+            "workout_intensity": "high",
+            "time_per_day": "60 Minutes",
+            "injuries": ["none"],
+            "muscle_focus": ["none"],
+            "sport_orientation": "none",
+            "workout_experience": "intermediate"
+        },
+        {
+            "split": [
+                ["upper body"],
+                ["rest"],
+                ["rest"],
+                ["lower body"],
+                ["rest"],
+                ["rest"],
+                ["rest"]
+            ],
+            "workout_goal": "muscle growth",
+            "workout_intensity": "medium",
+            "time_per_day": "90 Minutes",
+            "injuries": ["right knee"],
+            "muscle_focus": ["upper chest"],
+            "sport_orientation": "none",
+            "workout_experience": "beginner"
+        },
+        {
+            "split": [
+                ["chest", "triceps"],
+                ["back", "biceps"],
+                ["legs"],
+                ["shoulders"],
+                ["chest", "back"],
+                ["arms"],
+                ["legs"]
+            ],
+            "workout_goal": "muscle growth",
+            "workout_intensity": "extreme",
+            "time_per_day": "100 Minutes",
+            "injuries": ["none"],
+            "muscle_focus": ["legs"],
+            "sport_orientation": "american football",
+            "workout_experience": "expert"
+        }
+    ]
+}

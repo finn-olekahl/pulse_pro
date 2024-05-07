@@ -1,0 +1,8 @@
+{
+    "warmup_types": [
+        "jogging",
+        "walking",
+        "cycling",
+        "jump_rope"
+    ]
+}
