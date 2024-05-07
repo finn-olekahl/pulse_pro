@@ -97,7 +97,10 @@ jobs:
     needs: [build_appbundle]
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
+    - name: Get the tag name
+      id: get_tag
+      run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
     - name: Get Android Build from artifacts
       uses: actions/download-artifact@v4
       with:
@@ -109,4 +112,5 @@ jobs:
         packageName: ai.pulsepro.app
         releaseFiles: app-prod-release.aab
         track: production
-        status: completed          
+        status: completed
+        releaseName: $TAG_NAME      
