@@ -1,0 +1,8 @@
+{
+    "effort_levels": [
+        "light exertion",
+        "moderate exertion",
+        "heavy exertion",
+        "failure"
+    ]
+}
