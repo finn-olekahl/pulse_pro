@@ -77,6 +77,6 @@ jobs:
       with:
         serviceAccountJsonPlainText: ${{ secrets.PLAYSTORE_ACCOUNT_KEY }}
         packageName: ai.pulsepro.app
-        releaseFiles: app-release.aab
-        track: alpha
+        releaseFiles: app-prod-release.aab
+        track: production
         status: completed          
