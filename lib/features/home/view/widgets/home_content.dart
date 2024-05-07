@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pulse_pro/features/home/cubit/home_cubit.dart';
 
 class HomeContent extends StatelessWidget {
@@ -25,9 +26,7 @@ class HomeContent extends StatelessWidget {
               ),
               const SizedBox(height: 20), // Abstand zwischen den Buttons
               ElevatedButton(
-                onPressed: () {
-                  //Navigator.push(context, MaterialPageRoute(builder: (context) => const TutorialPage()));
-                },
+                onPressed: () => context.go('/debug'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue, // Ändere die Hintergrundfarbe des Buttons
                   textStyle: const TextStyle(fontSize: 18), // Ändere die Schriftgröße des Textes
