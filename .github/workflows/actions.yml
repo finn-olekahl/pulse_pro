@@ -36,7 +36,7 @@ jobs:
         with:
           fileName: 'upload-keystore.jks'
           fileDir: './keystore/'
-          encodedString: ${{ secrets.KEYSTORE_BASE64 }}
+          encodedString: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
       - name: Create key.properties
         run: |
           echo "storeFile=${{ steps.android_keystore.outputs.filePath }}" > android/key.properties
