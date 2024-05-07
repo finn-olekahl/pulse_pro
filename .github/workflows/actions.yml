@@ -22,7 +22,7 @@ jobs:
       - name: Install PyYAML
         run: pip install pyyaml
       - name: Update version in pubspec.yaml
-        run: python update_version.py pubspec.yaml "${{ env.VERSION }}+${{ github.run_number }}"
+        run: python .github/update_version.py pubspec.yaml "${{ env.VERSION }}+${{ github.run_number }}"
 
   flutter_test:
     name: Run flutter test and analyze
