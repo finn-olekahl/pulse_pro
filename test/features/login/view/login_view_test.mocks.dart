@@ -81,6 +81,16 @@ class MockLoginCubit extends _i1.Mock implements _i3.LoginCubit {
       ) as bool);
 
   @override
+  _i5.Future<void> showServiceActionSheet() => (super.noSuchMethod(
+        Invocation.method(
+          #showServiceActionSheet,
+          [],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+
+  @override
   _i5.Future<void> signInWithApple() => (super.noSuchMethod(
         Invocation.method(
           #signInWithApple,

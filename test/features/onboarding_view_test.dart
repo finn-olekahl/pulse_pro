@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
+import 'package:pulse_pro/features/tutorial/cubit/onboarding_cubit.dart';
+import 'package:pulse_pro/features/tutorial/view/onboarding_view.dart';
 
 import '../test_helpers.dart';
+import 'onboarding_view_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<OnboardingCubit>()])
 
@@ -10,10 +14,15 @@ import '../test_helpers.dart';
 void main(){
 
   group('OnboardingView', () { 
-    testPulseProWidget('test onboarding view header', (tester) {
-      tester.pumpWidget(MaterialApp(
-        home: const OnboardingView(),
+    testPulseProWidget('test onboarding view header', (tester) async {
+      await tester.pumpWidget(MaterialApp(
+        home: BlocProvider(
+          create:(context) => MockOnboardingCubit(),
+          child: OnboardingView(onStartPressed: () {  },),
+        ),
       ));
+
+      expect(find.text('Geschlecht'), findsOneWidget);
     });
   });
 }
