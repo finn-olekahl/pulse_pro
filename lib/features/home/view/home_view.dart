@@ -1,42 +1,76 @@
 import 'package:flutter/material.dart';
+import 'package:preload_page_view/preload_page_view.dart';
 
-import 'package:pulse_pro/features/home/view/widgets/bottom_bar.dart';
-import 'package:pulse_pro/features/home/view/widgets/home_content.dart';
+import 'package:pulse_pro/features/home/view/widgets/dock/dock.dart';
+import 'package:pulse_pro/features/home/view/widgets/dock/dock_controller.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  final DockController _dockController = DockController();
+
+  final PreloadPageController _pageController = PreloadPageController();
+
+  int _currentScreen = 0;
+
+  bool _pageSwitchFromDock = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Fitness App'),
-        backgroundColor: const Color.fromARGB(0, 255, 255, 255), // Transparenter Hintergrund
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-              colors: [
-                Color.fromARGB(255, 80, 80, 80),
-                Color.fromARGB(255, 40, 40, 40),
-              ],
-            ),
-          ),
-        ),
-      ),
-      body: const Column(
+      extendBody: true,
+      body: PreloadPageView(
+        controller: _pageController,
+        onPageChanged: (index) {
+          if (!_pageSwitchFromDock) {
+            _dockController.moveSliderTo(index < 2 ? index : index + 1);
+          }
+          if (_pageSwitchFromDock) {
+            if (_currentScreen == index) {
+              _pageSwitchFromDock = false;
+            }
+          }
+        },
         children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: HomeContent(),
-            ),
+          Container(
+            color: Colors.red,
           ),
-          BottomBar(), // Bottom Bar außerhalb des SingleChildScrollView platzieren
+          Container(
+            color: Colors.black,
+          ),
+          Container(
+            color: Colors.blue,
+          ),
+          Container(
+            color: Colors.yellow,
+          ),
         ],
       ),
-      backgroundColor: const Color.fromARGB(255, 80, 80, 80), // Hintergrundfarbe ändern
+      bottomNavigationBar: Dock(
+        controller: _dockController,
+        currentIndex: _currentScreen,
+        initialPadding: const EdgeInsets.only(left: 10, right: 10),
+        onTap: (index) {
+          _pageSwitchFromDock = true;
+
+          if (_currentScreen != index) {
+            _currentScreen = index;
+          }
+          _pageController.animateToPage(_currentScreen,
+              duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
+        },
+        items: [
+          DockTabItem(text: 'Home'),
+          DockTabItem(text: 'Discover'),
+          DockTabItem(text: 'Activity'),
+          DockTabItem(text: 'Profile'),
+        ],
+      ), // Hintergrundfarbe ändern
     );
   }
 }
-

@@ -10,8 +10,8 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginCubit, LoginState>(
+      listenWhen: (_, current) => current.status == LoginStatus.showServiceActionSheet,
       listener: (context, state) {
-        if (state.status != LoginStatus.showServiceActionSheet) return;
         showCupertinoModalPopup(
             context: context,
             builder: (_) => CupertinoActionSheet(

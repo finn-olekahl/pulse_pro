@@ -44,7 +44,7 @@ class AppStateBloc extends Bloc<AppStateEvent, AppStateState> with ChangeNotifie
     final authUser = authStreamChange.authUser;
 
     if (authUser == null) {
-      emit(AppStateInitial());
+      emit(AppStateNoAuth());
       notifyListeners();
       _stopLocalUserStream();
       return;
