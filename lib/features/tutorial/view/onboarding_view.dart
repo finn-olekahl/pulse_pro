@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pulse_pro/features/profile/profile_page.dart';
 
-class TutorialView extends StatelessWidget {
+class OnboardingView extends StatelessWidget {
   final VoidCallback onStartPressed;
 
-  const TutorialView({super.key, required this.onStartPressed});
+  const OnboardingView({super.key, required this.onStartPressed});
 
   @override
   Widget build(BuildContext context) {

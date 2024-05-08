@@ -1,10 +1,10 @@
 part of 'onboarding_cubit.dart';
 
-sealed class TutorialState extends Equatable {
-  const TutorialState();
+sealed class OnboardingState extends Equatable {
+  const OnboardingState();
 
   @override
   List<Object> get props => [];
 }
 
-final class TutorialInitial extends TutorialState {}
+final class OnboardingInitial extends OnboardingState {}
