@@ -1,4 +1,4 @@
-part of 'tutorial_cubit.dart';
+part of 'onboarding_cubit.dart';
 
 sealed class TutorialState extends Equatable {
   const TutorialState();
