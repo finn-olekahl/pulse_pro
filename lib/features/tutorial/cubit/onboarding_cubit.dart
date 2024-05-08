@@ -3,6 +3,6 @@ import 'package:equatable/equatable.dart';
 
 part 'onboarding_state.dart';
 
-class TutorialCubit extends Cubit<TutorialState> {
-  TutorialCubit() : super(TutorialInitial());
+class OnboardingCubit extends Cubit<OnboardingState> {
+  OnboardingCubit() : super(OnboardingInitial());
 }
