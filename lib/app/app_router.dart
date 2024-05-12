@@ -49,8 +49,8 @@ class AppRouter {
         final bool isOnSplashScreen = matchedLocation == '/splash';
         final bool isOnLoginPage = matchedLocation == '/login';
 
-        if (appState is AppStateLoading) return '/splash';
-        if (appState is AppStateInitial) return '/login';
+        if (appState is AppStateInitial || appState is AppStateLoading) return '/splash';
+        if (appState is AppStateNoAuth) return '/login';
         if (appState is AppStateNoAccount) return '/tutorial';
 
         if (isOnSplashScreen || isOnLoginPage) return '/';
