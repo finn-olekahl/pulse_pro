@@ -3,6 +3,7 @@ import 'package:preload_page_view/preload_page_view.dart';
 
 import 'package:pulse_pro/features/home/view/widgets/dock/dock.dart';
 import 'package:pulse_pro/features/home/view/widgets/dock/dock_controller.dart';
+import 'package:pulse_pro/features/trainings_plan/plan_page.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -43,9 +44,7 @@ class _HomeViewState extends State<HomeView> {
           Container(
             color: Colors.black,
           ),
-          Container(
-            color: Colors.blue,
-          ),
+          const TrainingPlanPage(),
           Container(
             color: Colors.yellow,
           ),

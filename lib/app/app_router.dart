@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pulse_pro/bloc/app_state_bloc.dart';
-import 'package:pulse_pro/features/debug/debug_page.dart';
 import 'package:pulse_pro/features/home/home_page.dart';
 import 'package:pulse_pro/features/login/login_page.dart';
 import 'package:pulse_pro/features/profile/profile_page.dart';
@@ -36,10 +35,6 @@ class AppRouter {
         GoRoute(
           path: '/profile',
           builder: (context, state) => const ProfilePage(),
-        ),
-        GoRoute(
-          path: '/debug',
-          builder: (context, state) => const DebugPage(),
         )
       ],
       redirect: (context, state) {
