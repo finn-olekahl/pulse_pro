@@ -26,37 +26,37 @@
         },
         "history": [
             {
-                "workout_plan_id": "day_n",
+                "workout_plan_id": 0,
                 "timestamp": "284723687932664763"
             },
             {
-                "workout_plan_id": "day_n",
+                "workout_plan_id": 1,
                 "timestamp": "284723687932664763"
             },
             {
-                "workout_plan_id": "day_n",
+                "workout_plan_id": 2,
                 "timestamp": "284723687932664763"
             },
             {
-                "workout_plan_id": "day_n",
+                "workout_plan_id": 3,
                 "timestamp": "284723687932664763"
             }
         ],
         "plan": [
             {
-                "workout_plan_id": "day_n",
+                "workout_plan_id": 0,
                 "timestamp": "284723687932664763"
             },
             {
-                "workout_plan_id": "day_n",
+                "workout_plan_id": 1,
                 "timestamp": "284723687932664763"
             },
             {
-                "workout_plan_id": "day_n",
+                "workout_plan_id": 2,
                 "timestamp": "284723687932664763"
             },
             {
-                "workout_plan_id": "day_n",
+                "workout_plan_id": 3,
                 "timestamp": "284723687932664763"
             }
         ],
@@ -72,48 +72,50 @@
                     "sport_orientation": "none",
                     "workout_experience": "intermediate"
                 },
-                "day_1": {
-                    "restday": "false",
-                    "target": ["chest", "triceps"],
-                    "warmup": {
-                        "included": "true",
-                        "warmup_type": "jogging",
-                        "duration_minutes": "10"
+               "split": {
+                    0: {
+                        "restday": "false",
+                        "target": ["chest", "triceps"],
+                        "warmup": {
+                            "included": "true",
+                            "warmup_type": "jogging",
+                            "duration_minutes": "10"
+                        },
+                        "seconds_between_exercises": "n",
+                        "exercises": [
+                            {
+                                "id": "4-digit exercise ID",
+                                "sets": "n",
+                                "reps": "n",
+                                "effort_level": "effort_level",
+                                "seconds_between_sets": "n"
+                            }
+                        ]
                     },
-                    "seconds_between_exercises": "n",
-                    "exercises": [
-                        {
-                            "id": "4-digit exercise ID",
-                            "sets": "n",
-                            "reps": "n",
-                            "effort_level": "effort_level",
-                            "seconds_between_sets": "n"
-                        }
-                    ]
-                },
-                "day_2": {
-                    "restday": "true"
-                },
-                "day_3": {
-                    "restday": "false",
-                    "target": ["back", "biceps"],
-                    "warmup": {
-                        "included": "false"
+                    1: {
+                        "restday": "true"
                     },
-                    "seconds_between_exercises": "n",
-                    "exercises": [
-                        {
-                            "id": "4-digit exercise ID",
-                            "sets": "n",
-                            "reps": "n",
-                            "effort_level": "effort_level",
-                            "seconds_between_sets": "n"
-                        }
-                    ]
-                },
-                "day_4": {
-                    "restday": "true"
-                }
+                    2: {
+                        "restday": "false",
+                        "target": ["back", "biceps"],
+                        "warmup": {
+                            "included": "false"
+                        },
+                        "seconds_between_exercises": "n",
+                        "exercises": [
+                            {
+                                "id": "4-digit exercise ID",
+                                "sets": "n",
+                                "reps": "n",
+                                "effort_level": "effort_level",
+                                "seconds_between_sets": "n"
+                            }
+                        ]
+                    },
+                    3: {
+                        "restday": "true"
+                    }
+               }
             }
         }
     }
