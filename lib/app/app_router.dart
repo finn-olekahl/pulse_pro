@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pulse_pro/bloc/app_state_bloc.dart';
 import 'package:pulse_pro/features/home/home_page.dart';
 import 'package:pulse_pro/features/login/login_page.dart';
+import 'package:pulse_pro/features/profile/profile_page.dart';
 import 'package:pulse_pro/features/splash/view/splash_screen.dart';
 
 class AppRouter {
@@ -30,6 +31,10 @@ class AppRouter {
         GoRoute(
           path: '/splash',
           builder: (context, state) => const SplashScreen(),
+        ),
+        GoRoute(
+          path: '/profile',
+          builder: (context, state) => const ProfilePage(),
         )
       ],
       redirect: (context, state) {
@@ -39,8 +44,8 @@ class AppRouter {
         final bool isOnSplashScreen = matchedLocation == '/splash';
         final bool isOnLoginPage = matchedLocation == '/login';
 
-        if (appState is AppStateLoading) return '/splash';
-        if (appState is AppStateInitial) return '/login';
+        if (appState is AppStateInitial || appState is AppStateLoading) return '/splash';
+        if (appState is AppStateNoAuth) return '/login';
         if (appState is AppStateNoAccount) return '/tutorial';
 
         if (isOnSplashScreen || isOnLoginPage) return '/';

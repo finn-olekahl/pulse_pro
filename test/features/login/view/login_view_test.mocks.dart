@@ -3,12 +3,9 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i5;
+import 'dart:async' as _i3;
 
-import 'package:bloc/bloc.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i4;
-import 'package:pulse_pro/features/login/cubit/login_cubit.dart' as _i3;
 import 'package:pulse_pro/repositories/authencitation_repository.dart' as _i2;
 
 // ignore_for_file: type=lint
@@ -24,139 +21,38 @@ import 'package:pulse_pro/repositories/authencitation_repository.dart' as _i2;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeAuthenticationRepository_0 extends _i1.SmartFake
-    implements _i2.AuthenticationRepository {
-  _FakeAuthenticationRepository_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-/// A class which mocks [LoginCubit].
+/// A class which mocks [AuthenticationRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockLoginCubit extends _i1.Mock implements _i3.LoginCubit {
+class MockAuthenticationRepository extends _i1.Mock
+    implements _i2.AuthenticationRepository {
   @override
-  _i2.AuthenticationRepository get authenticationRepository =>
-      (super.noSuchMethod(
-        Invocation.getter(#authenticationRepository),
-        returnValue: _FakeAuthenticationRepository_0(
-          this,
-          Invocation.getter(#authenticationRepository),
-        ),
-        returnValueForMissingStub: _FakeAuthenticationRepository_0(
-          this,
-          Invocation.getter(#authenticationRepository),
-        ),
-      ) as _i2.AuthenticationRepository);
-
-  @override
-  _i3.LoginState get state => (super.noSuchMethod(
-        Invocation.getter(#state),
-        returnValue: _i4.dummyValue<_i3.LoginState>(
-          this,
-          Invocation.getter(#state),
-        ),
-        returnValueForMissingStub: _i4.dummyValue<_i3.LoginState>(
-          this,
-          Invocation.getter(#state),
-        ),
-      ) as _i3.LoginState);
-
-  @override
-  _i5.Stream<_i3.LoginState> get stream => (super.noSuchMethod(
-        Invocation.getter(#stream),
-        returnValue: _i5.Stream<_i3.LoginState>.empty(),
-        returnValueForMissingStub: _i5.Stream<_i3.LoginState>.empty(),
-      ) as _i5.Stream<_i3.LoginState>);
-
-  @override
-  bool get isClosed => (super.noSuchMethod(
-        Invocation.getter(#isClosed),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
-
-  @override
-  _i5.Future<void> signInWithApple() => (super.noSuchMethod(
-        Invocation.method(
-          #signInWithApple,
-          [],
-        ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
-
-  @override
-  _i5.Future<void> signInWithGoogle() => (super.noSuchMethod(
+  _i3.Future<void> signInWithGoogle() => (super.noSuchMethod(
         Invocation.method(
           #signInWithGoogle,
           [],
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
 
   @override
-  void emit(_i3.LoginState? state) => super.noSuchMethod(
+  _i3.Future<void> signInWithApple() => (super.noSuchMethod(
         Invocation.method(
-          #emit,
-          [state],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void onChange(_i6.Change<_i3.LoginState>? change) => super.noSuchMethod(
-        Invocation.method(
-          #onChange,
-          [change],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void addError(
-    Object? error, [
-    StackTrace? stackTrace,
-  ]) =>
-      super.noSuchMethod(
-        Invocation.method(
-          #addError,
-          [
-            error,
-            stackTrace,
-          ],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void onError(
-    Object? error,
-    StackTrace? stackTrace,
-  ) =>
-      super.noSuchMethod(
-        Invocation.method(
-          #onError,
-          [
-            error,
-            stackTrace,
-          ],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  _i5.Future<void> close() => (super.noSuchMethod(
-        Invocation.method(
-          #close,
+          #signInWithApple,
           [],
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
+
+  @override
+  _i3.Future<void> signOut() => (super.noSuchMethod(
+        Invocation.method(
+          #signOut,
+          [],
+        ),
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
 }

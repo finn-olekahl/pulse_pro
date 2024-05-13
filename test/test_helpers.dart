@@ -1,6 +1,4 @@
-import 'dart:ui';
-
-import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Map<Size, TestVariant<Object?>> _testedDevices = {
@@ -22,4 +20,11 @@ void testPulseProWidget(
       return callback(widgetTester);
     }, variant: platform);
   }
+}
+
+String? fromRichTextToPlainText(final Widget widget) {
+  if (widget is RichText) {
+    return widget.text.toPlainText();
+  }
+  return null;
 }
