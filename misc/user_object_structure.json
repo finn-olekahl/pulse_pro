@@ -24,7 +24,11 @@
                                 "reps": 0,
                                 "effort_level": "effort_level",
                                 "time_between_sets": 0
-                                "weight": 0
+                                "weights": {
+                                    "0": 0,
+                                    "1": 0,
+                                    "2": 0,
+                                }
                             }
                         ]
                     },
@@ -47,7 +51,11 @@
                                 "reps": 0,
                                 "effort_level": "effort_level",
                                 "time_between_sets": 0
-                                "weight": 0
+                                 "weights": {
+                                    "0": 0,
+                                    "1": 0,
+                                    "2": 0,
+                                }
                             }
                         ]
                     },
@@ -70,7 +78,11 @@
                                 "reps": 0,
                                 "effort_level": "effort_level",
                                 "time_between_sets": 0
-                                "weight": 0
+                                 "weights": {
+                                    "0": 0,
+                                    "1": 0,
+                                    "2": 0,
+                                }
                             }
                         ]
                     },
@@ -93,7 +105,11 @@
                                 "reps": 0,
                                 "effort_level": "effort_level",
                                 "time_between_sets": 0
-                                "weight": 0
+                                 "weights": {
+                                    "0": 0,
+                                    "1": 0,
+                                    "2": 0,
+                                }
                             }
                         ]
                     },
@@ -150,7 +166,11 @@
                                 "reps": 0,
                                 "effort_level": "effort_level",
                                 "time_between_sets": 0
-                                "weight": 0
+                                 "weights": {
+                                    "0": 0,
+                                    "1": 0,
+                                    "2": 0,
+                                }
                             }
                         ]
                     },
@@ -172,7 +192,11 @@
                                 "reps": 0,
                                 "effort_level": "effort_level",
                                 "time_between_sets": 0
-                                "weight": 0
+                                 "weights": {
+                                    "0": 0,
+                                    "1": 0,
+                                    "2": 0,
+                                }
                             }
                         ]
                     },
