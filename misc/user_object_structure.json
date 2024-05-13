@@ -77,7 +77,6 @@
                         "restday": "false",
                         "target": ["chest", "triceps"],
                         "warmup": {
-                            "included": "true",
                             "warmup_type": "jogging",
                             "duration_minutes": "10"
                         },
