@@ -6,43 +6,97 @@
         "weight": 87,
         "height": 186,
         "streak": 10,
-        "exercises": {
-            "1234": {
-                "weight": {
-                    "date1": 20,
-                    "date2": 20,
-                    "date3": 20,
-                    "date4": 20
-                }
-            },
-            "1235": {
-                "weight": {
-                    "date1": 20,
-                    "date2": 20,
-                    "date3": 20,
-                    "date4": 20
-                }
-            }
-        },
         "history": [
             {
                 "workout_plan_id": "id",
-                "split_day": 0,
+                "split_day": {
+                        "restday": "false",
+                        "target": ["chest", "triceps"],
+                        "warmup": {
+                            "warmup_type": "jogging",
+                            "duration": "10"
+                        },
+                        "time_between_exercises": "n",
+                        "exercises": [
+                            {
+                                "id": "4-digit exercise ID",
+                                "sets": "n",
+                                "reps": "n",
+                                "effort_level": "effort_level",
+                                "time_between_sets": "n"
+                                "weight": "n"
+                            }
+                        ]
+                    },
                 "timestamp": "284723687932664763"
             },
             {
                 "workout_plan_id": "id",
-                "split_day": 1,
+                "split_day": {
+                        "restday": "false",
+                        "target": ["chest", "triceps"],
+                        "warmup": {
+                            "warmup_type": "jogging",
+                            "duration": "10"
+                        },
+                        "time_between_exercises": "n",
+                        "exercises": [
+                            {
+                                "id": "4-digit exercise ID",
+                                "sets": "n",
+                                "reps": "n",
+                                "effort_level": "effort_level",
+                                "time_between_sets": "n"
+                                "weight": "n"
+                            }
+                        ]
+                    },
                 "timestamp": "284723687932664763"
             },
             {
                 "workout_plan_id": "id",
-                "split_day": 2,
+                "split_day": {
+                        "restday": "false",
+                        "target": ["chest", "triceps"],
+                        "warmup": {
+                            "warmup_type": "jogging",
+                            "duration": "10"
+                        },
+                        "time_between_exercises": "n",
+                        "exercises": [
+                            {
+                                "id": "4-digit exercise ID",
+                                "sets": "n",
+                                "reps": "n",
+                                "effort_level": "effort_level",
+                                "time_between_sets": "n"
+                                "weight": "n"
+                            }
+                        ]
+                    },
                 "timestamp": "284723687932664763"
             },
             {
                 "workout_plan_id": "id",
-                "split_day": 3,
+                "split_day": {
+                        "restday": "false",
+                        "target": ["chest", "triceps"],
+                        "warmup": {
+                            "warmup_type": "jogging",
+                            "duration": "10"
+                        },
+                        "time_between_exercises": "n",
+                        "exercises": [
+                            {
+                                "id": "4-digit exercise ID",
+                                "sets": "n",
+                                "reps": "n",
+                                "effort_level": "effort_level",
+                                "time_between_sets": "n"
+                                "weight": "n"
+                            }
+                        ]
+                    },
                 "timestamp": "284723687932664763"
             }
         ],
@@ -96,6 +150,7 @@
                                 "reps": "n",
                                 "effort_level": "effort_level",
                                 "time_between_sets": "n"
+                                "weight": "n"
                             }
                         ]
                     },
