@@ -1,5 +1,11 @@
 {
     "user": {
+        "email": "tim@urbutt.de",
+        "name": "Tim",
+        "birthday": "14.07.2004",
+        "weight": 87,
+        "height": 186,
+        "streak": 10,
         "exercises": {
             "1234": {
                 "weight": {
@@ -18,33 +24,54 @@
                 }
             }
         },
-        "current_split": "split_id",
-        "splits": {
-            "split_id_1": {
-                "split": [
-                    ["chest", "triceps"],
-                    ["rest"],
-                    ["back", "biceps"],
-                    ["rest"],
-                    ["legs"],
-                    ["rest"]
-                ],
-                "time_created": "milliseconds"
+        "history": [
+            {
+                "workout_plan_id": "day_n",
+                "timestamp": "284723687932664763"
             },
-            "split_id_2": {
-                "split": [
-                    ["chest", "triceps"],
-                    ["rest"],
-                    ["back", "biceps"],
-                    ["rest"],
-                    ["legs"],
-                    ["rest"]
-                ],
-                "time_created": "milliseconds"
+            {
+                "workout_plan_id": "day_n",
+                "timestamp": "284723687932664763"
+            },
+            {
+                "workout_plan_id": "day_n",
+                "timestamp": "284723687932664763"
+            },
+            {
+                "workout_plan_id": "day_n",
+                "timestamp": "284723687932664763"
             }
-        },
+        ],
+        "plan": [
+            {
+                "workout_plan_id": "day_n",
+                "timestamp": "284723687932664763"
+            },
+            {
+                "workout_plan_id": "day_n",
+                "timestamp": "284723687932664763"
+            },
+            {
+                "workout_plan_id": "day_n",
+                "timestamp": "284723687932664763"
+            },
+            {
+                "workout_plan_id": "day_n",
+                "timestamp": "284723687932664763"
+            }
+        ],
+        "current_workout_plan": "workout_plan_id",
         "workout_plans": {
-            "split_id": {
+            "workout_plan_id": {
+                "params": {
+                    "workout_goal": "fat loss",
+                    "workout_intensity": "high",
+                    "time_per_day": "3600000",
+                    "injuries": ["none"],
+                    "muscle_focus": ["none"],
+                    "sport_orientation": "none",
+                    "workout_experience": "intermediate"
+                },
                 "day_1": {
                     "restday": "false",
                     "target": ["chest", "triceps"],
