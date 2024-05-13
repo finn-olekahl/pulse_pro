@@ -73,7 +73,7 @@
                     "workout_experience": "intermediate"
                 },
                "split": {
-                    0: {
+                    "0": {
                         "restday": "false",
                         "target": ["chest", "triceps"],
                         "warmup": {
@@ -92,10 +92,10 @@
                             }
                         ]
                     },
-                    1: {
+                    "1": {
                         "restday": "true"
                     },
-                    2: {
+                    "2": {
                         "restday": "false",
                         "target": ["back", "biceps"],
                         "warmup": {
@@ -112,7 +112,7 @@
                             }
                         ]
                     },
-                    3: {
+                    "3": {
                         "restday": "true"
                     }
                }
