@@ -81,14 +81,14 @@
                             "warmup_type": "jogging",
                             "duration_minutes": "10"
                         },
-                        "seconds_between_exercises": "n",
+                        "time_between_exercises": "n",
                         "exercises": [
                             {
                                 "id": "4-digit exercise ID",
                                 "sets": "n",
                                 "reps": "n",
                                 "effort_level": "effort_level",
-                                "seconds_between_sets": "n"
+                                "time_between_sets": "n"
                             }
                         ]
                     },
@@ -108,7 +108,7 @@
                                 "sets": "n",
                                 "reps": "n",
                                 "effort_level": "effort_level",
-                                "seconds_between_sets": "n"
+                                "time_between_sets": "n"
                             }
                         ]
                     },
