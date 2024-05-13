@@ -1,8 +1,8 @@
-import 'package:pulse_pro/features/trainings_plan/view/plan_view.dart';
 import 'package:pulse_pro/shared/models/day_entry.dart';
 import 'package:pulse_pro/shared/models/workout_plan.dart';
 
 class PulseProUser {
+  final String id;
   final String name;
   final String email;
   final DateTime birthDate;
@@ -11,11 +11,11 @@ class PulseProUser {
   final int streak;
   final String currentWorkoutPlan;
   final Map<String, WorkoutPlan> workoutPlans;
-  final List<Exercise> exercises;
-  final List<DayEntry> history;
-  final List<DayEntry> plan;
+  final List<HistoryDayEntry> history;
+  final List<PlanDayEntry> plan;
 
   PulseProUser({
+    required this.id,
     required this.name,
     required this.email,
     required this.birthDate,
@@ -24,12 +24,55 @@ class PulseProUser {
     required this.streak,
     required this.currentWorkoutPlan,
     required this.workoutPlans,
-    required this.exercises,
     required this.history,
     required this.plan,
   });
 
-  factory PulseProUser.fromMap(Map<String, dynamic> map) {
-    return PulseProUser();
+  factory PulseProUser.fromJson(Map<String, dynamic> json) {
+    Map<String, WorkoutPlan> workoutPlans = {};
+    if (json['workout_plans'] != null) {
+      json['workout_plans'].forEach((key, value) {
+        workoutPlans[key] = WorkoutPlan.fromJson(value);
+      });
+    }
+
+    List<HistoryDayEntry> history = [];
+    if (json['history'] != null) {
+      history = json['history'].map((item) => HistoryDayEntry.fromJson(item)).toList();
+    }
+
+    List<PlanDayEntry> plan = [];
+    if (json['plan'] != null) {
+      plan = json['plan'].map((item) => PlanDayEntry.fromJson(item)).toList();
+    }
+
+    return PulseProUser(
+      id: json['id'],
+      name: json['name'],
+      email: json['email'],
+      birthDate: DateTime.fromMillisecondsSinceEpoch(int.parse(json['birthdate'])),
+      weight: json['weight'],
+      height: int.parse(json['height']),
+      streak: int.parse(json['streak']),
+      currentWorkoutPlan: json['current_workout_plan'],
+      workoutPlans: workoutPlans,
+      history: history,
+      plan: plan,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'email': email,
+      'birthdate': birthDate.millisecondsSinceEpoch,
+      'weight': weight,
+      'height': height,
+      'streak': streak,
+      'current_workout_plan': currentWorkoutPlan,
+      'workout_plans': workoutPlans.map((key, value) => MapEntry(key, value.toJson())),
+      'history': history.map((e) => e.toJson()).toList(),
+      'plan': plan.map((e) => e.toJson()).toList(),
+    };
   }
 }

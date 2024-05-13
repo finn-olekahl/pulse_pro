@@ -31,7 +31,7 @@ class AppStateBloc extends Bloc<AppStateEvent, AppStateState> with ChangeNotifie
         .collection("users")
         .doc((state as AppStateLoading).authUser.uid)
         .snapshots()
-        .listen((doc) => add(_LocalUserStreamChange(PulseProUser.fromMap(doc.data() ?? {}))));
+        .listen((doc) => add(_LocalUserStreamChange(PulseProUser.fromJson(doc.data() ?? {}))));
   }
 
   Future<void> _stopLocalUserStream() async {
