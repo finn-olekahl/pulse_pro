@@ -78,7 +78,7 @@
                         "target": ["chest", "triceps"],
                         "warmup": {
                             "warmup_type": "jogging",
-                            "duration_minutes": "10"
+                            "duration": "10"
                         },
                         "time_between_exercises": "n",
                         "exercises": [
