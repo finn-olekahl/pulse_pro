@@ -1,5 +1,5 @@
 {
-    "monday": {
+    "day_1": {
         "restday": "false",
         "target": ["chest", "triceps"],
         "warmup": {
@@ -18,10 +18,10 @@
             }
         ]
     },
-    "tuesday": {
+    "day_2": {
         "restday": "true"
     },
-    "wednesday": {
+    "day_3": {
         "restday": "false",
         "target": ["back", "biceps"],
         "warmup": {
@@ -38,7 +38,7 @@
             }
         ]
     },
-    "thursday": {
+    "day_4": {
         "restday": "true"
     }
 }
