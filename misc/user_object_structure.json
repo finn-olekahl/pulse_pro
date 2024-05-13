@@ -2,62 +2,140 @@
     "user": {
         "email": "tim@urbutt.de",
         "name": "Tim",
-        "birthday": "14.07.2004",
+        "birthdate": 8932785927357927,
         "weight": 87,
         "height": 186,
         "streak": 10,
-        "exercises": {
-            "1234": {
-                "weight": {
-                    "date1": 20,
-                    "date2": 20,
-                    "date3": 20,
-                    "date4": 20
-                }
-            },
-            "1235": {
-                "weight": {
-                    "date1": 20,
-                    "date2": 20,
-                    "date3": 20,
-                    "date4": 20
-                }
-            }
-        },
         "history": [
             {
-                "workout_plan_id": 0,
-                "timestamp": "284723687932664763"
+                "workout_plan_id": "id",
+                "split_day": {
+                        "restday": false,
+                        "target": ["chest", "triceps"],
+                        "warmup": {
+                            "warmup_type": "jogging",
+                            "duration": 21412541251252154
+                        },
+                        "time_between_exercises": 0,
+                        "exercises": [
+                            {
+                                "id": "0001",
+                                "sets": 0,
+                                "reps": 0,
+                                "effort_level": "effort_level",
+                                "time_between_sets": 0
+                                "weights": {
+                                    "0": 0,
+                                    "1": 0,
+                                    "2": 0,
+                                }
+                            }
+                        ]
+                    },
+                "timestamp": 284723687932664763
             },
             {
-                "workout_plan_id": 1,
-                "timestamp": "284723687932664763"
+                "workout_plan_id": "id",
+                 "split_day": {
+                        "restday": false,
+                        "target": ["chest", "triceps"],
+                        "warmup": {
+                            "warmup_type": "jogging",
+                            "duration": 21412541251252154
+                        },
+                        "time_between_exercises": 0,
+                        "exercises": [
+                            {
+                                "id": "0001",
+                                "sets": 0,
+                                "reps": 0,
+                                "effort_level": "effort_level",
+                                "time_between_sets": 0
+                                 "weights": {
+                                    "0": 0,
+                                    "1": 0,
+                                    "2": 0,
+                                }
+                            }
+                        ]
+                    },
+                "timestamp": 284723687932664763
             },
             {
-                "workout_plan_id": 2,
-                "timestamp": "284723687932664763"
+                "workout_plan_id": "id",
+                "split_day": {
+                        "restday": false,
+                        "target": ["chest", "triceps"],
+                        "warmup": {
+                            "warmup_type": "jogging",
+                            "duration": 21412541251252154
+                        },
+                        "time_between_exercises": 0,
+                        "exercises": [
+                            {
+                                "id": "0001",
+                                "sets": 0,
+                                "reps": 0,
+                                "effort_level": "effort_level",
+                                "time_between_sets": 0
+                                 "weights": {
+                                    "0": 0,
+                                    "1": 0,
+                                    "2": 0,
+                                }
+                            }
+                        ]
+                    },
+                "timestamp": 284723687932664763
             },
             {
-                "workout_plan_id": 3,
-                "timestamp": "284723687932664763"
+                "workout_plan_id": "id",
+                "split_day": {
+                        "restday": false,
+                        "target": ["chest", "triceps"],
+                        "warmup": {
+                            "warmup_type": "jogging",
+                            "duration": 21412541251252154
+                        },
+                        "time_between_exercises": 0,
+                        "exercises": [
+                            {
+                                "id": "0001",
+                                "sets": 0,
+                                "reps": 0,
+                                "effort_level": "effort_level",
+                                "time_between_sets": 0
+                                 "weights": {
+                                    "0": 0,
+                                    "1": 0,
+                                    "2": 0,
+                                }
+                            }
+                        ]
+                    },
+                "timestamp": 284723687932664763
             }
         ],
         "plan": [
             {
-                "workout_plan_id": 0,
-                "timestamp": "284723687932664763"
+                "workout_plan_id": "id",
+                "split_day": 0,
+                "timestamp": 284723687932664763
             },
             {
-                "workout_plan_id": 1,
-                "timestamp": "284723687932664763"
+                "workout_plan_id": "id",
+                "split_day": 1,
+                "timestamp": 284723687932664763
             },
             {
-                "workout_plan_id": 2,
-                "timestamp": "284723687932664763"
+                "workout_plan_id": "id",
+                "split_day": 2,
+                "timestamp": 284723687932664763
             },
             {
-                "workout_plan_id": 3,
-                "timestamp": "284723687932664763"
+                "workout_plan_id": "id",
+                "split_day": 3,
+                "timestamp": 284723687932664763
             }
         ],
         "current_workout_plan": "workout_plan_id",
@@ -66,7 +144,7 @@
                 "params": {
                     "workout_goal": "fat loss",
                     "workout_intensity": "high",
-                    "time_per_day": "3600000",
+                    "time_per_day": 3600000,
                     "injuries": ["none"],
                     "muscle_focus": ["none"],
                     "sport_orientation": "none",
@@ -74,46 +152,56 @@
                 },
                "split": {
                     "0": {
-                        "restday": "false",
+                        "restday": false,
                         "target": ["chest", "triceps"],
                         "warmup": {
-                            "included": "true",
                             "warmup_type": "jogging",
-                            "duration_minutes": "10"
+                            "duration": 21412541251252154
                         },
-                        "seconds_between_exercises": "n",
+                        "time_between_exercises": 0,
                         "exercises": [
                             {
-                                "id": "4-digit exercise ID",
-                                "sets": "n",
-                                "reps": "n",
+                                "id": "0001",
+                                "sets": 0,
+                                "reps": 0,
                                 "effort_level": "effort_level",
-                                "seconds_between_sets": "n"
+                                "time_between_sets": 0
+                                 "weights": {
+                                    "0": 0,
+                                    "1": 0,
+                                    "2": 0,
+                                }
                             }
                         ]
                     },
                     "1": {
-                        "restday": "true"
+                        "restday": true
                     },
                     "2": {
-                        "restday": "false",
-                        "target": ["back", "biceps"],
+                        "restday": false,
+                        "target": ["chest", "triceps"],
                         "warmup": {
-                            "included": "false"
+                            "warmup_type": "jogging",
+                            "duration": 21412541251252154
                         },
-                        "seconds_between_exercises": "n",
+                        "time_between_exercises": 0,
                         "exercises": [
                             {
-                                "id": "4-digit exercise ID",
-                                "sets": "n",
-                                "reps": "n",
+                                "id": "0001",
+                                "sets": 0,
+                                "reps": 0,
                                 "effort_level": "effort_level",
-                                "seconds_between_sets": "n"
+                                "time_between_sets": 0
+                                 "weights": {
+                                    "0": 0,
+                                    "1": 0,
+                                    "2": 0,
+                                }
                             }
                         ]
                     },
                     "3": {
-                        "restday": "true"
+                        "restday": true
                     }
                }
             }
