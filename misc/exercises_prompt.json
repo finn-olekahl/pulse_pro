@@ -7,7 +7,6 @@
                 ["back", "biceps"],
                 ["rest"],
                 ["legs"],
-                ["rest"],
                 ["rest"]
             ],
             "workout_goal": "fat loss",
@@ -24,8 +23,6 @@
                 ["rest"],
                 ["rest"],
                 ["lower body"],
-                ["rest"],
-                ["rest"],
                 ["rest"]
             ],
             "workout_goal": "muscle growth",
@@ -44,7 +41,8 @@
                 ["shoulders"],
                 ["chest", "back"],
                 ["arms"],
-                ["legs"]
+                ["legs"],
+                ["rest"]
             ],
             "workout_goal": "muscle growth",
             "workout_intensity": "extreme",
