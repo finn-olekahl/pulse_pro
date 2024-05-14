@@ -28,7 +28,7 @@ class AppStateBloc extends Bloc<AppStateEvent, AppStateState> with ChangeNotifie
     if (_localUserStream != null || state is! AppStateLoading) return;
     final firestore = FirebaseFirestore.instance;
     _localUserStream = firestore
-        .collection("user")
+        .collection('user')
         .doc((state as AppStateLoading).authUser.uid)
         .snapshots()
         .listen((doc) => add(_LocalUserStreamChange(PulseProUser.fromJson(doc.data() ?? {}))));

@@ -3,35 +3,63 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pulse_pro/bloc/app_state_bloc.dart';
+import 'package:pulse_pro/repositories/exercise_repository.dart';
 import 'package:pulse_pro/repositories/user_repository.dart';
 import 'package:pulse_pro/shared/models/day_entry.dart';
 import 'package:pulse_pro/shared/models/exercise.dart';
+import 'package:pulse_pro/shared/models/pulsepro_user.dart';
+import 'package:pulse_pro/shared/models/user_exercise.dart';
 import 'package:pulse_pro/shared/models/workout_plan.dart';
 
 part 'trainings_plan_state.dart';
 
 class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
-  TrainingsPlanCubit({required this.appStateBloc, required this.userRepository})
+  TrainingsPlanCubit({required this.appStateBloc, required this.userRepository, required this.exerciseRepository})
       : super(const TrainingsPlanState.loading()) {
     _subscription = appStateBloc.stream.listen((state) {
       if (state is! AppStateLoggedIn) return;
+      _updateState(state.pulseProUser);
     });
 
-    final String userId = (appStateBloc.state as AppStateLoggedIn).pulseProUser.id;
-    final workoutPlans = (appStateBloc.state as AppStateLoggedIn).pulseProUser.workoutPlans;
-    final currentWorkoutPlan = workoutPlans[(appStateBloc.state as AppStateLoggedIn).pulseProUser.currentWorkoutPlan];
-    final history = (appStateBloc.state as AppStateLoggedIn).pulseProUser.history;
-    final plan = (appStateBloc.state as AppStateLoggedIn).pulseProUser.plan;
-
-    if (currentWorkoutPlan == null) return;
-    emit(TrainingsPlanState.loaded(userId, currentWorkoutPlan, workoutPlans, history, plan));
+    if (appStateBloc.state is! AppStateLoggedIn) return;
+    _updateState((appStateBloc.state as AppStateLoggedIn).pulseProUser);
   }
 
   final AppStateBloc appStateBloc;
   final UserRepository userRepository;
+  final ExerciseRepository exerciseRepository;
   late final StreamSubscription _subscription;
 
-  Future<void> updateExerciseWeight(Exercise exercise, int splitDayKey, int rep, int weight) async {
+  Future<void> _updateState(PulseProUser pulseProUser) async {
+    final String userId = pulseProUser.id;
+    final workoutPlans = pulseProUser.workoutPlans;
+    final currentWorkoutPlan = workoutPlans[pulseProUser.currentWorkoutPlan];
+    final history = pulseProUser.history;
+    final plan = pulseProUser.plan;
+
+    final Map<String, Exercise> exercises = {};
+
+    if (currentWorkoutPlan == null) return;
+    for (var workoutPlan in workoutPlans.values) {
+      for (var splitDay in workoutPlan.days.values) {
+        if (splitDay.exercises == null) continue;
+        for (var exercise in splitDay.exercises!) {
+          if (exercises.containsKey(exercise.id)) continue;
+          exercises[exercise.id] = await _loadExercise(exercise.id);
+        }
+      }
+    }
+
+    emit(TrainingsPlanState.loaded(userId, currentWorkoutPlan, workoutPlans, history, plan, exercises));
+  }
+
+  Future<Exercise> _loadExercise(String exerciseId) async {
+    final exercise = await exerciseRepository.getExercise(exerciseId);
+    if (exercise == null) throw Exception('Exercise not found');
+    return exercise;
+  }
+
+  Future<void> updateExerciseWeight(UserExercise exercise, int splitDayKey, int rep, int weight) async {
     if (state.currentWorkoutPlan == null) return;
 
     final workoutPlan = state.currentWorkoutPlan!;

@@ -65,8 +65,8 @@ class WorkoutPlan {
     return {
       'id': id,
       'params': {
-        'workout_goal': goal.index,
-        'workout_intensity': intensity.index,
+        'workout_goal': goal.toString().split('.').last,
+        'workout_intensity': intensity.toString().split('.').last,
         'time_per_day': timePerDay,
         'injuries': injuries,
         'muscle_focus': focus?.map((e) => e.toString().split('.').last).toList(),

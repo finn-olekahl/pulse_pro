@@ -9,6 +9,7 @@
         "history": [
             {
                 "workout_plan_id": "id",
+                "split_day_number": 0,
                 "split_day": {
                         "restday": false,
                         "target": ["chest", "triceps"],
@@ -23,11 +24,11 @@
                                 "sets": 0,
                                 "reps": 0,
                                 "effort_level": "effort_level",
-                                "time_between_sets": 0
+                                "time_between_sets": 0,
                                 "weights": {
                                     "0": 0,
                                     "1": 0,
-                                    "2": 0,
+                                    "2": 0
                                 }
                             }
                         ]
@@ -36,6 +37,7 @@
             },
             {
                 "workout_plan_id": "id",
+                "split_day_number": 1,
                  "split_day": {
                         "restday": false,
                         "target": ["chest", "triceps"],
@@ -50,11 +52,11 @@
                                 "sets": 0,
                                 "reps": 0,
                                 "effort_level": "effort_level",
-                                "time_between_sets": 0
+                                "time_between_sets": 0,
                                  "weights": {
                                     "0": 0,
                                     "1": 0,
-                                    "2": 0,
+                                    "2": 0
                                 }
                             }
                         ]
@@ -63,6 +65,7 @@
             },
             {
                 "workout_plan_id": "id",
+                "split_day_number": 2,
                 "split_day": {
                         "restday": false,
                         "target": ["chest", "triceps"],
@@ -77,11 +80,11 @@
                                 "sets": 0,
                                 "reps": 0,
                                 "effort_level": "effort_level",
-                                "time_between_sets": 0
+                                "time_between_sets": 0,
                                  "weights": {
                                     "0": 0,
                                     "1": 0,
-                                    "2": 0,
+                                    "2": 0
                                 }
                             }
                         ]
@@ -90,6 +93,7 @@
             },
             {
                 "workout_plan_id": "id",
+                "split_day_number": 3,
                 "split_day": {
                         "restday": false,
                         "target": ["chest", "triceps"],
@@ -104,11 +108,11 @@
                                 "sets": 0,
                                 "reps": 0,
                                 "effort_level": "effort_level",
-                                "time_between_sets": 0
+                                "time_between_sets": 0,
                                  "weights": {
                                     "0": 0,
                                     "1": 0,
-                                    "2": 0,
+                                    "2": 0
                                 }
                             }
                         ]
@@ -119,22 +123,22 @@
         "plan": [
             {
                 "workout_plan_id": "id",
-                "split_day": 0,
+                "split_day_number": 0,
                 "timestamp": 284723687932664763
             },
             {
                 "workout_plan_id": "id",
-                "split_day": 1,
+                "split_day_number": 1,
                 "timestamp": 284723687932664763
             },
             {
                 "workout_plan_id": "id",
-                "split_day": 2,
+                "split_day_number": 2,
                 "timestamp": 284723687932664763
             },
             {
                 "workout_plan_id": "id",
-                "split_day": 3,
+                "split_day_number": 3,
                 "timestamp": 284723687932664763
             }
         ],
@@ -165,11 +169,11 @@
                                 "sets": 0,
                                 "reps": 0,
                                 "effort_level": "effort_level",
-                                "time_between_sets": 0
+                                "time_between_sets": 0,
                                  "weights": {
                                     "0": 0,
                                     "1": 0,
-                                    "2": 0,
+                                    "2": 0
                                 }
                             }
                         ]
@@ -191,11 +195,11 @@
                                 "sets": 0,
                                 "reps": 0,
                                 "effort_level": "effort_level",
-                                "time_between_sets": 0
+                                "time_between_sets": 0,
                                  "weights": {
                                     "0": 0,
                                     "1": 0,
-                                    "2": 0,
+                                    "2": 0
                                 }
                             }
                         ]
