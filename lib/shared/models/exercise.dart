@@ -27,9 +27,9 @@ class Exercise {
     return Exercise(
       id: json['id'],
       name: json['name'],
-      bodyParty: json['body_part'],
+      bodyParty: json['bodyPart'],
       target: json['target'],
-      secondaryMuscle: json['secondary_muscle'].cast<String>(),
+      secondaryMuscle: json['secondaryMuscles'].cast<String>(),
       equipment: json['equipment'],
       gif: FirebaseImageProvider(FirebaseUrl('${PulseProApp.storageUrl}/gifs/${json['id']}')),
       instructions: json['instructions'].cast<String>(),

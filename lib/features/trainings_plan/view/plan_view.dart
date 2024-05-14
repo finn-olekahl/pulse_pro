@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pulse_pro/features/trainings_plan/cubit/trainings_plan_cubit.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class TrainingsPlanView extends StatefulWidget {
   const TrainingsPlanView({super.key});
@@ -11,6 +12,9 @@ class TrainingsPlanView extends StatefulWidget {
 
 class _TrainingsPlanViewState extends State<TrainingsPlanView> {
   final Map<int, bool> _expanded = {};
+
+  DateTime _focusedDay = DateTime(2024, 05, 10);
+  DateTime? _selectedDay;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +53,7 @@ class _TrainingsPlanViewState extends State<TrainingsPlanView> {
               ExpansionPanel(
                 headerBuilder: (context, isExpanded) {
                   return ListTile(
-                    title: Text(exercise.id),
+                    title: Text(state.exercises[exercise.id]?.name ?? 'Exercise'),
                   );
                 },
                 body: Column(
@@ -64,9 +68,37 @@ class _TrainingsPlanViewState extends State<TrainingsPlanView> {
 
           return Column(
             children: [
+              TableCalendar(
+                focusedDay: _focusedDay,
+                firstDay: DateTime.utc(2014, 05, 10),
+                lastDay: DateTime.utc(2034, 05, 20),
+                rangeSelectionMode: RangeSelectionMode.toggledOff,
+                pageAnimationEnabled: true,
+                calendarFormat: CalendarFormat.week,
+                headerStyle: const HeaderStyle(
+                  titleCentered: true,
+                  formatButtonVisible: false,
+                  leftChevronVisible: false,
+                  rightChevronVisible: false,
+                  headerPadding: EdgeInsets.all(0),
+                ),
+                selectedDayPredicate: (day) {
+                  return isSameDay(_selectedDay, day);
+                },
+                onDaySelected: (selectedDay, focusedDay) {
+                  setState(() {
+                    _selectedDay = selectedDay;
+                    _focusedDay = selectedDay; // Center the selected day
+                  });
+                },
+                onPageChanged: (focusedDay) {
+                  _focusedDay = focusedDay;
+                },
+                daysOfWeekVisible: false,
+                startingDayOfWeek: StartingDayOfWeek.monday,
+              ),
               ExpansionPanelList(
-                expansionCallback: (panelIndex, isExpanded) =>
-                    setState(() => _expanded[panelIndex] = isExpanded),
+                expansionCallback: (panelIndex, isExpanded) => setState(() => _expanded[panelIndex] = isExpanded),
                 children: expansionPanels,
               ),
             ],

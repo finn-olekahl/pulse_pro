@@ -7,6 +7,7 @@ import 'package:pulse_pro/app/app_router.dart';
 import 'package:pulse_pro/app/color_palette.dart';
 import 'package:pulse_pro/bloc/app_state_bloc.dart';
 import 'package:pulse_pro/repositories/authencitation_repository.dart';
+import 'package:pulse_pro/repositories/exercise_repository.dart';
 import 'package:pulse_pro/repositories/user_repository.dart';
 
 void main() async {
@@ -20,11 +21,12 @@ void main() async {
   runApp(MultiRepositoryProvider(
     providers: [
       RepositoryProvider(
-        create: (context) => AuthenticationRepository(),
+        create: (_) => AuthenticationRepository(),
       ),
       RepositoryProvider(
-        create: (context) => UserRepository(),
+        create: (_) => UserRepository(),
       ),
+      RepositoryProvider(create: (_) => ExerciseRepository())
     ],
     child: BlocProvider(
       lazy: false,
