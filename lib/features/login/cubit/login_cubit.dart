@@ -6,7 +6,8 @@ import 'package:pulse_pro/repositories/authencitation_repository.dart';
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit({required this.authenticationRepository}) : super(const LoginState.initial());
+  LoginCubit({required this.authenticationRepository})
+      : super(const LoginState.initial());
 
   final AuthenticationRepository authenticationRepository;
 
@@ -23,5 +24,11 @@ class LoginCubit extends Cubit<LoginState> {
   Future<void> signInWithGoogle() async {
     HapticFeedback.mediumImpact();
     await authenticationRepository.signInWithGoogle();
+  }
+
+  Future<void> signInOrSignUpWithEmailAndPassword(
+      {required String email, required String password}) async {
+    HapticFeedback.mediumImpact();
+    await authenticationRepository.signInOrSignUpWithEmailAndPassword(email, password);
   }
 }

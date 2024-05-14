@@ -8,21 +8,18 @@ class AuthenticationRepository {
   }
 
   Future<void> signInWithGoogle() async {
-    // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
 
     if (googleAuth?.accessToken == null || googleAuth?.idToken == null) return;
 
-    // Create a new credential
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
 
-    // Once signed in, return the UserCredential
     await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
@@ -43,18 +40,60 @@ class AuthenticationRepository {
 
       if (appleIdCredential.identityToken == null) return;
 
-      // get an OAuthCredential
       final credential = OAuthProvider('apple.com').credential(
         idToken: appleIdCredential.identityToken,
         accessToken: appleIdCredential.authorizationCode,
       );
 
-      // use the credential to sign in to firebase
       await FirebaseAuth.instance.signInWithCredential(credential);
     } on SignInWithAppleAuthorizationException catch (_) {}
   }
 
   Future<void> signOut() async {
     FirebaseAuth.instance.signOut();
+  }
+
+  Future<void> signInOrSignUpWithEmailAndPassword(
+      String email, String password) async {
+    try {
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch (signUpError) {
+      if (signUpError.code == 'email-already-in-use') {
+        try {
+          await FirebaseAuth.instance
+              .signInWithEmailAndPassword(email: email, password: password);
+        } on FirebaseAuthException catch (signInError) {
+          switch (signInError.code) {
+            case 'wrong-password':
+              print('Wrong password provided.');
+              break;
+            case 'invalid-email':
+              print('The email address is not valid.');
+              break;
+            case 'user-disabled':
+              print('The user account has been disabled by an administrator.');
+              break;
+            case 'too-many-requests':
+              print('Too many requests. Try again later.');
+              break;
+            default:
+              print(
+                  'Something went wrong during sign in: ${signInError.message}');
+              break;
+          }
+        }
+      } else {
+        switch (signUpError.code) {
+          case 'weak-password':
+            print('The password provided is too weak.');
+            break;
+          default:
+            print(
+                'Something went wrong during sign up: ${signUpError.message}');
+            break;
+        }
+      }
+    }
   }
 }
