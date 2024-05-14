@@ -15,7 +15,6 @@ with open(file_path, 'r') as file:
         exercise = json.loads(line)
         doc_ref = db.collection('exercises').document(exercise['id'])
         _id = exercise['id']
-        del exercise['id']
         doc_ref.set(exercise)
         iteration += 1
         print(f"pushed {_id} to database, iteration {iteration}")
