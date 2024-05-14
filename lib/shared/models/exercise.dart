@@ -34,11 +34,11 @@ class Exercise {
   factory Exercise.fromJson(Map<String, dynamic> json) {
     return Exercise(
       id: json['id'],
-      sets: int.parse(json['sets']),
-      reps: int.parse(json['reps']),
-      effortLevel: EffortLevel.values[json['effort_level']],
-      timeBetweenSets: int.parse(json['time_between_sets']),
-      weights: json['weights']?.map((key, value) => MapEntry(int.parse(key), int.parse(value))),
+      sets: json['sets'],
+      reps: json['reps'],
+      effortLevel: EffortLevel.values.firstWhere((e) => e.toString() == 'EffortLevel.${json['effort_level']}'),
+      timeBetweenSets: json['time_between_sets'],
+      weights: json['weights']?.map((key, value) => MapEntry(int.parse(key), value)).cast<int, int>(),
     );
   }
 

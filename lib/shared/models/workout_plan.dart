@@ -40,21 +40,23 @@ class WorkoutPlan {
     );
   }
 
-  factory WorkoutPlan.fromJson(Map<String, dynamic> json) {
+  factory WorkoutPlan.fromJson(String id, Map<String, dynamic> json) {
     Map<int, SplitDay> days = {};
     if (json['split'] != null) {
-      json['split'].forEach((key , value) {
+      json['split'].forEach((key, value) {
         days[int.parse(key)] = SplitDay.fromJson(value);
       });
     }
 
     return WorkoutPlan(
-      id: json['id'],
-      goal: Goal.values[json['params']['workout_goal']],
-      intensity: Intensity.values[json['params']['workout_intensity']],
-      timePerDay: int.parse(json['params']['time_per_day']),
-      injuries: json['params']['injuries'],
-      focus: json['params']['muscle_focus'],
+      id: id,
+      goal: Goal.values.firstWhere((e) => e.toString() == 'Goal.${json['params']['workout_goal']}'),
+      intensity: Intensity.values.firstWhere((e) => e.toString() == 'Intensity.${json['params']['workout_intensity']}'),
+      timePerDay: json['params']['time_per_day'],
+      injuries: json['params']['injuries']?.cast<String>(),
+      focus: json['params']['muscle_focus']?.map((e) 
+              => MuscleGroup.values.firstWhere((element) => element.toString().split('.')[1] == e))
+              .toList().cast<MuscleGroup>(),
       days: days,
     );
   }

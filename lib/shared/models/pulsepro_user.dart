@@ -32,7 +32,7 @@ class PulseProUser {
     Map<String, WorkoutPlan> workoutPlans = {};
     if (json['workout_plans'] != null) {
       json['workout_plans'].forEach((key, value) {
-        workoutPlans[key] = WorkoutPlan.fromJson(value);
+        workoutPlans[key] = WorkoutPlan.fromJson(key, value);
       });
     }
 
@@ -50,10 +50,10 @@ class PulseProUser {
       id: json['id'],
       name: json['name'],
       email: json['email'],
-      birthDate: DateTime.fromMillisecondsSinceEpoch(int.parse(json['birthdate'])),
+      birthDate: DateTime.fromMillisecondsSinceEpoch(json['birthdate']),
       weight: json['weight'],
-      height: int.parse(json['height']),
-      streak: int.parse(json['streak']),
+      height: json['height'],
+      streak: json['streak'],
       currentWorkoutPlan: json['current_workout_plan'],
       workoutPlans: workoutPlans,
       history: history,

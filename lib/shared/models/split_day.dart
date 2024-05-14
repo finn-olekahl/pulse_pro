@@ -36,9 +36,12 @@ class SplitDay {
   factory SplitDay.fromJson(Map<String, dynamic> json) {
     return SplitDay(
       restDay: json['restday'],
-      target: json['target']?.map((item) => MuscleGroup.values.firstWhere((e) => e.toString() == 'MuscleGroup.$item')).toList(),
-      timeBetweenExercises: json['time_between_exercises'] != null ? int.parse(json['time_between_exercises']) : null,
-      exercises: json['exercises']?.map((item) => Exercise.fromJson(item)).toList(),
+      target: json['target']
+          ?.map((item) => MuscleGroup.values.firstWhere((e) => e.toString() == 'MuscleGroup.$item'))
+          .toList()
+          .cast<MuscleGroup>(),
+      timeBetweenExercises: json['time_between_exercises'],
+      exercises: json['exercises']?.map((item) => Exercise.fromJson(item)).toList().cast<Exercise>(),
       warmUp: json['warm_up'] != null ? WarmUp.fromJson(json['warm_up']) : null,
     );
   }
@@ -52,6 +55,4 @@ class SplitDay {
       'warm_up': warmUp?.toJson(),
     };
   }
-
 }
-
