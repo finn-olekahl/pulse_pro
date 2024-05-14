@@ -1,4 +1,4 @@
-import 'package:pulse_pro/shared/models/exercise.dart';
+import 'package:pulse_pro/shared/models/user_exercise.dart';
 import 'package:pulse_pro/shared/models/muscle_group.dart';
 import 'package:pulse_pro/shared/models/warmup.dart';
 
@@ -6,7 +6,7 @@ class SplitDay {
   final bool restDay;
   final List<MuscleGroup>? target;
   final int? timeBetweenExercises;
-  final List<Exercise>? exercises;
+  final List<UserExercise>? exercises;
   final WarmUp? warmUp;
 
   SplitDay({
@@ -21,7 +21,7 @@ class SplitDay {
     bool? restDay,
     List<MuscleGroup>? target,
     int? timeBetweenExercises,
-    List<Exercise>? exercises,
+    List<UserExercise>? exercises,
     WarmUp? warmUp,
   }) {
     return SplitDay(
@@ -41,7 +41,7 @@ class SplitDay {
           .toList()
           .cast<MuscleGroup>(),
       timeBetweenExercises: json['time_between_exercises'],
-      exercises: json['exercises']?.map((item) => Exercise.fromJson(item)).toList().cast<Exercise>(),
+      exercises: json['exercises']?.map((item) => UserExercise.fromJson(item)).toList().cast<UserExercise>(),
       warmUp: json['warm_up'] != null ? WarmUp.fromJson(json['warm_up']) : null,
     );
   }

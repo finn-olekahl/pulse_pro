@@ -10,9 +10,13 @@ class TrainingPlanPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<AppStateBloc>().stream.listen((event) {
+      print(event);
+    });
+
     return BlocProvider(
-      create: (context) => TrainingsPlanCubit(appStateBloc: context.read<AppStateBloc>(), 
-        userRepository: context.read<UserRepository>()),
+      create: (context) => TrainingsPlanCubit(
+          appStateBloc: context.read<AppStateBloc>(), userRepository: context.read<UserRepository>()),
       child: TrainingsPlanView(),
     );
   }
