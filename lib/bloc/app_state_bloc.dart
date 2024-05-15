@@ -53,6 +53,7 @@ class AppStateBloc extends Bloc<AppStateEvent, AppStateState> with ChangeNotifie
     if (!(await userRepository.userExists(authUser.uid))) {
       emit(AppStateNoAccount(authUser));
       notifyListeners();
+      return;
     }
 
     emit(AppStateLoading(authUser));
