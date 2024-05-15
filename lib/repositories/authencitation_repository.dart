@@ -7,23 +7,40 @@ class AuthenticationRepository {
     return FirebaseAuth.instance.currentUser;
   }
 
-  Future<void> signInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  Future<FirebaseAuthException?> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+      if (googleUser == null) {
+        return FirebaseAuthException(
+          code: 'ERROR_ABORTED_BY_USER',
+          message: 'Sign in aborted by user',
+        );
+      }
 
-    if (googleAuth?.accessToken == null || googleAuth?.idToken == null) return;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
 
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
+      if (googleAuth.accessToken == null || googleAuth.idToken == null) {
+        return FirebaseAuthException(
+          code: 'ERROR_MISSING_GOOGLE_AUTH_TOKEN',
+          message: 'Missing Google Auth Token',
+        );
+      }
 
-    await FirebaseAuth.instance.signInWithCredential(credential);
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      return null;
+    } on FirebaseAuthException catch (e) {
+      return e;
+    }
   }
 
-  Future<void> signInWithApple() async {
+  Future<FirebaseAuthException?> signInWithApple() async {
     try {
       final appleIdCredential = await SignInWithApple.getAppleIDCredential(
         scopes: [
@@ -38,7 +55,12 @@ class AuthenticationRepository {
         ),
       );
 
-      if (appleIdCredential.identityToken == null) return;
+      if (appleIdCredential.identityToken == null) {
+        return FirebaseAuthException(
+          code: 'ERROR_MISSING_APPLE_IDENTITY_TOKEN',
+          message: 'Missing Apple Identity Token',
+        );
+      }
 
       final credential = OAuthProvider('apple.com').credential(
         idToken: appleIdCredential.identityToken,
@@ -46,54 +68,40 @@ class AuthenticationRepository {
       );
 
       await FirebaseAuth.instance.signInWithCredential(credential);
-    } on SignInWithAppleAuthorizationException catch (_) {}
+      return null;
+    } on FirebaseAuthException catch (e) {
+      return e;
+    } on SignInWithAppleAuthorizationException catch (e) {
+      return FirebaseAuthException(
+        code: 'ERROR_APPLE_SIGN_IN_FAILED',
+        message: e.message,
+      );
+    }
   }
 
   Future<void> signOut() async {
-    FirebaseAuth.instance.signOut();
+    await FirebaseAuth.instance.signOut();
   }
 
-  Future<void> signInOrSignUpWithEmailAndPassword(
+  Future<FirebaseAuthException?> signUpWithEmailAndPassword(
       String email, String password) async {
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-    } on FirebaseAuthException catch (signUpError) {
-      if (signUpError.code == 'email-already-in-use') {
-        try {
-          await FirebaseAuth.instance
-              .signInWithEmailAndPassword(email: email, password: password);
-        } on FirebaseAuthException catch (signInError) {
-          switch (signInError.code) {
-            case 'wrong-password':
-              print('Wrong password provided.');
-              break;
-            case 'invalid-email':
-              print('The email address is not valid.');
-              break;
-            case 'user-disabled':
-              print('The user account has been disabled by an administrator.');
-              break;
-            case 'too-many-requests':
-              print('Too many requests. Try again later.');
-              break;
-            default:
-              print(
-                  'Something went wrong during sign in: ${signInError.message}');
-              break;
-          }
-        }
-      } else {
-        switch (signUpError.code) {
-          case 'weak-password':
-            print('The password provided is too weak.');
-            break;
-          default:
-            print(
-                'Something went wrong during sign up: ${signUpError.message}');
-            break;
-        }
-      }
+      return null;
+    } on FirebaseAuthException catch (e) {
+      return e;
+    }
+  }
+
+  Future<FirebaseAuthException?> signInWithEmailAndPassword(
+      String email, String password) async {
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      return null;
+    } on FirebaseAuthException catch (e) {
+      return e;
     }
   }
 }

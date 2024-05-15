@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:pulse_pro/repositories/authencitation_repository.dart';
 
@@ -11,24 +12,27 @@ class LoginCubit extends Cubit<LoginState> {
 
   final AuthenticationRepository authenticationRepository;
 
-  Future<void> showServiceActionSheet() async {
-    HapticFeedback.selectionClick();
-    emit(const LoginState.initial());
-  }
-
-  Future<void> signInWithApple() async {
+  Future<FirebaseAuthException?> signInWithApple() async {
     HapticFeedback.mediumImpact();
+    return null;
   }
 
-  Future<void> signInWithGoogle() async {
+  Future<FirebaseAuthException?> signInWithGoogle() async {
     HapticFeedback.mediumImpact();
-    await authenticationRepository.signInWithGoogle();
+    return await authenticationRepository.signInWithGoogle();
   }
 
-  Future<void> signInOrSignUpWithEmailAndPassword(
+  Future<FirebaseAuthException?> signInWithEmailAndPassword(
       {required String email, required String password}) async {
     HapticFeedback.mediumImpact();
-    await authenticationRepository.signInOrSignUpWithEmailAndPassword(
+    return await authenticationRepository.signInWithEmailAndPassword(
+        email, password);
+  }
+
+  Future<FirebaseAuthException?> signOutWithEmailAndPassword(
+      {required String email, required String password}) async {
+    HapticFeedback.mediumImpact();
+    return await authenticationRepository.signUpWithEmailAndPassword(
         email, password);
   }
 }
