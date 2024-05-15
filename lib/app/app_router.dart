@@ -6,7 +6,7 @@ import 'package:pulse_pro/features/home/home_page.dart';
 import 'package:pulse_pro/features/login/login_page.dart';
 import 'package:pulse_pro/features/profile/profile_page.dart';
 import 'package:pulse_pro/features/splash/view/splash_screen.dart';
-import 'package:pulse_pro/features/tutorial/onboarding_page.dart';
+import 'package:pulse_pro/features/onboarding/onboarding_page.dart';
 
 class AppRouter {
   final BuildContext appContext;

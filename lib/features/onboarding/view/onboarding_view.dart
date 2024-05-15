@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pulse_pro/features/profile/profile_page.dart';
 
 class OnboardingView extends StatelessWidget {
-  final VoidCallback onStartPressed;
-
-  const OnboardingView({super.key, required this.onStartPressed});
+  const OnboardingView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +64,7 @@ class OnboardingView extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
+                return;
               },
               child: const Text('Los geht\'s!'),
             ),
