@@ -13,7 +13,6 @@ class LoginCubit extends Cubit<LoginState> {
 
   Future<void> showServiceActionSheet() async {
     HapticFeedback.selectionClick();
-    emit(const LoginState.showServiceActionSheet());
     emit(const LoginState.initial());
   }
 
@@ -29,6 +28,7 @@ class LoginCubit extends Cubit<LoginState> {
   Future<void> signInOrSignUpWithEmailAndPassword(
       {required String email, required String password}) async {
     HapticFeedback.mediumImpact();
-    await authenticationRepository.signInOrSignUpWithEmailAndPassword(email, password);
+    await authenticationRepository.signInOrSignUpWithEmailAndPassword(
+        email, password);
   }
 }

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +14,12 @@ import 'package:pulse_pro/repositories/user_repository.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
   await Firebase.initializeApp();
+  //await FirebaseAuth.instance.signOut();
 
   runApp(MultiRepositoryProvider(
     providers: [
@@ -30,14 +33,16 @@ void main() async {
     ],
     child: BlocProvider(
       lazy: false,
-      create: (context) => AppStateBloc(userRepository: context.read<UserRepository>()),
+      create: (context) =>
+          AppStateBloc(userRepository: context.read<UserRepository>()),
       child: const PulseProApp(),
     ),
   ));
 }
 
 class PulseProApp extends StatelessWidget {
-  static final storageUrl = 'gs://${FirebaseStorage.instance.app.options.storageBucket}';
+  static final storageUrl =
+      'gs://${FirebaseStorage.instance.app.options.storageBucket}';
 
   const PulseProApp({super.key});
 
@@ -47,8 +52,14 @@ class PulseProApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'PulsePro',
       themeMode: ThemeMode.system,
-      theme: ThemeData(useMaterial3: true, colorSchemeSeed: sapphire, brightness: Brightness.light),
-      darkTheme: ThemeData(useMaterial3: true, colorSchemeSeed: oxfordBlue, brightness: Brightness.dark),
+      theme: ThemeData(
+          useMaterial3: true,
+          colorSchemeSeed: sapphire,
+          brightness: Brightness.light),
+      darkTheme: ThemeData(
+          useMaterial3: true,
+          colorSchemeSeed: oxfordBlue,
+          brightness: Brightness.dark),
       routerConfig: AppRouter(context).router,
     );
   }
