@@ -1,11 +1,11 @@
 name: pulse_pro
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 
 version: 99.99.99+99
 
 environment:
-  sdk: '>=3.3.4 <4.0.0'
+  sdk: ">=3.3.4 <4.0.0"
 
 dependencies:
   flutter:
@@ -33,10 +33,13 @@ dependencies:
   firebase_cached_image: ^0.6.0
   table_calendar: ^3.1.1
   font_awesome_flutter: ^10.7.0
+  carousel_slider: ^4.2.1
+  google_fonts: ^6.2.1
+  curved_gradient: ^0.3.0
 
 dev_dependencies:
   flutter_test:
-    sdk: flutter  
+    sdk: flutter
   flutter_lints: ^3.0.0
   test: ^1.24.9
   bloc_test: ^9.1.7
@@ -48,6 +51,17 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/login_background.jpg
+    - assets/images/login_slide1.jpg
+    - assets/images/login_slide2.jpg
+    - assets/images/login_slide3.jpg
+    - assets/images/app_logo_white.png
+    - assets/images/app_logo_purple.png
+    - assets/images/app_logo_black.png
+  fonts:
+    - family: sansman
+      fonts:
+        - asset: assets/fonts/entsani.ttf
+          style: italic
   # fonts:
   #   - family: Schyler
   #     fonts:

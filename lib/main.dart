@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pulse_pro/app/app_router.dart';
 import 'package:pulse_pro/app/color_palette.dart';
 import 'package:pulse_pro/bloc/app_state_bloc.dart';
@@ -56,8 +57,25 @@ class PulseProApp extends StatelessWidget {
           colorSchemeSeed: sapphire,
           brightness: Brightness.light),
       darkTheme: ThemeData(
+          textTheme: const TextTheme(
+            displayLarge: TextStyle(),
+            displayMedium: TextStyle(),
+            displaySmall: TextStyle(),
+            headlineLarge: TextStyle(),
+            headlineMedium: TextStyle(),
+            headlineSmall: TextStyle(),
+            titleLarge: TextStyle(),
+            titleMedium: TextStyle(),
+            titleSmall: TextStyle(),
+            bodyLarge: TextStyle(),
+            bodyMedium: TextStyle(fontWeight: FontWeight.w600),
+            bodySmall: TextStyle(),
+            labelLarge: TextStyle(),
+            labelMedium: TextStyle(),
+          ),
           useMaterial3: true,
           colorSchemeSeed: oxfordBlue,
+          fontFamily: GoogleFonts.lexendDeca().fontFamily,
           brightness: Brightness.dark),
       routerConfig: AppRouter(context).router,
     );
