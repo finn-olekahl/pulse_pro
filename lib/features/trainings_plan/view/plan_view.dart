@@ -13,8 +13,43 @@ class TrainingsPlanView extends StatefulWidget {
 class _TrainingsPlanViewState extends State<TrainingsPlanView> {
   final Map<int, bool> _expanded = {};
 
-  DateTime _focusedDay = DateTime(2024, 05, 10);
-  DateTime? _selectedDay;
+  DateTime _highlightedDay = DateTime(2024, 01, 01);
+  StartingDayOfWeek _startingDayOfWeek = StartingDayOfWeek.monday;
+  void _changeHighlightedDay(DateTime day) {
+    setState(() {
+      _highlightedDay = day;
+
+      switch (day.weekday) {
+        case 1:
+          _startingDayOfWeek = StartingDayOfWeek.friday;
+          break;
+        case 2:
+          _startingDayOfWeek = StartingDayOfWeek.saturday;
+          break;
+        case 3:
+          _startingDayOfWeek = StartingDayOfWeek.sunday;
+          break;
+        case 4:
+          _startingDayOfWeek = StartingDayOfWeek.monday;
+          break;
+        case 5:
+          _startingDayOfWeek = StartingDayOfWeek.tuesday;
+          break;
+        case 6:
+          _startingDayOfWeek = StartingDayOfWeek.wednesday;
+          break;
+        case 7:
+          _startingDayOfWeek = StartingDayOfWeek.thursday;
+          break;
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    _changeHighlightedDay(DateTime.now());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,33 +104,42 @@ class _TrainingsPlanViewState extends State<TrainingsPlanView> {
           return Column(
             children: [
               TableCalendar(
-                focusedDay: _focusedDay,
+                focusedDay: _highlightedDay,
                 firstDay: DateTime.utc(2014, 05, 10),
                 lastDay: DateTime.utc(2034, 05, 20),
                 rangeSelectionMode: RangeSelectionMode.toggledOff,
                 pageAnimationEnabled: true,
                 calendarFormat: CalendarFormat.week,
-                headerStyle: const HeaderStyle(
-                  titleCentered: true,
-                  formatButtonVisible: false,
-                  leftChevronVisible: false,
-                  rightChevronVisible: false,
-                  headerPadding: EdgeInsets.all(0),
+                headerVisible: false,
+                daysOfWeekVisible: true,
+                startingDayOfWeek: _startingDayOfWeek,
+                calendarStyle: const CalendarStyle(
+                  isTodayHighlighted: false,
                 ),
-                selectedDayPredicate: (day) {
-                  return isSameDay(_selectedDay, day);
-                },
+                calendarBuilders: CalendarBuilders(
+                  defaultBuilder: (context, day, focusedDay) {
+                    if (isSameDay(day, _highlightedDay)) {
+                      return Container(
+                        margin: const EdgeInsets.all(6.0),
+                        alignment: Alignment.center,
+                        decoration: const BoxDecoration(
+                          color: Colors.deepPurple, // Highlight color
+                          shape: BoxShape.circle,
+                        ),
+                        child: Text(
+                          day.day.toString(),
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      );
+                    }
+                    return null;
+                  },
+                ),
+                pageAnimationCurve: Curves.linear,
+                pageAnimationDuration: const Duration(milliseconds: 1),
                 onDaySelected: (selectedDay, focusedDay) {
-                  setState(() {
-                    _selectedDay = selectedDay;
-                    _focusedDay = selectedDay; // Center the selected day
-                  });
+                  _changeHighlightedDay(selectedDay);
                 },
-                onPageChanged: (focusedDay) {
-                  _focusedDay = focusedDay;
-                },
-                daysOfWeekVisible: false,
-                startingDayOfWeek: StartingDayOfWeek.monday,
               ),
               ExpansionPanelList(
                 expansionCallback: (panelIndex, isExpanded) => setState(() => _expanded[panelIndex] = isExpanded),

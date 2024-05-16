@@ -19,7 +19,6 @@ void main() async {
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
   await Firebase.initializeApp();
-  //await FirebaseAuth.instance.signOut();
 
   runApp(MultiRepositoryProvider(
     providers: [
