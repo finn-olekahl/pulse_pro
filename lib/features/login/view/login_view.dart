@@ -445,10 +445,10 @@ class _LoginViewState extends State<LoginView>
                       children: [
                         OutlinedButton(
                           style: OutlinedButton.styleFrom(
-                            backgroundColor: Colors.deepPurple,
+                            backgroundColor: Colors.deepPurple.shade400,
                             foregroundColor: Colors.white,
                             side: BorderSide(
-                                color: Colors.white.withOpacity(0.3), width: 3),
+                                color: Colors.white.withOpacity(0.3), width: 0),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
                             ),
