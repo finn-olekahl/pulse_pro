@@ -199,6 +199,18 @@ class _LoginViewState extends State<LoginView>
               ),
             ),
           ),
+          Opacity(
+            opacity: 0.6,
+            child: Padding(
+              padding: EdgeInsets.only(
+                  top: MediaQuery.viewPaddingOf(context).top + 10, left: 20),
+              child: Image.asset(
+                'assets/images/app_logo_white.png',
+                width: MediaQuery.sizeOf(context).width * 0.1,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
           Center(
             child: Padding(
               padding: EdgeInsets.only(

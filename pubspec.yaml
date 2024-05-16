@@ -54,6 +54,9 @@ flutter:
     - assets/images/login_slide1.jpg
     - assets/images/login_slide2.jpg
     - assets/images/login_slide3.jpg
+    - assets/images/app_logo_white.png
+    - assets/images/app_logo_purple.png
+    - assets/images/app_logo_black.png
   fonts:
     - family: sansman
       fonts:
