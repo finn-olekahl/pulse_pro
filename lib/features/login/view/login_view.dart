@@ -6,6 +6,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pulse_pro/features/login/cubit/login_cubit.dart';
 
@@ -132,6 +133,8 @@ class _LoginViewState extends State<LoginView>
                       Colors.white, BlendMode.saturation),
                   child: Image.asset(
                     'assets/images/login_slide1.jpg',
+                    gaplessPlayback: true,
+                    isAntiAlias: true,
                     height: 400,
                     fit: BoxFit.cover,
                   ),
@@ -162,6 +165,8 @@ class _LoginViewState extends State<LoginView>
                       Colors.white, BlendMode.saturation),
                   child: Image.asset(
                     'assets/images/login_slide2.jpg',
+                    gaplessPlayback: true,
+                    isAntiAlias: true,
                     height: 400,
                     fit: BoxFit.cover,
                   ),
@@ -192,6 +197,8 @@ class _LoginViewState extends State<LoginView>
                       Colors.white, BlendMode.saturation),
                   child: Image.asset(
                     'assets/images/login_slide3.jpg',
+                    gaplessPlayback: true,
+                    isAntiAlias: true,
                     height: 400,
                     fit: BoxFit.cover,
                   ),
@@ -206,6 +213,8 @@ class _LoginViewState extends State<LoginView>
                   top: MediaQuery.viewPaddingOf(context).top + 10, left: 20),
               child: Image.asset(
                 'assets/images/app_logo_white.png',
+                gaplessPlayback: true,
+                isAntiAlias: true,
                 width: MediaQuery.sizeOf(context).width * 0.1,
                 fit: BoxFit.cover,
               ),
@@ -453,7 +462,7 @@ class _LoginViewState extends State<LoginView>
                               borderRadius: BorderRadius.circular(30),
                             ),
                           ),
-                          onPressed: toggleLoginPopup,
+                          onPressed: () => context.go('/login/onboarding'),
                           child: SizedBox(
                               width: MediaQuery.sizeOf(context).width,
                               child: const Center(child: Text('Get Started'))),

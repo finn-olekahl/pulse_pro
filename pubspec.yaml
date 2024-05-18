@@ -36,6 +36,10 @@ dependencies:
   carousel_slider: ^4.2.1
   google_fonts: ^6.2.1
   curved_gradient: ^0.3.0
+  numberpicker: ^2.1.2
+  animated_weight_picker: ^1.0.3
+  scroll_wheel_date_picker: ^0.0.1+1
+  nil: ^1.1.1
 
 dev_dependencies:
   flutter_test:
