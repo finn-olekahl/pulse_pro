@@ -53,7 +53,7 @@ class AppRouter {
 
         if (appState is AppStateInitial || appState is AppStateLoading)
           return '/splash';
-        if (appState is AppStateNoAuth && !isOnboardingPage) return '/login';
+        if (appState is AppStateLoginInitial && !isOnboardingPage) return '/login';
 
         if (isOnSplashScreen || isOnLoginPage) return '/';
 

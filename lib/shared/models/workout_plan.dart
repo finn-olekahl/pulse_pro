@@ -131,6 +131,7 @@ enum Injuries {
 }
 
 enum SportOrientation {
+  none,
   archery,
   badminton,
   baseball,
