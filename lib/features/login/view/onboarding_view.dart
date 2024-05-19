@@ -2,7 +2,6 @@ import 'package:animated_weight_picker/animated_weight_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pulse_pro/features/login/cubit/login_cubit.dart';
 import 'package:pulse_pro/shared/helpers/animated_number_picker.dart';
 import 'package:pulse_pro/shared/helpers/enum_to_text.dart';
@@ -171,7 +170,25 @@ class OnboardingViewState extends State<OnboardingView> {
             const SizedBox(
               height: 30,
             ),
-            //TEXTBOX MUSS HIER HIN FÜR NAME
+            SizedBox(
+              height: 50,
+              child: TextField(
+                controller: nameController,
+                onChanged: (value) => setState(() {}),
+                style: const TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  hintText: "Tell us your name",
+                  hintStyle: const TextStyle(color: Colors.grey),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                      borderSide: BorderSide.none),
+                  filled: true,
+                  fillColor: Colors.white.withAlpha(30),
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -1303,7 +1320,8 @@ class OnboardingViewState extends State<OnboardingView> {
               child: Row(
                 children: [
                   IconButton(
-                      onPressed: () => context.pop(),
+                      onPressed: () =>
+                          context.read<LoginCubit>().cancelOnboarding(context),
                       color: Colors.grey.shade500,
                       icon: const FaIcon(FontAwesomeIcons.anglesLeft)),
                   const SizedBox(

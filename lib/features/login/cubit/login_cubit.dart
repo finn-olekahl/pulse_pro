@@ -35,6 +35,13 @@ class LoginCubit extends Cubit<LoginState> {
         email, password);
   }
 
+  Future<FirebaseAuthException?> signUpWithEmailAndPassword(
+      {required String email, required String password}) async {
+    HapticFeedback.mediumImpact();
+    return await authenticationRepository.signUpWithEmailAndPassword(
+        email, password);
+  }
+
   Future<FirebaseAuthException?> signOutWithEmailAndPassword(
       {required String email, required String password}) async {
     HapticFeedback.mediumImpact();
@@ -44,6 +51,14 @@ class LoginCubit extends Cubit<LoginState> {
 
   void startOnboarding(BuildContext context) {
     context.read<AppStateBloc>().add(const StartOnboarding());
+  }
+
+  void cancelOnboarding(BuildContext context) {
+    context.read<AppStateBloc>().add(const CancelOnboarding());
+  }
+
+  void continueOnboarding(BuildContext context) {
+    context.read<AppStateBloc>().add(const FinishOnboarding());
   }
 
   void finishOnboarding(

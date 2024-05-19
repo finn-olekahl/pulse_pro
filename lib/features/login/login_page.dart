@@ -1,28 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pulse_pro/bloc/app_state_bloc.dart';
-import 'package:pulse_pro/features/login/cubit/login_cubit.dart';
 import 'package:pulse_pro/features/login/view/login_view.dart';
-import 'package:pulse_pro/features/login/view/onboarding_view.dart';
-import 'package:pulse_pro/repositories/authencitation_repository.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => LoginCubit(
-          authenticationRepository: context.read<AuthenticationRepository>()),
-      child: BlocBuilder<AppStateBloc, AppStateState>(
-        builder: (context, state) {
-          if (state is AppStateOnboarding) return const OnboardingView();
-          if (state is AppStateContinueLogin || state is AppStateLoginInitial) {
-            return const LoginView();
-          }
-          return Container();
-        },
-      ),
-    );
+    return const LoginView();
   }
 }

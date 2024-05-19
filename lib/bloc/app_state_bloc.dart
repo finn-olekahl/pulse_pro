@@ -19,6 +19,7 @@ class AppStateBloc extends Bloc<AppStateEvent, AppStateState>
     on<LocalUserLookUp>(_onLocalUserLookUp);
     on<StartOnboarding>(_onStartOnboarding);
     on<FinishOnboarding>(_onFinishOnboarding);
+    on<CancelOnboarding>(_onCancelOnboarding);
 
     _authUserStream = FirebaseAuth.instance
         .authStateChanges()
@@ -49,11 +50,19 @@ class AppStateBloc extends Bloc<AppStateEvent, AppStateState>
   Future<void> _onStartOnboarding(
       StartOnboarding startOnboarding, Emitter<AppStateState> emit) async {
     emit(AppStateOnboarding());
+    notifyListeners();
   }
 
   Future<void> _onFinishOnboarding(
       FinishOnboarding finishOnboarding, Emitter<AppStateState> emit) async {
     emit(AppStateContinueLogin());
+    notifyListeners();
+  }
+
+  Future<void> _onCancelOnboarding(
+      CancelOnboarding cancelOnboarding, Emitter<AppStateState> emit) async {
+    emit(AppStateLoginInitial());
+    notifyListeners();
   }
 
   Future<void> _onAuthStreamChange(

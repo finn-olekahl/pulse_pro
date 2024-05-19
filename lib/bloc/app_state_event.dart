@@ -30,3 +30,7 @@ class StartOnboarding extends AppStateEvent {
 class FinishOnboarding extends AppStateEvent {
   const FinishOnboarding();
 }
+
+class CancelOnboarding extends AppStateEvent {
+  const CancelOnboarding();
+}

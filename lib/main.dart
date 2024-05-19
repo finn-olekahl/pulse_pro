@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pulse_pro/app/app_router.dart';
 import 'package:pulse_pro/app/color_palette.dart';
 import 'package:pulse_pro/bloc/app_state_bloc.dart';
+import 'package:pulse_pro/features/login/cubit/login_cubit.dart';
 import 'package:pulse_pro/repositories/authencitation_repository.dart';
 import 'package:pulse_pro/repositories/exercise_repository.dart';
 import 'package:pulse_pro/repositories/user_repository.dart';
@@ -35,7 +36,11 @@ void main() async {
       lazy: false,
       create: (context) =>
           AppStateBloc(userRepository: context.read<UserRepository>()),
-      child: const PulseProApp(),
+      child: BlocProvider(
+        create: (context) => LoginCubit(
+            authenticationRepository: context.read<AuthenticationRepository>()),
+        child: const PulseProApp(),
+      ),
     ),
   ));
 }

@@ -6,6 +6,7 @@ import 'package:pulse_pro/features/home/home_page.dart';
 import 'package:pulse_pro/features/login/login_page.dart';
 import 'package:pulse_pro/features/profile/profile_page.dart';
 import 'package:pulse_pro/features/splash/view/splash_screen.dart';
+import 'package:pulse_pro/features/login/onboarding_page.dart';
 
 class AppRouter {
   final BuildContext appContext;
@@ -25,9 +26,14 @@ class AppRouter {
           builder: (context, state) => const HomePage(),
         ),
         GoRoute(
-          path: '/login',
-          builder: (context, state) => const LoginPage(),
-        ),
+            path: '/login',
+            builder: (context, state) => const LoginPage(),
+            routes: [
+              GoRoute(
+                path: 'onboarding',
+                builder: (context, state) => const OnboardingPage(),
+              ),
+            ]),
         GoRoute(
           path: '/splash',
           builder: (context, state) => const SplashScreen(),
@@ -42,13 +48,14 @@ class AppRouter {
         final matchedLocation = state.matchedLocation;
 
         final bool isOnSplashScreen = matchedLocation == '/splash';
-        final bool isOnLoginPage = matchedLocation == '/login';
+        final bool isOnLoginPage = matchedLocation == '/login' ||
+            matchedLocation == '/login/onboarding';
 
         if (appState is AppStateInitial || appState is AppStateLoading)
           return '/splash';
         if (appState is AppStateLoginInitial ||
-            appState is FinishOnboarding ||
-            appState is StartOnboarding) return '/login';
+            appState is AppStateContinueLogin) return '/login';
+        if (appState is AppStateOnboarding) return '/login/onboarding';
 
         if (isOnSplashScreen || isOnLoginPage) return '/';
 
