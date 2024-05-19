@@ -1,9 +1,9 @@
 import 'package:animated_weight_picker/animated_weight_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:nil/nil.dart';
+import 'package:pulse_pro/features/login/cubit/login_cubit.dart';
 import 'package:pulse_pro/shared/helpers/animated_number_picker.dart';
 import 'package:pulse_pro/shared/helpers/enum_to_text.dart';
 import 'package:pulse_pro/shared/models/muscle_group.dart';
@@ -19,7 +19,6 @@ class OnboardingView extends StatefulWidget {
 }
 
 class OnboardingViewState extends State<OnboardingView> {
-  // Onboarding
   final TextEditingController nameController = TextEditingController();
   Gender? gender;
   DateTime? birthDate;
@@ -32,41 +31,46 @@ class OnboardingViewState extends State<OnboardingView> {
   int timePerDay = 60;
   List<Injuries> injuries = [];
   List<MuscleGroup> muscleFocus = [];
-  SportOrientation? sportOrientation;
-  List<List<String>>? split;
+  SportOrientation sportOrientation = SportOrientation.none;
 
   int currentPage = 0;
 
+  bool isValidName(String name) {
+    final RegExp nameRegExp = RegExp(r'^[a-zA-Z\s\-]+$');
+
+    return name.isNotEmpty && nameRegExp.hasMatch(name);
+  }
+
   bool canContinue() {
     if (currentPage == 0) {
-      return gender != null;
+      return isValidName(nameController.text);
     }
     if (currentPage == 1) {
-      return workoutGoal != null;
+      return gender != null;
     }
     if (currentPage == 2) {
-      return workoutExperience != null;
+      return workoutGoal != null;
     }
     if (currentPage == 3) {
-      return workoutIntensity != null;
+      return workoutExperience != null;
     }
     if (currentPage == 4) {
-      return maxTimesPerWeek != null;
+      return workoutIntensity != null;
     }
     if (currentPage == 5) {
-      return true;
+      return maxTimesPerWeek != null;
     }
     if (currentPage == 6) {
-      return birthDate != null;
+      return true;
     }
     if (currentPage == 7) {
-      return weight != null;
+      return birthDate != null;
     }
     if (currentPage == 8) {
-      return height != null;
+      return weight != null;
     }
     if (currentPage == 9) {
-      return true;
+      return height != null;
     }
     if (currentPage == 10) {
       return true;
@@ -74,10 +78,12 @@ class OnboardingViewState extends State<OnboardingView> {
     if (currentPage == 11) {
       return true;
     }
+    if (currentPage == 12) {
+      return true;
+    }
     return false;
   }
 
-  // Auth
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController repeatPasswordController =
@@ -95,8 +101,23 @@ class OnboardingViewState extends State<OnboardingView> {
   }
 
   void goForth() {
-    if (currentPage == 11) {
-      return context.pop();
+    if (currentPage == 12) {
+      context.read<LoginCubit>().finishOnboarding(
+            context,
+            name: nameController.text,
+            gender: gender!,
+            birthDate: birthDate!,
+            weight: weight!,
+            height: height!,
+            workoutGoal: workoutGoal!,
+            workoutIntensity: workoutIntensity!,
+            workoutExperience: workoutExperience!,
+            maxTimesPerWeek: maxTimesPerWeek!,
+            timePerDay: timePerDay,
+            injuries: injuries,
+            muscleFocus: muscleFocus,
+            sportOrientation: sportOrientation,
+          );
     }
     pageController.animateToPage(currentPage + 1,
         duration: const Duration(milliseconds: 300),
@@ -108,6 +129,52 @@ class OnboardingViewState extends State<OnboardingView> {
 
   List<Widget> pages() {
     return [
+      Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            Text.rich(
+              TextSpan(
+                style: const TextStyle(fontSize: 24.0, fontFamily: 'sansman'),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: 'Let\'s Get to Know Each ',
+                    style: TextStyle(
+                      color: Colors.grey.shade300,
+                      fontSize: 32,
+                    ),
+                  ),
+                  TextSpan(
+                    text: 'Other.',
+                    style: TextStyle(
+                      color: Colors.deepPurple.shade300,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 32,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Tell us your name so we know what we can call you!',
+                style: TextStyle(
+                  fontSize: 15.0,
+                  color: Colors.grey.shade400,
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            //TEXTBOX MUSS HIER HIN FÜR NAME
+          ],
+        ),
+      ),
       Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -1119,7 +1186,7 @@ class OnboardingViewState extends State<OnboardingView> {
                 style: const TextStyle(fontSize: 24.0, fontFamily: 'sansman'),
                 children: <TextSpan>[
                   TextSpan(
-                    text: 'Bring your Performance to the Next ',
+                    text: 'Bring Your Performance to the Next ',
                     style: TextStyle(
                       color: Colors.grey.shade300,
                       fontSize: 32,
@@ -1164,6 +1231,9 @@ class OnboardingViewState extends State<OnboardingView> {
                       final _sportOrientation = SportOrientation.values[index];
                       final name = enumToText(_sportOrientation.name);
 
+                      if (_sportOrientation == SportOrientation.none)
+                        return Container();
+
                       return Padding(
                         padding: EdgeInsets.only(
                             bottom: _sportOrientation !=
@@ -1185,7 +1255,7 @@ class OnboardingViewState extends State<OnboardingView> {
                           onPressed: sportOrientation == _sportOrientation
                               ? () {
                                   setState(() {
-                                    sportOrientation = null;
+                                    sportOrientation = SportOrientation.none;
                                   });
                                 }
                               : () {
@@ -1325,17 +1395,17 @@ class OnboardingViewState extends State<OnboardingView> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      onPressed: canContinue() ? goForth : null,
+                      onPressed: canContinue() ? () => goForth() : null,
                       child: AnimatedContainer(
                           duration: const Duration(milliseconds: 300),
                           curve: Curves.easeInOutQuad,
                           height: 50,
-                          color: currentPage == 11
+                          color: currentPage == 13
                               ? Colors.deepPurple
                               : Colors.transparent,
                           child: Center(
                               child: Text(
-                            currentPage == 11 ? 'Finish' : 'Continue',
+                            currentPage == 13 ? 'Finish' : 'Continue',
                             style: const TextStyle(
                               fontSize: 16,
                             ),

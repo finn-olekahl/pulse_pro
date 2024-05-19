@@ -22,3 +22,11 @@ class _LocalUserStreamChange extends AppStateEvent {
 class LocalUserLookUp extends AppStateEvent {
   const LocalUserLookUp();
 }
+
+class StartOnboarding extends AppStateEvent {
+  const StartOnboarding();
+}
+
+class FinishOnboarding extends AppStateEvent {
+  const FinishOnboarding();
+}

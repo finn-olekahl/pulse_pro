@@ -11,13 +11,18 @@ import 'package:pulse_pro/shared/models/pulsepro_user.dart';
 part 'app_state_event.dart';
 part 'app_state_state.dart';
 
-class AppStateBloc extends Bloc<AppStateEvent, AppStateState> with ChangeNotifier {
+class AppStateBloc extends Bloc<AppStateEvent, AppStateState>
+    with ChangeNotifier {
   AppStateBloc({required this.userRepository}) : super(AppStateInitial()) {
     on<_AuthStreamChange>(_onAuthStreamChange);
     on<_LocalUserStreamChange>(_onLocalUserChange);
     on<LocalUserLookUp>(_onLocalUserLookUp);
+    on<StartOnboarding>(_onStartOnboarding);
+    on<FinishOnboarding>(_onFinishOnboarding);
 
-    _authUserStream = FirebaseAuth.instance.authStateChanges().listen((authUser) => add(_AuthStreamChange(authUser)));
+    _authUserStream = FirebaseAuth.instance
+        .authStateChanges()
+        .listen((authUser) => add(_AuthStreamChange(authUser)));
   }
 
   final UserRepository userRepository;
@@ -31,7 +36,8 @@ class AppStateBloc extends Bloc<AppStateEvent, AppStateState> with ChangeNotifie
         .collection('user')
         .doc((state as AppStateLoading).authUser.uid)
         .snapshots()
-        .listen((doc) => add(_LocalUserStreamChange(PulseProUser.fromJson(doc.data() ?? {}))));
+        .listen((doc) => add(
+            _LocalUserStreamChange(PulseProUser.fromJson(doc.data() ?? {}))));
   }
 
   Future<void> _stopLocalUserStream() async {
@@ -40,11 +46,22 @@ class AppStateBloc extends Bloc<AppStateEvent, AppStateState> with ChangeNotifie
     _localUserStream = null;
   }
 
-  Future<void> _onAuthStreamChange(_AuthStreamChange authStreamChange, Emitter<AppStateState> emit) async {
+  Future<void> _onStartOnboarding(
+      StartOnboarding startOnboarding, Emitter<AppStateState> emit) async {
+    emit(AppStateOnboarding());
+  }
+
+  Future<void> _onFinishOnboarding(
+      FinishOnboarding finishOnboarding, Emitter<AppStateState> emit) async {
+    emit(AppStateContinueLogin());
+  }
+
+  Future<void> _onAuthStreamChange(
+      _AuthStreamChange authStreamChange, Emitter<AppStateState> emit) async {
     final authUser = authStreamChange.authUser;
 
     if (authUser == null) {
-      emit(AppStateNoAuth());
+      emit(AppStateLoginInitial());
       notifyListeners();
       _stopLocalUserStream();
       return;
@@ -62,7 +79,8 @@ class AppStateBloc extends Bloc<AppStateEvent, AppStateState> with ChangeNotifie
     return;
   }
 
-  Future<void> _onLocalUserChange(_LocalUserStreamChange localUserStreamChange, Emitter<AppStateState> emit) async {
+  Future<void> _onLocalUserChange(_LocalUserStreamChange localUserStreamChange,
+      Emitter<AppStateState> emit) async {
     final localUser = localUserStreamChange.pulseProUser;
     if (localUser == null) return;
 
@@ -81,7 +99,8 @@ class AppStateBloc extends Bloc<AppStateEvent, AppStateState> with ChangeNotifie
     notifyListeners();
   }
 
-  Future<void> _onLocalUserLookUp(LocalUserLookUp localUserLookUp, Emitter<AppStateState> emit) async {
+  Future<void> _onLocalUserLookUp(
+      LocalUserLookUp localUserLookUp, Emitter<AppStateState> emit) async {
     User? authUser;
 
     if (state is AppStateNoAccount) {

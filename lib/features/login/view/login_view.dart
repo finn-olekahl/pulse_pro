@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:pulse_pro/features/login/cubit/login_cubit.dart';
 
 class LoginView extends StatefulWidget {
@@ -45,6 +44,21 @@ class _LoginViewState extends State<LoginView>
             parent: loginPopupAnimationController,
             curve: Curves.easeOutCubic,
             reverseCurve: Curves.easeInCubic));
+
+    print(context.read<LoginCubit>().state.birthDate);
+    print(context.read<LoginCubit>().state.gender);
+    print(context.read<LoginCubit>().state.height);
+    print(context.read<LoginCubit>().state.injuries);
+    print(context.read<LoginCubit>().state.maxTimesPerWeek);
+    print(context.read<LoginCubit>().state.muscleFocus);
+    print(context.read<LoginCubit>().state.name);
+    print(context.read<LoginCubit>().state.split);
+    print(context.read<LoginCubit>().state.sportOrientation);
+    print(context.read<LoginCubit>().state.timePerDay);
+    print(context.read<LoginCubit>().state.weight);
+    print(context.read<LoginCubit>().state.workoutExperience);
+    print(context.read<LoginCubit>().state.workoutGoal);
+    print(context.read<LoginCubit>().state.workoutIntensity);
   }
 
   InputDecoration inputFieldDecoration({required String hintText}) =>
@@ -462,7 +476,7 @@ class _LoginViewState extends State<LoginView>
                               borderRadius: BorderRadius.circular(30),
                             ),
                           ),
-                          onPressed: () => context.go('/login/onboarding'),
+                          onPressed: () => context.read<LoginCubit>().startOnboarding(context),
                           child: SizedBox(
                               width: MediaQuery.sizeOf(context).width,
                               child: const Center(child: Text('Get Started'))),
