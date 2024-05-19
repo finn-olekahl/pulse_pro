@@ -36,11 +36,7 @@ void main() async {
       lazy: false,
       create: (context) =>
           AppStateBloc(userRepository: context.read<UserRepository>()),
-      child: BlocProvider(
-        create: (context) => LoginCubit(
-            authenticationRepository: context.read<AuthenticationRepository>()),
-        child: const PulseProApp(),
-      ),
+      child: const PulseProApp(),
     ),
   ));
 }

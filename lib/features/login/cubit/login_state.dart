@@ -2,6 +2,7 @@ part of 'login_cubit.dart';
 
 final class LoginState extends Equatable {
   const LoginState._({
+    this.status = LoginStatus.preOnboarding,
     this.name = '',
     this.gender,
     this.birthDate,
@@ -20,6 +21,7 @@ final class LoginState extends Equatable {
 
   const LoginState.initial() : this._();
 
+  final LoginStatus status;
   final String name;
   final Gender? gender;
   final DateTime? birthDate;
@@ -37,6 +39,7 @@ final class LoginState extends Equatable {
 
   @override
   List<Object?> get props => [
+        status,
         name,
         gender,
         birthDate,
@@ -55,6 +58,7 @@ final class LoginState extends Equatable {
 
   LoginState copyWith({
     String? name,
+    LoginStatus? status,
     Gender? gender,
     DateTime? birthDate,
     double? weight,
@@ -70,6 +74,7 @@ final class LoginState extends Equatable {
     List<List<String>>? split,
   }) {
     return LoginState._(
+      status: status ?? this.status,
       name: name ?? this.name,
       gender: gender ?? this.gender,
       birthDate: birthDate ?? this.birthDate,
@@ -87,3 +92,5 @@ final class LoginState extends Equatable {
     );
   }
 }
+
+enum LoginStatus { preOnboarding, onboarding, postOnboarding }

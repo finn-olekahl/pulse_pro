@@ -100,7 +100,7 @@ class OnboardingViewState extends State<OnboardingView> {
   }
 
   void goForth() {
-    if (currentPage == 12) {
+    if (currentPage == pages().length - 1) {
       context.read<LoginCubit>().finishOnboarding(
             context,
             name: nameController.text,
@@ -1306,6 +1306,8 @@ class OnboardingViewState extends State<OnboardingView> {
   @override
   void initState() {
     super.initState();
+
+    
   }
 
   @override
@@ -1418,12 +1420,14 @@ class OnboardingViewState extends State<OnboardingView> {
                           duration: const Duration(milliseconds: 300),
                           curve: Curves.easeInOutQuad,
                           height: 50,
-                          color: currentPage == 13
+                          color: currentPage == pages().length - 1
                               ? Colors.deepPurple
                               : Colors.transparent,
                           child: Center(
                               child: Text(
-                            currentPage == 13 ? 'Finish' : 'Continue',
+                            currentPage == pages().length - 1
+                                ? 'Finish'
+                                : 'Continue',
                             style: const TextStyle(
                               fontSize: 16,
                             ),

@@ -11,10 +11,6 @@ final class AppStateInitial extends AppStateState {}
 
 final class AppStateLoginInitial extends AppStateState {}
 
-final class AppStateOnboarding extends AppStateState {}
-
-final class AppStateContinueLogin extends AppStateState {}
-
 final class AppStateLoading extends AppStateState {
   const AppStateLoading(this.authUser);
 

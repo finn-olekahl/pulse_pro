@@ -4,9 +4,9 @@ import 'dart:ui';
 import 'package:curved_gradient/curved_gradient.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pulse_pro/bloc/app_state_bloc.dart';
 import 'package:pulse_pro/features/login/cubit/login_cubit.dart';
 
 class LoginView extends StatefulWidget {
@@ -90,7 +90,8 @@ class _LoginViewState extends State<LoginView>
 
   @override
   Widget build(BuildContext context) {
-    if (context.read<AppStateBloc>().state is AppStateContinueLogin &&
+    if (context.watch<LoginCubit>().state.status ==
+            LoginStatus.postOnboarding &&
         !isLoginPopupOpen) {
       toggleLoginPopup();
     }
@@ -224,7 +225,8 @@ class _LoginViewState extends State<LoginView>
               ),
             ),
           ),
-          if (context.read<AppStateBloc>().state is AppStateLoginInitial)
+          if (context.read<LoginCubit>().state.status ==
+              LoginStatus.preOnboarding)
             Center(
               child: Padding(
                 padding: EdgeInsets.only(
@@ -472,9 +474,11 @@ class _LoginViewState extends State<LoginView>
                                 borderRadius: BorderRadius.circular(30),
                               ),
                             ),
-                            onPressed: () => context
-                                .read<LoginCubit>()
-                                .startOnboarding(context),
+                            onPressed: () {
+                              context
+                                  .read<LoginCubit>()
+                                  .startOnboarding(context);
+                            },
                             child: SizedBox(
                                 width: MediaQuery.sizeOf(context).width,
                                 child:
@@ -531,8 +535,8 @@ class _LoginViewState extends State<LoginView>
                   child: Stack(
                     children: [
                       GestureDetector(
-                        onTap: context.read<AppStateBloc>().state
-                                is AppStateLoginInitial
+                        onTap: context.read<LoginCubit>().state.status ==
+                                LoginStatus.preOnboarding
                             ? () {
                                 toggleLoginPopup();
                                 FocusScope.of(context).unfocus();
@@ -560,8 +564,11 @@ class _LoginViewState extends State<LoginView>
                                       child: Column(
                                         children: [
                                           Text(
-                                            context.read<AppStateBloc>().state
-                                                    is AppStateLoginInitial
+                                            context
+                                                        .read<LoginCubit>()
+                                                        .state
+                                                        .status ==
+                                                    LoginStatus.preOnboarding
                                                 ? "Login"
                                                 : "Signup",
                                             style: TextStyle(
@@ -601,8 +608,11 @@ class _LoginViewState extends State<LoginView>
                                             ),
                                           ),
                                           const SizedBox(height: 15),
-                                          if (context.read<AppStateBloc>().state
-                                              is AppStateContinueLogin)
+                                          if (context
+                                                  .read<LoginCubit>()
+                                                  .state
+                                                  .status ==
+                                              LoginStatus.postOnboarding)
                                             SizedBox(
                                               height: 40,
                                               child: TextField(
@@ -620,8 +630,11 @@ class _LoginViewState extends State<LoginView>
                                                             "Repeat Password"),
                                               ),
                                             ),
-                                          if (context.read<AppStateBloc>().state
-                                              is AppStateContinueLogin)
+                                          if (context
+                                                  .read<LoginCubit>()
+                                                  .state
+                                                  .status ==
+                                              LoginStatus.postOnboarding)
                                             const SizedBox(height: 15),
                                           ButtonTheme(
                                             child: OutlinedButton(
@@ -644,9 +657,10 @@ class _LoginViewState extends State<LoginView>
                                                 ),
                                               ),
                                               onPressed: context
-                                                          .read<AppStateBloc>()
+                                                          .read<LoginCubit>()
                                                           .state
-                                                      is AppStateLoginInitial
+                                                          .status ==
+                                                      LoginStatus.preOnboarding
                                                   ? () {
                                                       context
                                                           .read<LoginCubit>()
@@ -670,9 +684,10 @@ class _LoginViewState extends State<LoginView>
                                                                       .text);
                                                     },
                                               child: Text(context
-                                                          .read<AppStateBloc>()
+                                                          .read<LoginCubit>()
                                                           .state
-                                                      is AppStateLoginInitial
+                                                          .status ==
+                                                      LoginStatus.preOnboarding
                                                   ? "Login"
                                                   : "Signup"),
                                             ),
@@ -683,9 +698,16 @@ class _LoginViewState extends State<LoginView>
                                             Padding(
                                               padding: EdgeInsets.symmetric(
                                                   horizontal: 5),
-                                              child: Text("OR"),
+                                              child: Text(
+                                                "OR",
+                                                style: TextStyle(
+                                                    color: Colors.grey),
+                                              ),
                                             ),
-                                            Expanded(child: Divider()),
+                                            Expanded(
+                                                child: Divider(
+                                              color: Colors.grey,
+                                            )),
                                           ]),
                                           const SizedBox(height: 15),
                                           Row(
@@ -742,9 +764,12 @@ class _LoginViewState extends State<LoginView>
                                                     ),
                                                   ),
                                                   onPressed: context
-                                                              .read<AppStateBloc>()
+                                                              .read<
+                                                                  LoginCubit>()
                                                               .state
-                                                          is AppStateContinueLogin
+                                                              .status ==
+                                                          LoginStatus
+                                                              .postOnboarding
                                                       ? () {
                                                           setState(() {
                                                             context
@@ -764,9 +789,12 @@ class _LoginViewState extends State<LoginView>
                                                           });
                                                         },
                                                   child: Text(context
-                                                              .read<AppStateBloc>()
+                                                              .read<
+                                                                  LoginCubit>()
                                                               .state
-                                                          is AppStateContinueLogin
+                                                              .status ==
+                                                          LoginStatus
+                                                              .postOnboarding
                                                       ? "Login instead"
                                                       : "Signup instead"),
                                                 ),

@@ -1,9 +1,9 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pulse_pro/bloc/app_state_bloc.dart';
 import 'package:pulse_pro/repositories/authencitation_repository.dart';
 import 'package:pulse_pro/shared/models/muscle_group.dart';
@@ -50,15 +50,19 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   void startOnboarding(BuildContext context) {
-    context.read<AppStateBloc>().add(const StartOnboarding());
+    emit(state.copyWith(status: LoginStatus.onboarding));
+
+    context.go('/login/onboarding', extra: this);
   }
 
   void cancelOnboarding(BuildContext context) {
-    context.read<AppStateBloc>().add(const CancelOnboarding());
+    emit(state.copyWith(status: LoginStatus.preOnboarding));
+
+    context.go('/login', extra: this);
   }
 
   void continueOnboarding(BuildContext context) {
-    context.read<AppStateBloc>().add(const FinishOnboarding());
+    emit(state.copyWith(status: LoginStatus.postOnboarding));
   }
 
   void finishOnboarding(
@@ -78,6 +82,7 @@ class LoginCubit extends Cubit<LoginState> {
     required SportOrientation sportOrientation,
   }) {
     emit(state.copyWith(
+      status: LoginStatus.postOnboarding,
       name: name,
       gender: gender,
       birthDate: birthDate,
@@ -93,6 +98,6 @@ class LoginCubit extends Cubit<LoginState> {
       sportOrientation: sportOrientation,
     ));
 
-    context.read<AppStateBloc>().add(const FinishOnboarding());
+    context.go('/login', extra: this);
   }
 }

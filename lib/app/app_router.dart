@@ -48,14 +48,12 @@ class AppRouter {
         final matchedLocation = state.matchedLocation;
 
         final bool isOnSplashScreen = matchedLocation == '/splash';
-        final bool isOnLoginPage = matchedLocation == '/login' ||
-            matchedLocation == '/login/onboarding';
+        final bool isOnLoginPage = matchedLocation == '/login';
+        final bool isOnboardingPage = matchedLocation == '/login/onboarding';
 
         if (appState is AppStateInitial || appState is AppStateLoading)
           return '/splash';
-        if (appState is AppStateLoginInitial ||
-            appState is AppStateContinueLogin) return '/login';
-        if (appState is AppStateOnboarding) return '/login/onboarding';
+        if (appState is AppStateLoginInitial && !isOnboardingPage) return '/login';
 
         if (isOnSplashScreen || isOnLoginPage) return '/';
 
