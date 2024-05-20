@@ -11,10 +11,11 @@ import 'package:pulse_pro/shared/models/muscle_group.dart';
 import 'package:pulse_pro/shared/models/pulsepro_user.dart';
 import 'package:pulse_pro/shared/models/workout_plan.dart';
 
+
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit({required this.authenticationRepository})
+  LoginCubit(MockAuthenticationRepository mockAuthenticationRepository, {required this.authenticationRepository})
       : super(const LoginState.initial());
 
   final AuthenticationRepository authenticationRepository;
@@ -130,4 +131,7 @@ class LoginCubit extends Cubit<LoginState> {
 
     context.go('/login', extra: this);
   }
+}
+
+class MockAuthenticationRepository {
 }
