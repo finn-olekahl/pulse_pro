@@ -35,7 +35,6 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
     final workoutPlans = pulseProUser.workoutPlans;
     final currentWorkoutPlan = workoutPlans[pulseProUser.currentWorkoutPlan];
     final history = pulseProUser.history;
-    final plan = pulseProUser.plan;
 
     final Map<String, Exercise> exercises = {};
 
@@ -50,13 +49,80 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
       }
     }
 
-    emit(TrainingsPlanState.loaded(userId, currentWorkoutPlan, workoutPlans, history, plan, exercises));
+    if (state.status == TrainingsPlanStatus.loading) {
+      final now = DateTime.now();
+      final cleanNowDate = DateTime(now.year, now.month, now.day);
+      final currentSplitDay = _calculateCurrentSplitDay(history, currentWorkoutPlan);
+      final plan = _calculatePlan(currentSplitDay, cleanNowDate, currentWorkoutPlan);
+
+      return emit(TrainingsPlanState.loaded(
+        userId,
+        currentWorkoutPlan,
+        workoutPlans,
+        history,
+        plan,
+        exercises,
+        cleanNowDate,
+        currentSplitDay,
+      ));
+    }
+
+    emit(state.datebaseUpdate(currentWorkoutPlan, workoutPlans, history, exercises));
   }
 
   Future<Exercise> _loadExercise(String exerciseId) async {
     final exercise = await exerciseRepository.getExercise(exerciseId);
     if (exercise == null) throw Exception('Exercise not found');
     return exercise;
+  }
+
+  int _calculateCurrentSplitDay(List<HistoryDayEntry> history, WorkoutPlan workoutPlan) {
+    if (history.isEmpty) return 0;
+    final lastDay = history.last;
+
+    final int lastSplitDay = lastDay.splitDayNumber;
+    int currentSplitDay = lastSplitDay + 1;
+    if (currentSplitDay >= workoutPlan.days.length) {
+      currentSplitDay = 0;
+    }
+
+    final now = DateTime.now();
+
+    final cleanLastDate = DateTime(lastDay.date.year, lastDay.date.month, lastDay.date.day);
+    final cleanNowDate = DateTime(now.year, now.month, now.day);
+    int difference = 0;
+
+    while ((cleanNowDate.difference(cleanLastDate).inDays) > difference &&
+        workoutPlan.days[currentSplitDay]?.restDay == true) {
+      currentSplitDay++;
+      difference++;
+    }
+    return currentSplitDay;
+  }
+
+  List<PlanDayEntry> _calculatePlan(int currentSplitDay, DateTime now, WorkoutPlan workoutPlan) {
+    final List<PlanDayEntry> plan = [];
+
+    int nextSplitDay = currentSplitDay + 1;
+    for (int i = 0; i < 14; i++) {
+      if (nextSplitDay >= workoutPlan.days.length) {
+        nextSplitDay = 0;
+      }
+
+      plan.add(PlanDayEntry(
+        workoutPlanId: workoutPlan.id,
+        date: now.add(Duration(days: i + 1)),
+        splitDayNumber: nextSplitDay,
+      ));
+
+      nextSplitDay++;
+    }
+    return plan;
+  }
+
+  Future<void> updateCurrentDay(DateTime day) async {
+    final cleanDate = DateTime(day.year, day.month, day.day);
+    return emit(state.updateCurrentDay(cleanDate));
   }
 
   Future<void> updateExerciseWeight(UserExercise exercise, int splitDayKey, int rep, int weight) async {
