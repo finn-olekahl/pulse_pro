@@ -6,8 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pulse_pro/bloc/app_state_bloc.dart';
-import 'package:pulse_pro/shared/models/muscle_group.dart';
-import 'package:pulse_pro/shared/models/pulsepro_user.dart';
 import 'package:pulse_pro/shared/models/workout_plan.dart';
 import 'package:uuid/uuid.dart';
 
@@ -24,14 +22,19 @@ class UserRepository {
       required double weight,
       required int height,
       required String gender}) async {
+    print("test1");
     try {
-      if (context.read<AppStateBloc>().state is AppStateLoggedIn) {
+      if (context.read<AppStateBloc>().state is! AppStateLoggedIn) {
         return;
       }
+
+      print("test2");
 
       HttpsCallable callable =
           FirebaseFunctions.instanceFor(region: 'europe-west1')
               .httpsCallable('createUserObject');
+
+      print("test3");
 
       // Prepare the data
       final Map<String, dynamic> data = {
@@ -43,8 +46,11 @@ class UserRepository {
         'gender': gender,
       };
 
+      print("test4");
+
       final HttpsCallableResult result = await callable.call(data);
 
+      print("test5");
       print(result.data['message']);
     } on FirebaseFunctionsException catch (e) {
       print('Error: ${e.code} - ${e.message}');
@@ -54,15 +60,15 @@ class UserRepository {
   }
 
   Future<List<List<String>>> generateSplit(context,
-      {required Gender gender,
-      required WorkoutGoal workoutGoal,
-      required WorkoutIntensity workoutIntensity,
+      {required String gender,
+      required String workoutGoal,
+      required String workoutIntensity,
       required int maxTimesPerWeek,
       required int timePerDay,
-      required List<Injury> injuries,
-      required List<MuscleGroup> muscleFocus,
-      required SportOrientation sportOrientation,
-      required WorkoutExperience workoutExperience}) async {
+      required List<String> injuries,
+      required List<String> muscleFocus,
+      required String sportOrientation,
+      required String workoutExperience}) async {
     List<List<String>> split = [];
 
     try {
@@ -72,23 +78,15 @@ class UserRepository {
 
       // Prepare the data
       final Map<String, dynamic> data = {
-        'gender': gender.name,
-        'workout_goal': workoutGoal.name,
-        'workout_intensity': workoutIntensity.name,
+        'gender': gender,
+        'workout_goal': workoutGoal,
+        'workout_intensity': workoutIntensity,
         'max_times_per_week': maxTimesPerWeek,
         'time_per_day': timePerDay * 60 * 1000,
-        'injuries': injuries.map(
-          (e) {
-            return e.name;
-          },
-        ),
-        'muscle_focus': muscleFocus.map(
-          (e) {
-            return e.name;
-          },
-        ),
-        'sportOrientation': sportOrientation.name,
-        'workout_experience': workoutExperience.name,
+        'injuries': injuries,
+        'muscle_focus': muscleFocus,
+        'sportOrientation': sportOrientation,
+        'workout_experience': workoutExperience,
       };
 
       final HttpsCallableResult result = await callable.call(data);
@@ -107,14 +105,14 @@ class UserRepository {
 
   Future<WorkoutPlan> generateWorkoutPlan(context,
       {required List<List<String>> split,
-      required WorkoutGoal workoutGoal,
-      required Gender gender,
-      required WorkoutIntensity workoutIntensity,
+      required String workoutGoal,
+      required String gender,
+      required String workoutIntensity,
       required int timePerDay,
-      required List<Injury> injuries,
-      required List<MuscleGroup> muscleFocus,
-      required SportOrientation sportOrientation,
-      required WorkoutExperience workoutExperience}) async {
+      required List<String> injuries,
+      required List<String> muscleFocus,
+      required String sportOrientation,
+      required String workoutExperience}) async {
     Map<String, dynamic> json = {};
 
     try {
@@ -125,22 +123,14 @@ class UserRepository {
       // Prepare the data
       final Map<String, dynamic> data = {
         'split': split,
-        'gender': gender.name,
-        'workout_goal': workoutGoal.name,
-        'workout_intensity': workoutIntensity.name,
+        'gender': gender,
+        'workout_goal': workoutGoal,
+        'workout_intensity': workoutIntensity,
         'time_per_day': timePerDay * 60 * 1000,
-        'injuries': injuries.map(
-          (e) {
-            return e.name;
-          },
-        ),
-        'muscle_focus': muscleFocus.map(
-          (e) {
-            return e.name;
-          },
-        ),
-        'sportOrientation': sportOrientation.name,
-        'workout_experience': workoutExperience.name,
+        'injuries': injuries,
+        'muscle_focus': muscleFocus,
+        'sportOrientation': sportOrientation,
+        'workout_experience': workoutExperience,
       };
 
       final HttpsCallableResult result = await callable.call(data);
