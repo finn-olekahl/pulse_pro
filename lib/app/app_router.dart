@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pulse_pro/bloc/app_state_bloc.dart';
 import 'package:pulse_pro/features/home/home_page.dart';
+import 'package:pulse_pro/features/login/create_account_loading_page.dart';
 import 'package:pulse_pro/features/login/login_page.dart';
 import 'package:pulse_pro/features/profile/profile_page.dart';
 import 'package:pulse_pro/features/splash/view/splash_screen.dart';
@@ -33,6 +34,9 @@ class AppRouter {
                 path: 'onboarding',
                 builder: (context, state) => const OnboardingPage(),
               ),
+              GoRoute(
+                  path: 'createAccountLoading',
+                  builder: (context, state) => const CreateAccountLoadingPage())
             ]),
         GoRoute(
           path: '/splash',
@@ -53,7 +57,8 @@ class AppRouter {
 
         if (appState is AppStateInitial || appState is AppStateLoading)
           return '/splash';
-        if (appState is AppStateLoginInitial && !isOnboardingPage) return '/login';
+        if (appState is AppStateLoginInitial && !isOnboardingPage)
+          return '/login';
 
         if (isOnSplashScreen || isOnLoginPage) return '/';
 

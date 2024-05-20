@@ -108,7 +108,7 @@ enum WorkoutIntensity { low, moderate, high, extreme }
 
 enum WorkoutExperience { beginner, intermediate, expert }
 
-enum Injuries {
+enum Injury {
   head,
   neck,
   shoulder,

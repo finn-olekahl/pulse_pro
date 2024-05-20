@@ -32,7 +32,7 @@ final class LoginState extends Equatable {
   final WorkoutExperience? workoutExperience;
   final int? maxTimesPerWeek;
   final int timePerDay;
-  final List<Injuries> injuries;
+  final List<Injury> injuries;
   final List<MuscleGroup> muscleFocus;
   final SportOrientation? sportOrientation;
   final List<List<String>>? split;
@@ -68,7 +68,7 @@ final class LoginState extends Equatable {
     WorkoutExperience? workoutExperience,
     int? maxTimesPerWeek,
     int? timePerDay,
-    List<Injuries>? injuries,
+    List<Injury>? injuries,
     List<MuscleGroup>? muscleFocus,
     SportOrientation? sportOrientation,
     List<List<String>>? split,

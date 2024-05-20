@@ -77,7 +77,7 @@ class LoginCubit extends Cubit<LoginState> {
     required WorkoutExperience workoutExperience,
     required int maxTimesPerWeek,
     required int timePerDay,
-    required List<Injuries> injuries,
+    required List<Injury> injuries,
     required List<MuscleGroup> muscleFocus,
     required SportOrientation sportOrientation,
   }) {

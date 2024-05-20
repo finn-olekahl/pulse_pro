@@ -2,11 +2,14 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:curved_gradient/curved_gradient.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pulse_pro/bloc/app_state_bloc.dart';
 import 'package:pulse_pro/features/login/cubit/login_cubit.dart';
 
 class LoginView extends StatefulWidget {
@@ -34,6 +37,7 @@ class _LoginViewState extends State<LoginView>
   @override
   void initState() {
     super.initState();
+
     loginPopupAnimationController = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,

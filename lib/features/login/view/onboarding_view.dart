@@ -28,7 +28,7 @@ class OnboardingViewState extends State<OnboardingView> {
   WorkoutExperience? workoutExperience;
   int? maxTimesPerWeek;
   int timePerDay = 60;
-  List<Injuries> injuries = [];
+  List<Injury> injuries = [];
   List<MuscleGroup> muscleFocus = [];
   SportOrientation sportOrientation = SportOrientation.none;
 
@@ -1039,15 +1039,15 @@ class OnboardingViewState extends State<OnboardingView> {
                   physics: const ClampingScrollPhysics(),
                   child: Column(
                       children: List.generate(
-                    Injuries.values.length,
+                    Injury.values.length,
                     (index) {
-                      final _injury = Injuries.values[index];
+                      final _injury = Injury.values[index];
                       final name = enumToText(_injury.name);
 
                       return Padding(
                         padding: EdgeInsets.only(
                             bottom:
-                                _injury != Injuries.values.lastOrNull ? 15 : 0),
+                                _injury != Injury.values.lastOrNull ? 15 : 0),
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             backgroundColor: injuries.contains(_injury)
@@ -1306,8 +1306,6 @@ class OnboardingViewState extends State<OnboardingView> {
   @override
   void initState() {
     super.initState();
-
-    
   }
 
   @override
