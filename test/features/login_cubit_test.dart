@@ -5,17 +5,17 @@ import 'package:pulse_pro/repositories/authencitation_repository.dart';
 import 'package:pulse_pro/features/login/cubit/login_cubit.dart';
 
 @GenerateNiceMocks([MockSpec<AuthenticationRepository>()])
-import 'login_cubit_test.mocks.dart';
+import 'login_cubit_test.mocks.dart' as mocks;
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('LoginCubit', () {
     late LoginCubit loginCubit;
-    late MockAuthenticationRepository mockAuthenticationRepository;
+    late mocks.MockAuthenticationRepository mockAuthenticationRepository;
 
     setUp(() {
-      mockAuthenticationRepository = MockAuthenticationRepository();
+      mockAuthenticationRepository = mocks.MockAuthenticationRepository();
       loginCubit = LoginCubit(authenticationRepository: mockAuthenticationRepository);
     });
 

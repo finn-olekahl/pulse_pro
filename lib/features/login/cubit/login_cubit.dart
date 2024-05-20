@@ -4,10 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:pulse_pro/repositories/authencitation_repository.dart';
 
+
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit({required this.authenticationRepository})
+  LoginCubit(MockAuthenticationRepository mockAuthenticationRepository, {required this.authenticationRepository})
       : super(const LoginState.initial());
 
   final AuthenticationRepository authenticationRepository;
@@ -35,4 +36,7 @@ class LoginCubit extends Cubit<LoginState> {
     return await authenticationRepository.signUpWithEmailAndPassword(
         email, password);
   }
+}
+
+class MockAuthenticationRepository {
 }
