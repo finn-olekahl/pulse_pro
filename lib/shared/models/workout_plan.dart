@@ -44,7 +44,7 @@ class WorkoutPlan {
     Map<int, SplitDay> days = {};
     if (json['split'] != null) {
       json['split'].forEach((key, value) {
-        days[int.parse(key)] = SplitDay.fromJson(value);
+        days[int.parse(key)] = SplitDay.fromJson(int.parse(key), value);
       });
     }
 

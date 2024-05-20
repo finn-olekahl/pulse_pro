@@ -27,7 +27,7 @@ class HistoryDayEntry extends DayEntry {
       workoutPlanId: json['workout_plan_id'],
       splitDayNumber: json['split_day_number'],
       date: DateTime.fromMillisecondsSinceEpoch(int.parse(json['date'])),
-      completedSplitDay: SplitDay.fromJson(json['split_day']),
+      completedSplitDay: SplitDay.fromJson(json['split_day_number'], json['split_day']),
     );
   }
 
