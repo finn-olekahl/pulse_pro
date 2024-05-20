@@ -5,22 +5,18 @@ class WorkoutPlan {
   final String id;
   final WorkoutGoal goal;
   final WorkoutIntensity intensity;
-  final WorkoutExperience experience;
   final int timePerDay;
   final List<String>? injuries;
   final List<MuscleGroup>? focus;
-  final SportOrientation? sportOrientation;
   final Map<int, SplitDay> days;
 
   WorkoutPlan({
     required this.id,
     required this.goal,
     required this.intensity,
-    required this.experience,
     required this.timePerDay,
     this.injuries,
     this.focus,
-    this.sportOrientation,
     required this.days,
   });
 
@@ -28,22 +24,18 @@ class WorkoutPlan {
     String? id,
     WorkoutGoal? goal,
     WorkoutIntensity? intensity,
-    WorkoutExperience? experience,
     int? timePerDay,
     List<String>? injuries,
     List<MuscleGroup>? focus,
-    SportOrientation? sportOrientation,
     Map<int, SplitDay>? days,
   }) {
     return WorkoutPlan(
       id: id ?? this.id,
       goal: goal ?? this.goal,
       intensity: intensity ?? this.intensity,
-      experience: experience ?? this.experience,
       timePerDay: timePerDay ?? this.timePerDay,
       injuries: injuries ?? this.injuries,
       focus: focus ?? this.focus,
-      sportOrientation: sportOrientation ?? this.sportOrientation,
       days: days ?? this.days,
     );
   }
@@ -58,22 +50,15 @@ class WorkoutPlan {
 
     return WorkoutPlan(
       id: id,
-      goal: WorkoutGoal.values.firstWhere(
-          (e) => e.toString() == 'Goal.${json['params']['workout_goal']}'),
-      intensity: WorkoutIntensity.values.firstWhere((e) =>
-          e.toString() == 'Intensity.${json['params']['workout_intensity']}'),
-      experience: WorkoutExperience.values.firstWhere((e) =>
-          e.toString() == 'Experience.${json['params']['workout_experience']}'),
+      goal: WorkoutGoal.values.firstWhere((e) => e.toString() == 'WorkoutGoal.${json['params']['workout_goal']}'),
+      intensity: WorkoutIntensity.values
+          .firstWhere((e) => e.toString() == 'WorkoutIntensity.${json['params']['workout_intensity']}'),
       timePerDay: json['params']['time_per_day'],
       injuries: json['params']['injuries']?.cast<String>(),
       focus: json['params']['muscle_focus']
-          ?.map((e) => MuscleGroup.values
-              .firstWhere((element) => element.toString().split('.')[1] == e))
+          ?.map((e) => MuscleGroup.values.firstWhere((element) => element.toString().split('.')[1] == e))
           .toList()
           .cast<MuscleGroup>(),
-      sportOrientation: SportOrientation.values.firstWhere((e) =>
-          e.toString() ==
-          'SportOrientation.${json['params']['sport_orientation']}'),
       days: days,
     );
   }
@@ -84,15 +69,11 @@ class WorkoutPlan {
       'params': {
         'workout_goal': goal.toString().split('.').last,
         'workout_intensity': intensity.toString().split('.').last,
-        'workout_experience': experience.toString().split('.').last,
         'time_per_day': timePerDay,
         'injuries': injuries,
-        'muscle_focus':
-            focus?.map((e) => e.toString().split('.').last).toList(),
-        'sport_orientation': sportOrientation.toString().split('.').last
+        'muscle_focus': focus?.map((e) => e.toString().split('.').last).toList(),
       },
-      'split':
-          days.map((key, value) => MapEntry(key.toString(), value.toJson())),
+      'split': days.map((key, value) => MapEntry(key.toString(), value.toJson())),
     };
   }
 }
@@ -130,49 +111,3 @@ enum Injury {
   toes,
 }
 
-enum SportOrientation {
-  none,
-  archery,
-  badminton,
-  baseball,
-  basketball,
-  boxing,
-  climbing,
-  cricket,
-  crossfit,
-  cycling,
-  fencing,
-  fieldHockey,
-  football,
-  golf,
-  gymnastics,
-  handball,
-  hiking,
-  hockey,
-  iceHockey,
-  judo,
-  karate,
-  kickboxing,
-  lacrosse,
-  martialArts,
-  mountainBiking,
-  netball,
-  parkour,
-  rowing,
-  rugby,
-  running,
-  sailing,
-  skiing,
-  snowboarding,
-  squash,
-  surfing,
-  swimming,
-  tableTennis,
-  taekwondo,
-  tennis,
-  triathlon,
-  volleyball,
-  waterPolo,
-  weightlifting,
-  wrestling
-}

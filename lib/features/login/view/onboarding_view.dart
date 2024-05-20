@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pulse_pro/features/login/cubit/login_cubit.dart';
+import 'package:pulse_pro/repositories/user_repository.dart';
 import 'package:pulse_pro/shared/helpers/animated_number_picker.dart';
 import 'package:pulse_pro/shared/helpers/enum_to_text.dart';
 import 'package:pulse_pro/shared/models/muscle_group.dart';
