@@ -1,7 +1,9 @@
 import 'package:animated_weight_picker/animated_weight_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pulse_pro/features/login/cubit/login_cubit.dart';
 import 'package:pulse_pro/repositories/user_repository.dart';
 import 'package:pulse_pro/shared/helpers/animated_number_picker.dart';
@@ -10,9 +12,11 @@ import 'package:pulse_pro/shared/models/muscle_group.dart';
 import 'package:pulse_pro/shared/models/pulsepro_user.dart';
 import 'package:pulse_pro/shared/models/workout_plan.dart';
 import 'package:scroll_wheel_date_picker/scroll_wheel_date_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingView extends StatefulWidget {
-  const OnboardingView({super.key});
+  const OnboardingView({super.key, this.continueSignup});
+  final bool? continueSignup;
 
   @override
   OnboardingViewState createState() => OnboardingViewState();
@@ -100,9 +104,41 @@ class OnboardingViewState extends State<OnboardingView> {
     });
   }
 
-  void goForth() {
+  void goForth() async {
     if (currentPage == pages().length - 1) {
-      context.read<LoginCubit>().finishOnboarding(
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      await prefs.setString('name', nameController.text);
+      await prefs.setString('gender', gender!.name);
+      await prefs.setInt('birthDate', birthDate!.millisecondsSinceEpoch);
+      await prefs.setDouble('weight', weight!);
+      await prefs.setInt('height', height!);
+      await prefs.setString('workoutGoal', workoutGoal!.name);
+      await prefs.setString('workoutIntensity', workoutIntensity!.name);
+      await prefs.setString('workoutExperience', workoutExperience!.name);
+      await prefs.setInt('maxTimesPerWeek', maxTimesPerWeek!);
+      await prefs.setInt('timePerDay', timePerDay);
+      await prefs.setStringList(
+          'injuries',
+          injuries.map(
+            (e) {
+              return e.name;
+            },
+          ).toList());
+      await prefs.setStringList(
+          'muscleFocus',
+          muscleFocus.map(
+            (e) {
+              return e.name;
+            },
+          ).toList());
+      await prefs.setString('sportOrientation', sportOrientation.name);
+
+      if (widget.continueSignup == false) {
+        return context.go('/login/createAccountLoading');
+      }
+
+      return context.read<LoginCubit>().finishOnboarding(
             context,
             name: nameController.text,
             gender: gender!,
@@ -1321,8 +1357,14 @@ class OnboardingViewState extends State<OnboardingView> {
               child: Row(
                 children: [
                   IconButton(
-                      onPressed: () =>
-                          context.read<LoginCubit>().cancelOnboarding(context),
+                      onPressed: () {
+                        if (widget.continueSignup == false) {
+                          return context
+                              .read<LoginCubit>()
+                              .cancelOnboardingSignOut(context);
+                        }
+                        context.read<LoginCubit>().cancelOnboarding(context);
+                      },
                       color: Colors.grey.shade500,
                       icon: const FaIcon(FontAwesomeIcons.anglesLeft)),
                   const SizedBox(

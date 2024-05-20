@@ -11,6 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pulse_pro/bloc/app_state_bloc.dart';
 import 'package:pulse_pro/features/login/cubit/login_cubit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -665,8 +666,8 @@ class _LoginViewState extends State<LoginView>
                                                           .state
                                                           .status ==
                                                       LoginStatus.preOnboarding
-                                                  ? () {
-                                                      context
+                                                  ? () async {
+                                                      await context
                                                           .read<LoginCubit>()
                                                           .signInWithEmailAndPassword(
                                                               email:
@@ -675,6 +676,18 @@ class _LoginViewState extends State<LoginView>
                                                               password:
                                                                   passwordController
                                                                       .text);
+                                                      final SharedPreferences
+                                                          prefs =
+                                                          await SharedPreferences
+                                                              .getInstance();
+                                                      final isAccountCreationDataSaved =
+                                                          prefs.getString(
+                                                                  'name') !=
+                                                              null;
+                                                      if (isAccountCreationDataSaved) {
+                                                        context.push(
+                                                            "/login/createAccountLoading");
+                                                      }
                                                     }
                                                   : () {
                                                       context

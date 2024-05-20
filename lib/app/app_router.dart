@@ -8,6 +8,7 @@ import 'package:pulse_pro/features/login/login_page.dart';
 import 'package:pulse_pro/features/profile/profile_page.dart';
 import 'package:pulse_pro/features/splash/view/splash_screen.dart';
 import 'package:pulse_pro/features/login/onboarding_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppRouter {
   final BuildContext appContext;
@@ -47,7 +48,10 @@ class AppRouter {
           builder: (context, state) => const ProfilePage(),
         )
       ],
-      redirect: (context, state) {
+      redirect: (context, state) async {
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        final isAccountCreationDataSaved = prefs.getString('name') != null;
+
         final appState = _appStateBloc.state;
         final matchedLocation = state.matchedLocation;
 
@@ -59,6 +63,11 @@ class AppRouter {
           return '/splash';
         if (appState is AppStateLoginInitial && !isOnboardingPage)
           return '/login';
+
+        if (appState is AppStateNoAccount && isAccountCreationDataSaved)
+          return '/login/createAccountLoading';
+        if (appState is AppStateNoAccount && !isAccountCreationDataSaved)
+          return '/login/onboarding';
 
         if (isOnSplashScreen || isOnLoginPage) return '/';
 
