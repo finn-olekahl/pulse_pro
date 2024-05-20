@@ -9,7 +9,7 @@ sealed class AppStateState extends Equatable {
 
 final class AppStateInitial extends AppStateState {}
 
-final class AppStateNoAuth extends AppStateState {}
+final class AppStateLoginInitial extends AppStateState {}
 
 final class AppStateLoading extends AppStateState {
   const AppStateLoading(this.authUser);
@@ -19,7 +19,6 @@ final class AppStateLoading extends AppStateState {
   @override
   List<Object> get props => [authUser];
 }
-
 
 final class AppStateNoAccount extends AppStateState {
   const AppStateNoAccount(this.authUser);

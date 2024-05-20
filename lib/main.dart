@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pulse_pro/app/app_router.dart';
-import 'package:pulse_pro/app/color_palette.dart';
+import 'package:pulse_pro/app/app_theme.dart';
 import 'package:pulse_pro/bloc/app_state_bloc.dart';
 import 'package:pulse_pro/repositories/authencitation_repository.dart';
 import 'package:pulse_pro/repositories/exercise_repository.dart';
@@ -15,11 +14,11 @@ import 'package:pulse_pro/repositories/user_repository.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
   await Firebase.initializeApp();
+  //FirebaseAuth.instance.signOut();
 
   runApp(MultiRepositoryProvider(
     providers: [
@@ -33,16 +32,14 @@ void main() async {
     ],
     child: BlocProvider(
       lazy: false,
-      create: (context) =>
-          AppStateBloc(userRepository: context.read<UserRepository>()),
+      create: (context) => AppStateBloc(userRepository: context.read<UserRepository>()),
       child: const PulseProApp(),
     ),
   ));
 }
 
 class PulseProApp extends StatelessWidget {
-  static final storageUrl =
-      'gs://${FirebaseStorage.instance.app.options.storageBucket}';
+  static final storageUrl = 'gs://${FirebaseStorage.instance.app.options.storageBucket}';
 
   const PulseProApp({super.key});
 
@@ -52,29 +49,11 @@ class PulseProApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'PulsePro',
       themeMode: ThemeMode.system,
-      theme: ThemeData(
-          useMaterial3: true,
-          colorSchemeSeed: sapphire,
-          brightness: Brightness.light),
+      theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.black, brightness: Brightness.light),
       darkTheme: ThemeData(
-          textTheme: const TextTheme(
-            displayLarge: TextStyle(),
-            displayMedium: TextStyle(),
-            displaySmall: TextStyle(),
-            headlineLarge: TextStyle(),
-            headlineMedium: TextStyle(),
-            headlineSmall: TextStyle(),
-            titleLarge: TextStyle(),
-            titleMedium: TextStyle(),
-            titleSmall: TextStyle(),
-            bodyLarge: TextStyle(),
-            bodyMedium: TextStyle(fontWeight: FontWeight.w600),
-            bodySmall: TextStyle(),
-            labelLarge: TextStyle(),
-            labelMedium: TextStyle(),
-          ),
+          textTheme: const AppTextTheme(),
           useMaterial3: true,
-          colorSchemeSeed: oxfordBlue,
+          colorSchemeSeed: Colors.black,
           fontFamily: GoogleFonts.lexendDeca().fontFamily,
           brightness: Brightness.dark),
       routerConfig: AppRouter(context).router,

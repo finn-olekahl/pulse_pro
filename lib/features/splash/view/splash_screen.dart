@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pulse_pro/app/color_palette.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -7,7 +6,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      backgroundColor: columbiaBlue,
+      backgroundColor: Colors.black,
       body: Center(child: Text("Splash Screen")),
     );
   }

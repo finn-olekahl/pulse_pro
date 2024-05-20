@@ -6,6 +6,7 @@ class PulseProUser {
   final String name;
   final String email;
   final DateTime birthDate;
+  final Gender gender;
   final int weight;
   final int height;
   final int streak;
@@ -19,6 +20,7 @@ class PulseProUser {
     required this.name,
     required this.email,
     required this.birthDate,
+    required this.gender,
     required this.weight,
     required this.height,
     required this.streak,
@@ -38,7 +40,9 @@ class PulseProUser {
 
     List<HistoryDayEntry> history = [];
     if (json['history'] != null) {
-      history = json['history'].map((item) => HistoryDayEntry.fromJson(item)).toList();
+      history = json['history']
+          .map((item) => HistoryDayEntry.fromJson(item))
+          .toList();
     }
 
     List<PlanDayEntry> plan = [];
@@ -51,6 +55,9 @@ class PulseProUser {
       name: json['name'],
       email: json['email'],
       birthDate: DateTime.fromMillisecondsSinceEpoch(json['birthdate']),
+      gender: Gender.values.firstWhere(
+          (e) => e.toString() == 'Gender.${json['gender']}',
+          orElse: () => Gender.male),
       weight: json['weight'],
       height: json['height'],
       streak: json['streak'],
@@ -66,13 +73,17 @@ class PulseProUser {
       'name': name,
       'email': email,
       'birthdate': birthDate.millisecondsSinceEpoch,
+      'gender': gender.toString().split('.').last,
       'weight': weight,
       'height': height,
       'streak': streak,
       'current_workout_plan': currentWorkoutPlan,
-      'workout_plans': workoutPlans.map((key, value) => MapEntry(key, value.toJson())),
+      'workout_plans':
+          workoutPlans.map((key, value) => MapEntry(key, value.toJson())),
       'history': history.map((e) => e.toJson()).toList(),
       'plan': plan.map((e) => e.toJson()).toList(),
     };
   }
 }
+
+enum Gender { male, female }

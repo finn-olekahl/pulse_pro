@@ -36,6 +36,12 @@ dependencies:
   carousel_slider: ^4.2.1
   google_fonts: ^6.2.1
   curved_gradient: ^0.3.0
+  numberpicker: ^2.1.2
+  animated_weight_picker: ^1.0.3
+  scroll_wheel_date_picker: ^0.0.1+1
+  nil: ^1.1.1
+  lottie: ^3.1.2
+  uuid: ^4.4.0
 
 dev_dependencies:
   flutter_test:
@@ -57,6 +63,7 @@ flutter:
     - assets/images/app_logo_white.png
     - assets/images/app_logo_purple.png
     - assets/images/app_logo_black.png
+    - assets/lottie/loading.json
   fonts:
     - family: sansman
       fonts:

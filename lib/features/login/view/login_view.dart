@@ -2,11 +2,14 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:curved_gradient/curved_gradient.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pulse_pro/bloc/app_state_bloc.dart';
 import 'package:pulse_pro/features/login/cubit/login_cubit.dart';
 
 class LoginView extends StatefulWidget {
@@ -34,6 +37,7 @@ class _LoginViewState extends State<LoginView>
   @override
   void initState() {
     super.initState();
+
     loginPopupAnimationController = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
@@ -48,6 +52,7 @@ class _LoginViewState extends State<LoginView>
 
   InputDecoration inputFieldDecoration({required String hintText}) =>
       InputDecoration(
+        hintStyle: TextStyle(color: Colors.grey),
         contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
         hintText: hintText,
         border: OutlineInputBorder(
@@ -89,6 +94,11 @@ class _LoginViewState extends State<LoginView>
 
   @override
   Widget build(BuildContext context) {
+    if (context.watch<LoginCubit>().state.status ==
+            LoginStatus.postOnboarding &&
+        !isLoginPopupOpen) {
+      toggleLoginPopup();
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
@@ -132,6 +142,8 @@ class _LoginViewState extends State<LoginView>
                       Colors.white, BlendMode.saturation),
                   child: Image.asset(
                     'assets/images/login_slide1.jpg',
+                    gaplessPlayback: true,
+                    isAntiAlias: true,
                     height: 400,
                     fit: BoxFit.cover,
                   ),
@@ -162,6 +174,8 @@ class _LoginViewState extends State<LoginView>
                       Colors.white, BlendMode.saturation),
                   child: Image.asset(
                     'assets/images/login_slide2.jpg',
+                    gaplessPlayback: true,
+                    isAntiAlias: true,
                     height: 400,
                     fit: BoxFit.cover,
                   ),
@@ -192,6 +206,8 @@ class _LoginViewState extends State<LoginView>
                       Colors.white, BlendMode.saturation),
                   child: Image.asset(
                     'assets/images/login_slide3.jpg',
+                    gaplessPlayback: true,
+                    isAntiAlias: true,
                     height: 400,
                     fit: BoxFit.cover,
                   ),
@@ -206,281 +222,296 @@ class _LoginViewState extends State<LoginView>
                   top: MediaQuery.viewPaddingOf(context).top + 10, left: 20),
               child: Image.asset(
                 'assets/images/app_logo_white.png',
+                gaplessPlayback: true,
+                isAntiAlias: true,
                 width: MediaQuery.sizeOf(context).width * 0.1,
                 fit: BoxFit.cover,
               ),
             ),
           ),
-          Center(
-            child: Padding(
-              padding: EdgeInsets.only(
-                bottom: MediaQuery.viewPaddingOf(context).bottom,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: PageView(
-                      dragStartBehavior: DragStartBehavior.down,
-                      physics: const ClampingScrollPhysics(),
-                      controller: pageViewController,
-                      onPageChanged: (index) {
-                        setState(() {
-                          currentPageIndex = index;
-                        });
-                      },
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
-                          child: Stack(
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text.rich(
-                                      TextSpan(
-                                        style: const TextStyle(
-                                            fontSize: 24.0,
-                                            fontFamily: 'sansman'),
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                            text: 'Pulse',
-                                            style: TextStyle(
-                                              color: Colors.deepPurple.shade300,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 32,
+          if (context.read<LoginCubit>().state.status ==
+              LoginStatus.preOnboarding)
+            Center(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.viewPaddingOf(context).bottom,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: PageView(
+                        dragStartBehavior: DragStartBehavior.down,
+                        physics: const ClampingScrollPhysics(),
+                        controller: pageViewController,
+                        onPageChanged: (index) {
+                          setState(() {
+                            currentPageIndex = index;
+                          });
+                        },
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            child: Stack(
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text.rich(
+                                        TextSpan(
+                                          style: const TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'sansman'),
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                              text: 'Pulse',
+                                              style: TextStyle(
+                                                color:
+                                                    Colors.deepPurple.shade300,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 32,
+                                              ),
                                             ),
-                                          ),
-                                          TextSpan(
-                                            text: ' up,',
-                                            style: TextStyle(
-                                              color: Colors.grey.shade300,
-                                              fontSize: 32,
+                                            TextSpan(
+                                              text: ' up,',
+                                              style: TextStyle(
+                                                color: Colors.grey.shade300,
+                                                fontSize: 32,
+                                              ),
                                             ),
-                                          ),
-                                          TextSpan(
-                                            text: '\nPerform like a ',
-                                            style: TextStyle(
-                                              color: Colors.grey.shade300,
-                                              fontSize: 32,
+                                            TextSpan(
+                                              text: '\nPerform like a ',
+                                              style: TextStyle(
+                                                color: Colors.grey.shade300,
+                                                fontSize: 32,
+                                              ),
                                             ),
-                                          ),
-                                          TextSpan(
-                                            text: 'Pro',
-                                            style: TextStyle(
-                                              color: Colors.deepPurple.shade300,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 32,
+                                            TextSpan(
+                                              text: 'Pro',
+                                              style: TextStyle(
+                                                color:
+                                                    Colors.deepPurple.shade300,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 32,
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  Container(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text.rich(
-                                      TextSpan(
-                                        style: TextStyle(
-                                          fontSize: 15.0,
-                                          color: Colors.grey.shade400,
-                                        ),
-                                        children: const <TextSpan>[
-                                          TextSpan(text: 'Get Ready!'),
-                                          TextSpan(
-                                            text:
-                                                '\nWelcome to the first AI assisted workout planner.',
+                                    const SizedBox(height: 10),
+                                    Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text.rich(
+                                        TextSpan(
+                                          style: TextStyle(
+                                            fontSize: 15.0,
+                                            color: Colors.grey.shade400,
                                           ),
-                                          TextSpan(
-                                            text:
-                                                '\nDesigned to elevate your spirit and body.',
-                                          ),
-                                        ],
+                                          children: const <TextSpan>[
+                                            TextSpan(text: 'Get Ready!'),
+                                            TextSpan(
+                                              text:
+                                                  '\nWelcome to the first AI assisted workout planner.',
+                                            ),
+                                            TextSpan(
+                                              text:
+                                                  '\nDesigned to elevate your spirit and body.',
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                alignment: Alignment.centerLeft,
-                                child: Text.rich(
-                                  TextSpan(
-                                    style: const TextStyle(
-                                        fontSize: 24.0, fontFamily: 'sansman'),
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: 'Workouts, Tailored to ',
-                                        style: TextStyle(
-                                          color: Colors.grey.shade300,
-                                          fontSize: 32,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: 'your Needs',
-                                        style: TextStyle(
-                                          color: Colors.deepPurple.shade300,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 32,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                  ],
                                 ),
-                              ),
-                              const SizedBox(height: 10),
-                              Container(
-                                alignment: Alignment.centerLeft,
-                                child: Text.rich(
-                                  TextSpan(
-                                    style: TextStyle(
-                                      fontSize: 15.0,
-                                      color: Colors.grey.shade400,
-                                    ),
-                                    children: const <TextSpan>[
-                                      TextSpan(
-                                          text: 'It doesn\'t get simpler.'),
-                                      TextSpan(
-                                        text:
-                                            '\nGenerate Workout Plans based on your personal needs with the help of Artifical Intelligence',
-                                      ),
-                                      TextSpan(
-                                        text:
-                                            '\nBring your workouts to the next level!',
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                alignment: Alignment.centerLeft,
-                                child: Text.rich(
-                                  TextSpan(
-                                    style: const TextStyle(
-                                        fontSize: 24.0, fontFamily: 'sansman'),
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: 'Its just ',
-                                        style: TextStyle(
-                                          color: Colors.grey.shade300,
-                                          fontSize: 32,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: 'easy ',
-                                        style: TextStyle(
-                                          color: Colors.deepPurple.shade300,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 32,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: 'to use!',
-                                        style: TextStyle(
-                                          color: Colors.grey.shade300,
-                                          fontSize: 32,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              Container(
-                                alignment: Alignment.centerLeft,
-                                child: Text.rich(
-                                  TextSpan(
-                                    style: TextStyle(
-                                      fontSize: 15.0,
-                                      color: Colors.grey.shade400,
-                                    ),
-                                    children: const <TextSpan>[
-                                      TextSpan(
-                                        text:
-                                            'All exercises are come along with detailed explanations and easy-to-understand videos.',
-                                      ),
-                                      TextSpan(
-                                        text:
-                                            '\nNever struggle with doing your workouts correctly EVER again!',
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  buildPageIndicator(3, currentPageIndex),
-                  const SizedBox(height: 30),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: Colors.deepPurple.shade400,
-                            foregroundColor: Colors.white,
-                            side: BorderSide(
-                                color: Colors.white.withOpacity(0.3), width: 0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
+                              ],
                             ),
                           ),
-                          onPressed: toggleLoginPopup,
-                          child: SizedBox(
-                              width: MediaQuery.sizeOf(context).width,
-                              child: const Center(child: Text('Get Started'))),
-                        ),
-                        OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: Colors.black.withAlpha(30),
-                            foregroundColor: Colors.white,
-                            side: BorderSide(
-                                color: Colors.white.withOpacity(0.3), width: 3),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text.rich(
+                                    TextSpan(
+                                      style: const TextStyle(
+                                          fontSize: 24.0,
+                                          fontFamily: 'sansman'),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: 'Workouts, Tailored to ',
+                                          style: TextStyle(
+                                            color: Colors.grey.shade300,
+                                            fontSize: 32,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: 'your Needs',
+                                          style: TextStyle(
+                                            color: Colors.deepPurple.shade300,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 32,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text.rich(
+                                    TextSpan(
+                                      style: TextStyle(
+                                        fontSize: 15.0,
+                                        color: Colors.grey.shade400,
+                                      ),
+                                      children: const <TextSpan>[
+                                        TextSpan(
+                                            text: 'It doesn\'t get simpler.'),
+                                        TextSpan(
+                                          text:
+                                              '\nGenerate Workout Plans based on your personal needs with the help of Artifical Intelligence',
+                                        ),
+                                        TextSpan(
+                                          text:
+                                              '\nBring your workouts to the next level!',
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          onPressed: toggleLoginPopup,
-                          child: SizedBox(
-                              width: MediaQuery.sizeOf(context).width,
-                              child: const Center(child: Text('Login'))),
-                        ),
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text.rich(
+                                    TextSpan(
+                                      style: const TextStyle(
+                                          fontSize: 24.0,
+                                          fontFamily: 'sansman'),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: 'Its just ',
+                                          style: TextStyle(
+                                            color: Colors.grey.shade300,
+                                            fontSize: 32,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: 'easy ',
+                                          style: TextStyle(
+                                            color: Colors.deepPurple.shade300,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 32,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: 'to use!',
+                                          style: TextStyle(
+                                            color: Colors.grey.shade300,
+                                            fontSize: 32,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text.rich(
+                                    TextSpan(
+                                      style: TextStyle(
+                                        fontSize: 15.0,
+                                        color: Colors.grey.shade400,
+                                      ),
+                                      children: const <TextSpan>[
+                                        TextSpan(
+                                          text:
+                                              'All exercises are come along with detailed explanations and easy-to-understand videos.',
+                                        ),
+                                        TextSpan(
+                                          text:
+                                              '\nNever struggle with doing your workouts correctly EVER again!',
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 30),
-                ],
+                    const SizedBox(height: 30),
+                    buildPageIndicator(3, currentPageIndex),
+                    const SizedBox(height: 30),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: Colors.deepPurple.shade400,
+                              foregroundColor: Colors.white,
+                              side: BorderSide(
+                                  color: Colors.white.withOpacity(0.3),
+                                  width: 0),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                            ),
+                            onPressed: () {
+                              context
+                                  .read<LoginCubit>()
+                                  .startOnboarding(context);
+                            },
+                            child: SizedBox(
+                                width: MediaQuery.sizeOf(context).width,
+                                child:
+                                    const Center(child: Text('Get Started'))),
+                          ),
+                          OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: Colors.black.withAlpha(30),
+                              foregroundColor: Colors.white,
+                              side: BorderSide(
+                                  color: Colors.white.withOpacity(0.3),
+                                  width: 3),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                            ),
+                            onPressed: toggleLoginPopup,
+                            child: SizedBox(
+                                width: MediaQuery.sizeOf(context).width,
+                                child: const Center(child: Text('Login'))),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                  ],
+                ),
               ),
             ),
-          ),
           IgnorePointer(
             child: AnimatedOpacity(
               opacity: isLoginPopupOpen ? 1 : 0,
@@ -508,10 +539,13 @@ class _LoginViewState extends State<LoginView>
                   child: Stack(
                     children: [
                       GestureDetector(
-                        onTap: () {
-                          toggleLoginPopup();
-                          FocusScope.of(context).unfocus();
-                        },
+                        onTap: context.read<LoginCubit>().state.status ==
+                                LoginStatus.preOnboarding
+                            ? () {
+                                toggleLoginPopup();
+                                FocusScope.of(context).unfocus();
+                              }
+                            : null,
                         child: Container(color: Colors.transparent),
                       ),
                       Padding(
@@ -534,7 +568,13 @@ class _LoginViewState extends State<LoginView>
                                       child: Column(
                                         children: [
                                           Text(
-                                            "Login or Signup",
+                                            context
+                                                        .read<LoginCubit>()
+                                                        .state
+                                                        .status ==
+                                                    LoginStatus.preOnboarding
+                                                ? "Login"
+                                                : "Signup",
                                             style: TextStyle(
                                               color: Colors.white
                                                   .withOpacity(0.75),
@@ -548,6 +588,8 @@ class _LoginViewState extends State<LoginView>
                                             child: TextField(
                                               autocorrect: false,
                                               controller: emailController,
+                                              style: const TextStyle(
+                                                  color: Colors.white),
                                               keyboardType:
                                                   TextInputType.emailAddress,
                                               decoration: inputFieldDecoration(
@@ -560,6 +602,8 @@ class _LoginViewState extends State<LoginView>
                                             child: TextField(
                                               autocorrect: false,
                                               controller: passwordController,
+                                              style: const TextStyle(
+                                                  color: Colors.white),
                                               keyboardType:
                                                   TextInputType.visiblePassword,
                                               obscureText: true,
@@ -568,20 +612,34 @@ class _LoginViewState extends State<LoginView>
                                             ),
                                           ),
                                           const SizedBox(height: 15),
-                                          SizedBox(
-                                            height: 40,
-                                            child: TextField(
-                                              autocorrect: false,
-                                              controller:
-                                                  repeatPasswordController,
-                                              keyboardType:
-                                                  TextInputType.visiblePassword,
-                                              obscureText: true,
-                                              decoration: inputFieldDecoration(
-                                                  hintText: "Repeat Password"),
+                                          if (context
+                                                  .read<LoginCubit>()
+                                                  .state
+                                                  .status ==
+                                              LoginStatus.postOnboarding)
+                                            SizedBox(
+                                              height: 40,
+                                              child: TextField(
+                                                autocorrect: false,
+                                                controller:
+                                                    repeatPasswordController,
+                                                style: const TextStyle(
+                                                    color: Colors.white),
+                                                keyboardType: TextInputType
+                                                    .visiblePassword,
+                                                obscureText: true,
+                                                decoration:
+                                                    inputFieldDecoration(
+                                                        hintText:
+                                                            "Repeat Password"),
+                                              ),
                                             ),
-                                          ),
-                                          const SizedBox(height: 15),
+                                          if (context
+                                                  .read<LoginCubit>()
+                                                  .state
+                                                  .status ==
+                                              LoginStatus.postOnboarding)
+                                            const SizedBox(height: 15),
                                           ButtonTheme(
                                             child: OutlinedButton(
                                               style: OutlinedButton.styleFrom(
@@ -594,22 +652,48 @@ class _LoginViewState extends State<LoginView>
                                                     Colors.black.withAlpha(30),
                                                 foregroundColor: Colors.white,
                                                 side: BorderSide(
-                                                    color: Colors.grey.shade700,
+                                                    color: Colors
+                                                        .deepPurple.shade300,
                                                     width: 3),
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(30),
                                                 ),
                                               ),
-                                              onPressed: () => context
-                                                  .read<LoginCubit>()
-                                                  .signInWithEmailAndPassword(
-                                                      email:
-                                                          emailController.text,
-                                                      password:
-                                                          passwordController
-                                                              .text),
-                                              child: const Text('Login'),
+                                              onPressed: context
+                                                          .read<LoginCubit>()
+                                                          .state
+                                                          .status ==
+                                                      LoginStatus.preOnboarding
+                                                  ? () {
+                                                      context
+                                                          .read<LoginCubit>()
+                                                          .signInWithEmailAndPassword(
+                                                              email:
+                                                                  emailController
+                                                                      .text,
+                                                              password:
+                                                                  passwordController
+                                                                      .text);
+                                                    }
+                                                  : () {
+                                                      context
+                                                          .read<LoginCubit>()
+                                                          .signUpWithEmailAndPassword(
+                                                              email:
+                                                                  emailController
+                                                                      .text,
+                                                              password:
+                                                                  passwordController
+                                                                      .text);
+                                                    },
+                                              child: Text(context
+                                                          .read<LoginCubit>()
+                                                          .state
+                                                          .status ==
+                                                      LoginStatus.preOnboarding
+                                                  ? "Login"
+                                                  : "Signup"),
                                             ),
                                           ),
                                           const SizedBox(height: 30),
@@ -618,9 +702,16 @@ class _LoginViewState extends State<LoginView>
                                             Padding(
                                               padding: EdgeInsets.symmetric(
                                                   horizontal: 5),
-                                              child: Text("OR"),
+                                              child: Text(
+                                                "OR",
+                                                style: TextStyle(
+                                                    color: Colors.grey),
+                                              ),
                                             ),
-                                            Expanded(child: Divider()),
+                                            Expanded(
+                                                child: Divider(
+                                              color: Colors.grey,
+                                            )),
                                           ]),
                                           const SizedBox(height: 15),
                                           Row(
@@ -629,18 +720,90 @@ class _LoginViewState extends State<LoginView>
                                             children: [
                                               IconButton(
                                                   icon: const FaIcon(
+                                                      color: Colors.grey,
                                                       FontAwesomeIcons.google),
                                                   onPressed: () => context
                                                       .read<LoginCubit>()
                                                       .signInWithGoogle()),
                                               IconButton(
                                                   icon: const FaIcon(
+                                                      color: Colors.grey,
                                                       FontAwesomeIcons.apple),
                                                   onPressed: () => context
                                                       .read<LoginCubit>()
                                                       .signInWithApple())
                                             ],
                                           ),
+                                          if (context
+                                                  .read<LoginCubit>()
+                                                  .state
+                                                  .gender !=
+                                              null)
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 15),
+                                              child: ButtonTheme(
+                                                child: OutlinedButton(
+                                                  style:
+                                                      OutlinedButton.styleFrom(
+                                                    tapTargetSize:
+                                                        MaterialTapTargetSize
+                                                            .shrinkWrap,
+                                                    minimumSize: const Size(
+                                                        double.infinity, 40),
+                                                    backgroundColor: Colors
+                                                        .black
+                                                        .withAlpha(30),
+                                                    foregroundColor:
+                                                        Colors.white,
+                                                    side: BorderSide(
+                                                        color: Colors
+                                                            .grey.shade700,
+                                                        width: 3),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30),
+                                                    ),
+                                                  ),
+                                                  onPressed: context
+                                                              .read<
+                                                                  LoginCubit>()
+                                                              .state
+                                                              .status ==
+                                                          LoginStatus
+                                                              .postOnboarding
+                                                      ? () {
+                                                          setState(() {
+                                                            context
+                                                                .read<
+                                                                    LoginCubit>()
+                                                                .cancelOnboarding(
+                                                                    context);
+                                                          });
+                                                        }
+                                                      : () {
+                                                          setState(() {
+                                                            context
+                                                                .read<
+                                                                    LoginCubit>()
+                                                                .continueOnboarding(
+                                                                    context);
+                                                          });
+                                                        },
+                                                  child: Text(context
+                                                              .read<
+                                                                  LoginCubit>()
+                                                              .state
+                                                              .status ==
+                                                          LoginStatus
+                                                              .postOnboarding
+                                                      ? "Login instead"
+                                                      : "Signup instead"),
+                                                ),
+                                              ),
+                                            ),
                                         ],
                                       ),
                                     ),
