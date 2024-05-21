@@ -86,7 +86,7 @@ class _CreateAccountLoadingViewState extends State<CreateAccountLoadingView> {
           .updateCurrentWorkoutPlan(workoutPlan.id);
 
       print("here should the user be redirected!");
-      context.go('/');
+      context.push('/');
     }
   }
 
