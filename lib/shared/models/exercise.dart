@@ -35,4 +35,16 @@ class Exercise {
       instructions: json['instructions'].cast<String>(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'bodyPart': bodyParty,
+      'target': target,
+      'secondaryMuscles': secondaryMuscle,
+      'equipment': equipment,
+      'instructions': instructions,
+    };
+  }
 }

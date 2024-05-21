@@ -72,8 +72,8 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
       ));
     }
 
-    emit(state.datebaseUpdate(
-        currentWorkoutPlan, workoutPlans, history, exercises));
+    emit(state.copyWith(
+        currentWorkoutPlan: currentWorkoutPlan, workoutPlans: workoutPlans, history: history, exercises: exercises));
   }
 
   Future<Exercise> _loadExercise(String exerciseId) async {
@@ -131,11 +131,10 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
 
   Future<void> updateCurrentDay(DateTime day) async {
     final cleanDate = DateTime(day.year, day.month, day.day);
-    return emit(state.updateCurrentDay(cleanDate));
+    return emit(state.copyWith(currentDay: cleanDate));
   }
 
-  Future<void> updateExerciseWeight(
-      UserExercise exercise, int splitDayKey, int rep, int weight) async {
+  Future<void> updateExerciseWeight(UserExercise exercise, int splitDayKey, int selectedSet, double weight) async {
     if (state.currentWorkoutPlan == null) return;
 
     final workoutPlan = state.currentWorkoutPlan!;
@@ -147,7 +146,7 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
     exercises.removeWhere((element) => element.id == exercise.id);
 
     final weights = exercise.weights ?? {};
-    weights[rep] = weight;
+    weights[selectedSet] = weight;
     exercises.add(exercise.copyWith(weights: weights));
 
     final updatedSplitDay = splitDay.copyWith(exercises: exercises);
@@ -158,7 +157,13 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
 
     userRepository.updateWorkoutPlans(state.userId, updatedWorkoutPlans);
 
-    emit(state.updateWorkoutPlans(updatedWorkoutPlans));
+    Map<int, double>? progress = state.progress[exercise.id];
+    if (progress == null) {
+      progress = {selectedSet: weight};
+    } else {
+      progress[selectedSet] = weight;
+    }
+    emit(state.copyWith(workoutPlans: updatedWorkoutPlans, progress: {...state.progress, exercise.id: progress}));
   }
 
   @override

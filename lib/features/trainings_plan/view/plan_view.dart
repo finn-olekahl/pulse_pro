@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pulse_pro/features/trainings_plan/cubit/trainings_plan_cubit.dart';
 import 'package:pulse_pro/features/trainings_plan/view/widgets/days_view.dart';
-import 'package:pulse_pro/features/trainings_plan/view/widgets/splitday_view.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class TrainingsPlanView extends StatelessWidget {
@@ -92,7 +89,7 @@ class TrainingsPlanView extends StatelessWidget {
                     context.read<TrainingsPlanCubit>().updateCurrentDay(selectedDay);
                   },
                 ),
-                Expanded(child: DaysView())
+                const Expanded(child: DaysView())
               ],
             );
           },

@@ -4,7 +4,7 @@ class UserExercise {
   final int reps;
   final EffortLevel effortLevel;
   final int timeBetweenSets;
-  final Map<int, int>? weights;
+  final Map<int, double>? weights;
 
   UserExercise(
       {required this.id,
@@ -20,7 +20,7 @@ class UserExercise {
     int? reps,
     EffortLevel? effortLevel,
     int? timeBetweenSets,
-    Map<int, int>? weights,
+    Map<int, double>? weights,
   }) =>
       UserExercise(
         id: id ?? this.id,
@@ -38,7 +38,7 @@ class UserExercise {
       reps: json['reps'],
       effortLevel: EffortLevel.values.firstWhere((e) => e.toString() == 'EffortLevel.${json['effort_level']}'),
       timeBetweenSets: json['time_between_sets'],
-      weights: json['weights']?.map((key, value) => MapEntry(int.parse(key), value)).cast<int, int>(),
+      weights: json['weights']?.map((key, value) => MapEntry(int.parse(key), value.toDouble())).cast<int, double>(),
     );
   }
 
