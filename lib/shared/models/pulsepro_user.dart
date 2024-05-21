@@ -7,7 +7,7 @@ class PulseProUser {
   final String email;
   final DateTime birthDate;
   final Gender gender;
-  final int weight;
+  final double weight;
   final int height;
   final int streak;
   final String currentWorkoutPlan;
@@ -58,7 +58,7 @@ class PulseProUser {
       gender: Gender.values.firstWhere(
           (e) => e.toString() == 'Gender.${json['gender']}',
           orElse: () => Gender.male),
-      weight: json['weight'],
+      weight: json['weight'].toDouble(),
       height: json['height'],
       streak: json['streak'],
       currentWorkoutPlan: json['current_workout_plan'],

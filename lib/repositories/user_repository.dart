@@ -1,11 +1,10 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pulse_pro/bloc/app_state_bloc.dart';
 import 'package:pulse_pro/shared/models/workout_plan.dart';
 import 'package:uuid/uuid.dart';
 
@@ -22,19 +21,10 @@ class UserRepository {
       required double weight,
       required int height,
       required String gender}) async {
-    print("test1");
     try {
-      if (context.read<AppStateBloc>().state is! AppStateLoggedIn) {
-        return;
-      }
-
-      print("test2");
-
       HttpsCallable callable =
           FirebaseFunctions.instanceFor(region: 'europe-west1')
               .httpsCallable('createUserObject');
-
-      print("test3");
 
       // Prepare the data
       final Map<String, dynamic> data = {
@@ -46,11 +36,8 @@ class UserRepository {
         'gender': gender,
       };
 
-      print("test4");
-
       final HttpsCallableResult result = await callable.call(data);
 
-      print("test5");
       print(result.data['message']);
     } on FirebaseFunctionsException catch (e) {
       print('Error: ${e.code} - ${e.message}');
@@ -69,36 +56,35 @@ class UserRepository {
       required List<String> muscleFocus,
       required String sportOrientation,
       required String workoutExperience}) async {
-    List<List<String>> split = [];
+    HttpsCallable callable =
+        FirebaseFunctions.instanceFor(region: 'europe-west1')
+            .httpsCallable('createSplit');
 
-    try {
-      HttpsCallable callable =
-          FirebaseFunctions.instanceFor(region: 'europe-west1')
-              .httpsCallable('createSplit');
+    // Prepare the data
+    final Map<String, dynamic> data = {
+      'gender': gender,
+      'workout_goal': workoutGoal,
+      'workout_intensity': workoutIntensity,
+      'max_times_per_week': maxTimesPerWeek,
+      'time_per_day': timePerDay * 60 * 1000,
+      'injuries': injuries,
+      'muscle_focus': muscleFocus,
+      'sportOrientation': sportOrientation,
+      'workout_experience': workoutExperience,
+    };
 
-      // Prepare the data
-      final Map<String, dynamic> data = {
-        'gender': gender,
-        'workout_goal': workoutGoal,
-        'workout_intensity': workoutIntensity,
-        'max_times_per_week': maxTimesPerWeek,
-        'time_per_day': timePerDay * 60 * 1000,
-        'injuries': injuries,
-        'muscle_focus': muscleFocus,
-        'sportOrientation': sportOrientation,
-        'workout_experience': workoutExperience,
-      };
+    final HttpsCallableResult result = await callable.call(data);
 
-      final HttpsCallableResult result = await callable.call(data);
+    final jsonString = result.data['response'][0]['text']['value'];
+    Map<String, dynamic> jsonMap = jsonDecode(jsonString);
 
-      split = jsonDecode(result.data['message']);
+    List<List<String>> split = (jsonMap['split'] as List<dynamic>)
+        .map((item) => (item as List<dynamic>)
+            .map((element) => element as String)
+            .toList())
+        .toList();
 
-      print(result.data['message']);
-    } on FirebaseFunctionsException catch (e) {
-      print('Error: ${e.code} - ${e.message}');
-    } catch (e) {
-      print('Error: $e');
-    }
+    print(split);
 
     return split;
   }
@@ -113,38 +99,44 @@ class UserRepository {
       required List<String> muscleFocus,
       required String sportOrientation,
       required String workoutExperience}) async {
-    Map<String, dynamic> json = {};
+    HttpsCallable callable =
+        FirebaseFunctions.instanceFor(region: 'europe-west1')
+            .httpsCallable('createWorkoutPlan');
 
-    try {
-      HttpsCallable callable =
-          FirebaseFunctions.instanceFor(region: 'europe-west1')
-              .httpsCallable('createWorkoutPlan');
+    // Prepare the data
+    final Map<String, dynamic> data = {
+      'split': split,
+      'gender': gender,
+      'workout_goal': workoutGoal,
+      'workout_intensity': workoutIntensity,
+      'time_per_day': timePerDay * 60 * 1000,
+      'injuries': injuries,
+      'muscle_focus': muscleFocus,
+      'sportOrientation': sportOrientation,
+      'workout_experience': workoutExperience,
+    };
 
-      // Prepare the data
-      final Map<String, dynamic> data = {
-        'split': split,
-        'gender': gender,
-        'workout_goal': workoutGoal,
-        'workout_intensity': workoutIntensity,
-        'time_per_day': timePerDay * 60 * 1000,
+    final HttpsCallableResult result = await callable.call(data);
+
+    final jsonString = result.data['response'][0]['text']['value'];
+    Map<String, dynamic> jsonRaw = jsonDecode(jsonString);
+
+    Map<String, dynamic> json = {
+      'id': '"${const Uuid().v4()}"',
+      'params': {
         'injuries': injuries,
         'muscle_focus': muscleFocus,
-        'sportOrientation': sportOrientation,
-        'workout_experience': workoutExperience,
-      };
+        'time_per_day': timePerDay,
+        'workout_goal': workoutGoal,
+        'workout_intensity': workoutIntensity,
+      },
+      'split': jsonRaw
+    };
 
-      final HttpsCallableResult result = await callable.call(data);
+    final WorkoutPlan workoutPlan =
+        WorkoutPlan.fromJson(const Uuid().v4(), json);
 
-      json = jsonDecode(result.data['message']);
-
-      print(result.data['message']);
-    } on FirebaseFunctionsException catch (e) {
-      print('Error: ${e.code} - ${e.message}');
-    } catch (e) {
-      print('Error: $e');
-    }
-
-    return WorkoutPlan.fromJson(Uuid().v4(), json);
+    return workoutPlan;
   }
 
   Future<void> updateWorkoutPlans(
@@ -154,8 +146,13 @@ class UserRepository {
           workoutPlans.map((key, value) => MapEntry(key, value.toJson()))
     });
   }
-}
 
+  Future<void> updateCurrentWorkoutPlan(String userId, String id) async {
+    await FirebaseFirestore.instance.collection('user').doc(userId).update({
+      'current_workout_plan': id
+    });
+  } 
+}
 
 enum SportOrientation {
   none,

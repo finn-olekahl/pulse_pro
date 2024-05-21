@@ -56,6 +56,10 @@ class _LoginViewState extends State<LoginView>
         hintStyle: TextStyle(color: Colors.grey),
         contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
         hintText: hintText,
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: BorderSide(color: Colors.grey.shade700, width: 3),
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
           borderSide: BorderSide(color: Colors.grey.shade700, width: 3),

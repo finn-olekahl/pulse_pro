@@ -1,7 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pulse_pro/bloc/app_state_bloc.dart';
+import 'package:pulse_pro/features/createAccount/cubit/create_account_cubit.dart';
 import 'package:pulse_pro/shared/models/workout_plan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,9 +25,7 @@ class _CreateAccountLoadingViewState extends State<CreateAccountLoadingView> {
   }
 
   Future<void> startAccountAndWorkoutPlanGeneration() async {
-    print("starting account and workout plan creation");
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    print("test_1");
 
     final gender = prefs.getString('gender');
     final name = prefs.getString('name');
@@ -39,33 +41,20 @@ class _CreateAccountLoadingViewState extends State<CreateAccountLoadingView> {
     final weight = prefs.getDouble('weight');
     final height = prefs.getInt('height');
 
-    print("test_2");
-    print(workoutGoal);
-    print(workoutIntensity);
-    print(maxTimesPerWeek);
-    print(birthDate);
-    print(weight);
-    print(name);
-    print(gender);
-
     if (birthDate != null &&
         weight != null &&
         height != null &&
         name != null &&
         gender != null) {
-      print('creating user object');
-      await context.read<AppStateBloc>().userRepository.createUserObject(
-          context,
+      await context.read<CreateAccountCubit>().createUserObject(context,
           name: name,
           birthdate: birthDate,
           weight: weight,
           height: height,
           gender: gender);
 
-      print('generating split');
       List<List<String>> split = await context
-          .read<AppStateBloc>()
-          .userRepository
+          .read<CreateAccountCubit>()
           .generateSplit(context,
               gender: gender,
               workoutGoal: workoutGoal!,
@@ -77,12 +66,8 @@ class _CreateAccountLoadingViewState extends State<CreateAccountLoadingView> {
               sportOrientation: sportOrientation!,
               workoutExperience: workoutExperience!);
 
-      print(split);
-
-      print('generating workout plan');
       WorkoutPlan workoutPlan = await context
-          .read<AppStateBloc>()
-          .userRepository
+          .read<CreateAccountCubit>()
           .generateWorkoutPlan(context,
               split: split,
               gender: gender,
@@ -93,8 +78,15 @@ class _CreateAccountLoadingViewState extends State<CreateAccountLoadingView> {
               muscleFocus: muscleFocus,
               sportOrientation: sportOrientation,
               workoutExperience: workoutExperience);
+      context
+          .read<CreateAccountCubit>()
+          .updateWorkoutPlans({workoutPlan.id: workoutPlan});
+      context
+          .read<CreateAccountCubit>()
+          .updateCurrentWorkoutPlan(workoutPlan.id);
 
-      print(workoutPlan);
+      print("here should the user be redirected!");
+      context.go('/');
     }
   }
 

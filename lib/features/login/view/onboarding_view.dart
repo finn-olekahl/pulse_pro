@@ -763,7 +763,7 @@ class OnboardingViewState extends State<OnboardingView> {
               },
               child: AnimatedNumberPicker(
                 value: timePerDay,
-                minValue: 0,
+                minValue: 15,
                 maxValue: 180,
                 step: 10,
                 haptics: true,
@@ -1180,8 +1180,6 @@ class OnboardingViewState extends State<OnboardingView> {
                     (index) {
                       final _muscleFocus = MuscleGroup.values[index];
                       final name = enumToText(_muscleFocus.name);
-
-                      if (_muscleFocus == MuscleGroup.other) return Container();
 
                       return Padding(
                         padding: EdgeInsets.only(

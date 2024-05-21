@@ -14,7 +14,10 @@ import 'package:pulse_pro/shared/models/workout_plan.dart';
 part 'trainings_plan_state.dart';
 
 class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
-  TrainingsPlanCubit({required this.appStateBloc, required this.userRepository, required this.exerciseRepository})
+  TrainingsPlanCubit(
+      {required this.appStateBloc,
+      required this.userRepository,
+      required this.exerciseRepository})
       : super(const TrainingsPlanState.loading()) {
     _subscription = appStateBloc.stream.listen((state) {
       if (state is! AppStateLoggedIn) return;
@@ -52,8 +55,10 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
     if (state.status == TrainingsPlanStatus.loading) {
       final now = DateTime.now();
       final cleanNowDate = DateTime(now.year, now.month, now.day);
-      final currentSplitDay = _calculateCurrentSplitDay(history, currentWorkoutPlan);
-      final plan = _calculatePlan(currentSplitDay, cleanNowDate, currentWorkoutPlan);
+      final currentSplitDay =
+          _calculateCurrentSplitDay(history, currentWorkoutPlan);
+      final plan =
+          _calculatePlan(currentSplitDay, cleanNowDate, currentWorkoutPlan);
 
       return emit(TrainingsPlanState.loaded(
         userId,
@@ -67,7 +72,8 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
       ));
     }
 
-    emit(state.datebaseUpdate(currentWorkoutPlan, workoutPlans, history, exercises));
+    emit(state.datebaseUpdate(
+        currentWorkoutPlan, workoutPlans, history, exercises));
   }
 
   Future<Exercise> _loadExercise(String exerciseId) async {
@@ -76,7 +82,8 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
     return exercise;
   }
 
-  int _calculateCurrentSplitDay(List<HistoryDayEntry> history, WorkoutPlan workoutPlan) {
+  int _calculateCurrentSplitDay(
+      List<HistoryDayEntry> history, WorkoutPlan workoutPlan) {
     if (history.isEmpty) return 0;
     final lastDay = history.last;
 
@@ -88,7 +95,8 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
 
     final now = DateTime.now();
 
-    final cleanLastDate = DateTime(lastDay.date.year, lastDay.date.month, lastDay.date.day);
+    final cleanLastDate =
+        DateTime(lastDay.date.year, lastDay.date.month, lastDay.date.day);
     final cleanNowDate = DateTime(now.year, now.month, now.day);
     int difference = 0;
 
@@ -100,7 +108,8 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
     return currentSplitDay;
   }
 
-  List<PlanDayEntry> _calculatePlan(int currentSplitDay, DateTime now, WorkoutPlan workoutPlan) {
+  List<PlanDayEntry> _calculatePlan(
+      int currentSplitDay, DateTime now, WorkoutPlan workoutPlan) {
     final List<PlanDayEntry> plan = [];
 
     int nextSplitDay = currentSplitDay + 1;
@@ -125,7 +134,8 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
     return emit(state.updateCurrentDay(cleanDate));
   }
 
-  Future<void> updateExerciseWeight(UserExercise exercise, int splitDayKey, int rep, int weight) async {
+  Future<void> updateExerciseWeight(
+      UserExercise exercise, int splitDayKey, int rep, int weight) async {
     if (state.currentWorkoutPlan == null) return;
 
     final workoutPlan = state.currentWorkoutPlan!;
@@ -141,7 +151,8 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
     exercises.add(exercise.copyWith(weights: weights));
 
     final updatedSplitDay = splitDay.copyWith(exercises: exercises);
-    final updatedWorkoutPlan = workoutPlan.copyWith(days: {...workoutPlan.days, splitDayKey: updatedSplitDay});
+    final updatedWorkoutPlan = workoutPlan
+        .copyWith(days: {...workoutPlan.days, splitDayKey: updatedSplitDay});
     final updatedWorkoutPlans = state.workoutPlans;
     updatedWorkoutPlans[workoutPlan.id] = updatedWorkoutPlan;
 
