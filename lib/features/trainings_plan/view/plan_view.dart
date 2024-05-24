@@ -45,22 +45,25 @@ class TrainingsPlanView extends StatelessWidget {
             if (state.currentWorkoutPlan == null) {
               return const Center(child: CircularProgressIndicator());
             }
-        
+
             final splitDay = state.currentWorkoutPlan!.days[0];
             if (splitDay == null) return const SizedBox();
-        
+
             return Column(
               children: [
                 TableCalendar(
                   focusedDay: state.currentDay ?? DateTime.now(),
-                  firstDay: state.history.isEmpty ? DateTime.now() : state.history.first.date,
+                  firstDay: state.history.isEmpty
+                      ? DateTime.now()
+                      : state.history.first.date,
                   lastDay: state.plan.last.date,
                   rangeSelectionMode: RangeSelectionMode.toggledOff,
                   pageAnimationEnabled: true,
                   calendarFormat: CalendarFormat.week,
                   headerVisible: false,
                   daysOfWeekVisible: true,
-                  startingDayOfWeek: _startingDay(state.currentDay ?? DateTime.now()),
+                  startingDayOfWeek:
+                      _startingDay(state.currentDay ?? DateTime.now()),
                   calendarStyle: const CalendarStyle(
                     isTodayHighlighted: false,
                   ),
@@ -86,7 +89,9 @@ class TrainingsPlanView extends StatelessWidget {
                   pageAnimationCurve: Curves.linear,
                   pageAnimationDuration: const Duration(milliseconds: 1),
                   onDaySelected: (selectedDay, focusedDay) {
-                    context.read<TrainingsPlanCubit>().updateCurrentDay(selectedDay);
+                    context
+                        .read<TrainingsPlanCubit>()
+                        .updateCurrentDay(selectedDay);
                   },
                 ),
                 const Expanded(child: DaysView())

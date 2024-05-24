@@ -19,12 +19,14 @@ class CreateAccountCubit extends Cubit<CreateAccountState> {
       required double weight,
       required int height,
       required String gender}) async {
-    userRepository.createUserObject(context,
+    emit(CreatingAccount());
+    await userRepository.createUserObject(context,
         name: name,
         birthdate: birthdate,
         weight: weight,
         height: height,
         gender: gender);
+    emit(CreateAccountInitial());
   }
 
   Future<List<List<String>>> generateSplit(context,
@@ -37,7 +39,8 @@ class CreateAccountCubit extends Cubit<CreateAccountState> {
       required List<String> muscleFocus,
       required String sportOrientation,
       required String workoutExperience}) async {
-    final split = userRepository.generateSplit(context,
+    emit(GeneratingSplit());
+    final split = await userRepository.generateSplit(context,
         gender: gender,
         workoutGoal: workoutGoal,
         workoutIntensity: workoutIntensity,
@@ -47,6 +50,7 @@ class CreateAccountCubit extends Cubit<CreateAccountState> {
         muscleFocus: muscleFocus,
         sportOrientation: sportOrientation,
         workoutExperience: workoutExperience);
+    emit(CreateAccountInitial());
     return split;
   }
 
@@ -60,7 +64,8 @@ class CreateAccountCubit extends Cubit<CreateAccountState> {
       required List<String> muscleFocus,
       required String sportOrientation,
       required String workoutExperience}) async {
-    final workoutPlan = userRepository.generateWorkoutPlan(context,
+    emit(GeneratingWorkoutPlan());
+    final workoutPlan = await userRepository.generateWorkoutPlan(context,
         split: split,
         workoutGoal: workoutGoal,
         gender: gender,
@@ -70,20 +75,21 @@ class CreateAccountCubit extends Cubit<CreateAccountState> {
         muscleFocus: muscleFocus,
         sportOrientation: sportOrientation,
         workoutExperience: workoutExperience);
+    emit(CreateAccountInitial());
     return workoutPlan;
   }
 
   Future<void> updateWorkoutPlans(Map<String, WorkoutPlan> workoutPlans) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      userRepository.updateWorkoutPlans(user.uid, workoutPlans);
+      await userRepository.updateWorkoutPlans(user.uid, workoutPlans);
     }
   }
 
   Future<void> updateCurrentWorkoutPlan(String id) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      userRepository.updateCurrentWorkoutPlan(user.uid, id);
+      await userRepository.updateCurrentWorkoutPlan(user.uid, id);
     }
   }
 }

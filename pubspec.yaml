@@ -58,14 +58,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/login_background.jpg
-    - assets/images/login_slide1.jpg
-    - assets/images/login_slide2.jpg
-    - assets/images/login_slide3.jpg
-    - assets/images/app_logo_white.png
-    - assets/images/app_logo_purple.png
-    - assets/images/app_logo_black.png
-    - assets/lottie/loading.json
+    - assets/images/
+    - assets/lottie/
   fonts:
     - family: sansman
       fonts:

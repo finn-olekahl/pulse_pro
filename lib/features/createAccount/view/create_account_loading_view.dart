@@ -1,9 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:lottie/lottie.dart';
 import 'package:pulse_pro/bloc/app_state_bloc.dart';
 import 'package:pulse_pro/features/createAccount/cubit/create_account_cubit.dart';
 import 'package:pulse_pro/shared/models/workout_plan.dart';
@@ -19,9 +16,22 @@ class CreateAccountLoadingView extends StatefulWidget {
 class _CreateAccountLoadingViewState extends State<CreateAccountLoadingView> {
   @override
   void initState() {
-    print('entered account loading view');
     startAccountAndWorkoutPlanGeneration();
     super.initState();
+  }
+
+  String loadingText(BuildContext context) {
+    if (context.watch<CreateAccountCubit>().state is CreateAccountInitial) {
+      return "Waiting...";
+    } else if (context.watch<CreateAccountCubit>().state is CreatingAccount) {
+      return "Setting Up Your Account...";
+    } else if (context.watch<CreateAccountCubit>().state is GeneratingSplit) {
+      return "Workout Split Generation in Progress...";
+    } else if (context.watch<CreateAccountCubit>().state
+        is GeneratingWorkoutPlan) {
+      return "Generating your Workout Plan...";
+    }
+    return "";
   }
 
   Future<void> startAccountAndWorkoutPlanGeneration() async {
@@ -33,7 +43,7 @@ class _CreateAccountLoadingViewState extends State<CreateAccountLoadingView> {
     final workoutIntensity = prefs.getString('workoutIntensity');
     final maxTimesPerWeek = prefs.getInt('maxTimesPerWeek');
     final timePerDay = prefs.getInt('timePerDay');
-    final injuries = prefs.getStringList('injuries');
+    final injuries = prefs.getStringList('injur ies');
     final muscleFocus = prefs.getStringList('muscleFocus');
     final sportOrientation = prefs.getString('sportOrientation');
     final workoutExperience = prefs.getString('workoutExperience');
@@ -61,8 +71,8 @@ class _CreateAccountLoadingViewState extends State<CreateAccountLoadingView> {
               workoutIntensity: workoutIntensity!,
               maxTimesPerWeek: maxTimesPerWeek!,
               timePerDay: timePerDay!,
-              injuries: injuries!,
-              muscleFocus: muscleFocus!,
+              injuries: injuries ?? [],
+              muscleFocus: muscleFocus ?? [],
               sportOrientation: sportOrientation!,
               workoutExperience: workoutExperience!);
 
@@ -74,10 +84,12 @@ class _CreateAccountLoadingViewState extends State<CreateAccountLoadingView> {
               workoutGoal: workoutGoal,
               workoutIntensity: workoutIntensity,
               timePerDay: timePerDay,
-              injuries: injuries,
-              muscleFocus: muscleFocus,
+              injuries: injuries ?? [],
+              muscleFocus: muscleFocus ?? [],
               sportOrientation: sportOrientation,
               workoutExperience: workoutExperience);
+
+      print(workoutPlan.toJson().toString());
       context
           .read<CreateAccountCubit>()
           .updateWorkoutPlans({workoutPlan.id: workoutPlan});
@@ -85,8 +97,8 @@ class _CreateAccountLoadingViewState extends State<CreateAccountLoadingView> {
           .read<CreateAccountCubit>()
           .updateCurrentWorkoutPlan(workoutPlan.id);
 
-      print("here should the user be redirected!");
-      context.push('/');
+      print("Here, the user should be redirected");
+      context.read<AppStateBloc>().add(const LocalUserLookUp());
     }
   }
 
@@ -97,11 +109,71 @@ class _CreateAccountLoadingViewState extends State<CreateAccountLoadingView> {
       body: Stack(
         children: [
           Center(
-            child: Lottie.asset('assets/lottie/loading.json',
-                width: MediaQuery.sizeOf(context).width / 2,
-                height: MediaQuery.sizeOf(context).width / 2),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SettingUpText(),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Text(
+                    loadingText(context),
+                    style: TextStyle(color: Colors.white.withOpacity(0.75)),
+                  ),
+                )
+              ],
+            ),
           )
         ],
+      ),
+    );
+  }
+}
+
+class SettingUpText extends StatefulWidget {
+  @override
+  _SettingUpTextState createState() => _SettingUpTextState();
+}
+
+class _SettingUpTextState extends State<SettingUpText> {
+  final String _text = "Setting up";
+  final List<String> _dots = [".", "..", "...", "....", "....."];
+  int _index = 0;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  void _startTimer() {
+    _index = 0;
+    _timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
+      setState(() {
+        _index++;
+        if (_index == _dots.length) {
+          _timer?.cancel();
+          _startTimer();
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      "$_text\n${_dots[_index]}",
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontFamily: 'sansman',
+        color: Colors.white.withOpacity(0.75),
+        fontSize: 30,
       ),
     );
   }

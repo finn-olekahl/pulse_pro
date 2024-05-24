@@ -765,7 +765,7 @@ class OnboardingViewState extends State<OnboardingView> {
                 value: timePerDay,
                 minValue: 15,
                 maxValue: 180,
-                step: 10,
+                step: 5,
                 haptics: true,
                 axis: Axis.horizontal,
                 textStyle: TextStyle(

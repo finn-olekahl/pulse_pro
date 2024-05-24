@@ -59,15 +59,19 @@ class AppRouter {
         final bool isOnLoginPage = matchedLocation == '/login';
         final bool isOnboardingPage = matchedLocation == '/login/onboarding';
 
-        if (appState is AppStateInitial || appState is AppStateLoading)
+        if (appState is AppStateInitial || appState is AppStateLoading) {
           return '/splash';
-        if (appState is AppStateLoginInitial && !isOnboardingPage)
+        }
+        if (appState is AppStateLoginInitial && !isOnboardingPage) {
           return '/login';
+        }
 
-        if (appState is AppStateNoAccount && isAccountCreationDataSaved)
+        if (appState is AppStateNoAccount && isAccountCreationDataSaved) {
           return '/login/createAccountLoading';
-        if (appState is AppStateNoAccount && !isAccountCreationDataSaved)
+        }
+        if (appState is AppStateNoAccount && !isAccountCreationDataSaved) {
           return '/login/onboarding';
+        }
 
         if (isOnSplashScreen || isOnLoginPage) return '/';
 

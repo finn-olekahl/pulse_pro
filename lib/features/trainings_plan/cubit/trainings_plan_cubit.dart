@@ -41,6 +41,8 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
 
     final Map<String, Exercise> exercises = {};
 
+    print(pulseProUser.workoutPlans);
+    print(pulseProUser.currentWorkoutPlan);
     if (currentWorkoutPlan == null) return;
     for (var workoutPlan in workoutPlans.values) {
       for (var splitDay in workoutPlan.days.values) {

@@ -41,7 +41,14 @@ class DockState extends State<Dock> with TickerProviderStateMixin {
   @override
   void initState() {
     widget.controller?.addListener(() {
-      setIndex(indexes[widget.controller!.currentIndex], indexesAbs[widget.controller!.currentIndex]);
+      if (widget.controller!.setCurrentIndex) {
+        setIndex(indexes[widget.controller!.currentIndex],
+            indexesAbs[widget.controller!.currentIndex]);
+      }
+      if (widget.controller!.setCurrentSliderIndex) {
+        setSliderIndex(indexes[widget.controller!.currentSliderIndex],
+            indexesAbs[widget.controller!.currentSliderIndex]);
+      }
     });
 
     currentIndexAbs = widget.currentIndex;
@@ -66,6 +73,15 @@ class DockState extends State<Dock> with TickerProviderStateMixin {
     widget.onTap.call(index);
     setDelayedIndex();
     currentIndexAbs = indexAbs;
+    //widget.controller?.currentIndex = indexAbs;
+  }
+
+  void setSliderIndex(int index, indexAbs) {
+    setState(() {
+      setDelayedIndex();
+      currentIndexAbs = indexAbs;
+      widget.controller?.currentIndex = indexAbs;
+    });
   }
 
   void setDelayedIndex() {
@@ -91,16 +107,27 @@ class DockState extends State<Dock> with TickerProviderStateMixin {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       getTileWidths();
     });
-    MediaQuery.of(context).size.width - widget.initialPadding.left - widget.initialPadding.right;
+    MediaQuery.of(context).size.width -
+        widget.initialPadding.left -
+        widget.initialPadding.right;
     tiles = createTiles();
+    widget.controller?.indexes = indexes;
 
     return Padding(
-      padding: EdgeInsets.only(left: 10, right: 10, bottom: MediaQuery.of(context).padding.bottom + 10),
+      padding: EdgeInsets.only(
+          left: 10,
+          right: 10,
+          bottom: MediaQuery.of(context).padding.bottom + 10),
       child: Container(
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25),
-              boxShadow: [BoxShadow(color: Colors.white.withOpacity(0.3), blurRadius: 0, spreadRadius: 1)]),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.white.withOpacity(0.3),
+                    blurRadius: 0,
+                    spreadRadius: 1)
+              ]),
           child: SizedBox(
             height: 50,
             child: Stack(
@@ -110,24 +137,35 @@ class DockState extends State<Dock> with TickerProviderStateMixin {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomLeft, colors: [
-                    Colors.black.withOpacity(0),
-                    Colors.black.withOpacity(0.5),
-                  ])),
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomLeft,
+                          colors: [
+                        Colors.black.withOpacity(0),
+                        Colors.black.withOpacity(0.5),
+                      ])),
                 ),
                 if (tileWidths.isNotEmpty)
                   AnimatedPositioned(
                     top: 0,
                     bottom: 0,
                     left: (getTabDirection()
-                        ? tileWidths.take(currentIndexAbsDelayed + 1).reduce((value, element) => value + element) -
+                        ? tileWidths
+                                .take(currentIndexAbsDelayed + 1)
+                                .reduce((value, element) => value + element) -
                             tileWidths.elementAt(currentIndexAbsDelayed)
-                        : tileWidths.take(currentIndexAbs + 1).reduce((value, element) => value + element) -
+                        : tileWidths
+                                .take(currentIndexAbs + 1)
+                                .reduce((value, element) => value + element) -
                             tileWidths.elementAt(currentIndexAbs)),
                     right: tilesWidth -
                         (getTabDirection()
-                            ? tileWidths.take(currentIndexAbs + 1).reduce((value, element) => value + element)
-                            : tileWidths.take(currentIndexAbsDelayed + 1).reduce((value, element) => value + element)),
+                            ? tileWidths
+                                .take(currentIndexAbs + 1)
+                                .reduce((value, element) => value + element)
+                            : tileWidths
+                                .take(currentIndexAbsDelayed + 1)
+                                .reduce((value, element) => value + element)),
                     duration: const Duration(milliseconds: 300),
                     curve: const Cubic(0, 0, 0, 1),
                     child: Padding(
@@ -169,20 +207,20 @@ class DockState extends State<Dock> with TickerProviderStateMixin {
       indexes.add(currIndex);
       switch (item.runtimeType) {
         case const (DockTabItem):
-          _DockTabTile tile = _DockTabTile(
+          final _DockTabTile tile = _DockTabTile(
             onBuildGetWidth: (width) {
               _tileWidthsPreScale.add(width);
               setState(() {});
             },
-            minWidth: (MediaQuery.of(context).size.width - (widget.initialPadding.left + widget.initialPadding.right)) /
+            minWidth: (MediaQuery.of(context).size.width -
+                    (widget.initialPadding.left +
+                        widget.initialPadding.right)) /
                 widget.items.length,
             text: item.text,
             callback: () {
-              if (indexes[i] != widget.currentIndex) {
-                setIndex(indexes[i], indexesAbs[i]);
-                widget.controller?.currentIndex = indexesAbs[1];
-                HapticFeedback.lightImpact();
-              }
+              setIndex(indexes[i], indexesAbs[i]);
+              widget.controller?.currentIndex = indexesAbs[1];
+              HapticFeedback.lightImpact();
             },
             child: (item as DockTabItem).child,
           );
@@ -195,11 +233,14 @@ class DockState extends State<Dock> with TickerProviderStateMixin {
               _tileWidthsPreScale.add(width);
               setState(() {});
             },
-            minWidth: (MediaQuery.of(context).size.width - (widget.initialPadding.left + widget.initialPadding.right)) /
+            minWidth: (MediaQuery.of(context).size.width -
+                    (widget.initialPadding.left +
+                        widget.initialPadding.right)) /
                 widget.items.length,
-            text: item.text,
-            backgroundColor: (item as DockFunctionItem).iconColor!,
+            icon: item.icon,
+            backgroundColor: (item as DockFunctionItem).iconColor,
             function: item.function,
+            child: (item).child,
           );
           tabTiles.add(tile);
           break;
@@ -212,13 +253,15 @@ class DockState extends State<Dock> with TickerProviderStateMixin {
 }
 
 abstract class DockTile extends StatelessWidget {
-  final String text;
+  final String? text;
+  final IconData? icon;
   final double minWidth;
   final Function(double)? onBuildGetWidth;
 
   const DockTile({
     super.key,
-    required this.text,
+    this.text,
+    this.icon,
     required this.minWidth,
     this.onBuildGetWidth,
   });
@@ -228,7 +271,11 @@ class _DockTabTile extends DockTile {
   final void Function() callback;
   final Widget? child;
   const _DockTabTile(
-      {required super.text, required super.minWidth, required this.callback, this.child, super.onBuildGetWidth});
+      {required super.text,
+      required super.minWidth,
+      required this.callback,
+      this.child,
+      super.onBuildGetWidth});
 
   @override
   Widget build(BuildContext context) {
@@ -245,7 +292,7 @@ class _DockTabTile extends DockTile {
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: child ??
                     Text(
-                      text,
+                      text ?? "",
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         color: Colors.white.withOpacity(0.7),
@@ -260,13 +307,18 @@ class _DockTabTile extends DockTile {
 
 class _DockFunctionTile extends DockTile {
   final void Function() function;
-  final Color backgroundColor;
+  final Color? backgroundColor;
+  final Widget? child;
+  final IconData? icon;
+  final String? text;
   const _DockFunctionTile(
-      {required super.text,
-      required this.function,
+      {required this.function,
       required super.minWidth,
-      required this.backgroundColor,
-      super.onBuildGetWidth});
+      this.icon,
+      this.text,
+      this.backgroundColor,
+      super.onBuildGetWidth,
+      this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -279,15 +331,21 @@ class _DockFunctionTile extends DockTile {
             constraints: BoxConstraints(minWidth: minWidth),
             color: Colors.transparent,
             child: Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Text(
-                  text,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
+              child: text != null
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        text!,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    )
+                  : child ??
+                      Icon(
+                        icon,
+                        color: backgroundColor,
+                      ),
             )),
       ),
     );
@@ -295,11 +353,10 @@ class _DockFunctionTile extends DockTile {
 }
 
 class DockItem {
-  final String text;
+  final String? text;
+  final IconData? icon;
 
-  DockItem({
-    required this.text,
-  });
+  DockItem({this.text, this.icon});
 }
 
 class DockTabItem extends DockItem {
@@ -311,6 +368,8 @@ class DockTabItem extends DockItem {
 class DockFunctionItem extends DockItem {
   final void Function() function;
   Color? iconColor = Colors.grey;
+  Widget? child = Container();
 
-  DockFunctionItem({required super.text, required this.function, this.iconColor});
+  DockFunctionItem(
+      {super.icon, required this.function, this.iconColor, this.child});
 }
