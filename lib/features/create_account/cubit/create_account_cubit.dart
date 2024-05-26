@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:pulse_pro/repositories/user_repository.dart';
 import 'package:pulse_pro/shared/models/workout_plan.dart';
 
@@ -13,14 +12,14 @@ class CreateAccountCubit extends Cubit<CreateAccountState> {
 
   final UserRepository userRepository;
 
-  Future<void> createUserObject(BuildContext context,
+  Future<void> createUserObject(
       {required String name,
       required int birthdate,
       required double weight,
       required int height,
       required String gender}) async {
     emit(CreatingAccount());
-    await userRepository.createUserObject(context,
+    await userRepository.createUserObject(
         name: name,
         birthdate: birthdate,
         weight: weight,
@@ -29,7 +28,7 @@ class CreateAccountCubit extends Cubit<CreateAccountState> {
     emit(CreateAccountInitial());
   }
 
-  Future<List<List<String>>> generateSplit(context,
+  Future<List<List<String>>> generateSplit(
       {required String gender,
       required String workoutGoal,
       required String workoutIntensity,
@@ -40,7 +39,7 @@ class CreateAccountCubit extends Cubit<CreateAccountState> {
       required String sportOrientation,
       required String workoutExperience}) async {
     emit(GeneratingSplit());
-    final split = await userRepository.generateSplit(context,
+    final split = await userRepository.generateSplit(
         gender: gender,
         workoutGoal: workoutGoal,
         workoutIntensity: workoutIntensity,
@@ -54,7 +53,7 @@ class CreateAccountCubit extends Cubit<CreateAccountState> {
     return split;
   }
 
-  Future<WorkoutPlan> generateWorkoutPlan(context,
+  Future<WorkoutPlan> generateWorkoutPlan(
       {required List<List<String>> split,
       required String workoutGoal,
       required String gender,
@@ -65,7 +64,7 @@ class CreateAccountCubit extends Cubit<CreateAccountState> {
       required String sportOrientation,
       required String workoutExperience}) async {
     emit(GeneratingWorkoutPlan());
-    final workoutPlan = await userRepository.generateWorkoutPlan(context,
+    final workoutPlan = await userRepository.generateWorkoutPlan(
         split: split,
         workoutGoal: workoutGoal,
         gender: gender,

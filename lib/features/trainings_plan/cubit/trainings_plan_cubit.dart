@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -10,14 +11,12 @@ import 'package:pulse_pro/shared/models/exercise.dart';
 import 'package:pulse_pro/shared/models/pulsepro_user.dart';
 import 'package:pulse_pro/shared/models/user_exercise.dart';
 import 'package:pulse_pro/shared/models/workout_plan.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'trainings_plan_state.dart';
 
 class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
-  TrainingsPlanCubit(
-      {required this.appStateBloc,
-      required this.userRepository,
-      required this.exerciseRepository})
+  TrainingsPlanCubit({required this.appStateBloc, required this.userRepository, required this.exerciseRepository})
       : super(const TrainingsPlanState.loading()) {
     _subscription = appStateBloc.stream.listen((state) {
       if (state is! AppStateLoggedIn) return;
@@ -40,9 +39,6 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
     final history = pulseProUser.history;
 
     final Map<String, Exercise> exercises = {};
-
-    print(pulseProUser.workoutPlans);
-    print(pulseProUser.currentWorkoutPlan);
     if (currentWorkoutPlan == null) return;
     for (var workoutPlan in workoutPlans.values) {
       for (var splitDay in workoutPlan.days.values) {
@@ -57,10 +53,23 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
     if (state.status == TrainingsPlanStatus.loading) {
       final now = DateTime.now();
       final cleanNowDate = DateTime(now.year, now.month, now.day);
-      final currentSplitDay =
-          _calculateCurrentSplitDay(history, currentWorkoutPlan);
-      final plan =
-          _calculatePlan(currentSplitDay, cleanNowDate, currentWorkoutPlan);
+      final currentSplitDay = _calculateCurrentSplitDay(history, currentWorkoutPlan);
+      final plan = _calculatePlan(currentSplitDay, cleanNowDate, currentWorkoutPlan);
+      final todayDone = history.any((element) => element.date == cleanNowDate);
+
+      final prefs = await SharedPreferences.getInstance();
+      final prefix = '${now.year}${now.month}${now.day}_';
+      Map<String, Map<int, double>>? progressMap;
+      Map<String, DateTime>? timestampMap;
+
+      if (prefs.getString('${prefix}progess') != null && prefs.getString('${prefix}timestamps') != null) {
+        final progress = jsonDecode(prefs.getString('${prefix}progess')!) as Map<String, dynamic>;
+        progressMap = progress.map((key, value) =>
+            MapEntry(key, (value as Map).map((key, value) => MapEntry(int.parse(key), value as double))));
+
+        final timestamps = jsonDecode(prefs.getString('${prefix}timestamps')!) as Map<String, dynamic>;
+        timestampMap = timestamps.map((key, value) => MapEntry(key, DateTime.parse(value as String)));
+      }
 
       return emit(TrainingsPlanState.loaded(
         userId,
@@ -71,6 +80,9 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
         exercises,
         cleanNowDate,
         currentSplitDay,
+        todayDone,
+        progress: progressMap ?? {},
+        timestamps: timestampMap ?? {},
       ));
     }
 
@@ -84,8 +96,7 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
     return exercise;
   }
 
-  int _calculateCurrentSplitDay(
-      List<HistoryDayEntry> history, WorkoutPlan workoutPlan) {
+  int _calculateCurrentSplitDay(List<HistoryDayEntry> history, WorkoutPlan workoutPlan) {
     if (history.isEmpty) return 0;
     final lastDay = history.last;
 
@@ -97,8 +108,7 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
 
     final now = DateTime.now();
 
-    final cleanLastDate =
-        DateTime(lastDay.date.year, lastDay.date.month, lastDay.date.day);
+    final cleanLastDate = DateTime(lastDay.date.year, lastDay.date.month, lastDay.date.day);
     final cleanNowDate = DateTime(now.year, now.month, now.day);
     int difference = 0;
 
@@ -110,8 +120,7 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
     return currentSplitDay;
   }
 
-  List<PlanDayEntry> _calculatePlan(
-      int currentSplitDay, DateTime now, WorkoutPlan workoutPlan) {
+  List<PlanDayEntry> _calculatePlan(int currentSplitDay, DateTime now, WorkoutPlan workoutPlan) {
     final List<PlanDayEntry> plan = [];
 
     int nextSplitDay = currentSplitDay + 1;
@@ -136,6 +145,46 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
     return emit(state.copyWith(currentDay: cleanDate));
   }
 
+  Future<void> startTraining() async {
+    await _setTimestamp();
+    await _setTimestamp(exercise: state.currentWorkoutPlan!.days[state.currentSplitDay]!.exercises!.first);
+  }
+
+  Future<void> finishTraining() async {
+    await _setTimestamp();
+
+    if (state.currentWorkoutPlan == null) return;
+    final splitday = state.currentWorkoutPlan!.days[state.currentSplitDay]!;
+
+    final historyEntry = HistoryDayEntry(
+        workoutPlanId: state.currentWorkoutPlan!.id,
+        splitDayNumber: state.currentSplitDay,
+        date: state.currentDay ?? DateTime.now(),
+        completedSplitDay: splitday,
+        duration: DateTime.now().difference(state.timestamps['start']!));
+
+        print(historyEntry.toJson());
+
+    await userRepository.addHistoryDayEntry(state.userId, historyEntry);
+    return emit(state.copyWith(history: [...state.history, historyEntry], todayDone: true));
+  }
+
+  Future<void> _setTimestamp({UserExercise? exercise}) async {
+    if (exercise == null) {
+      if (state.timestamps.containsKey('start')) {
+        emit(state.copyWith(timestamps: {...state.timestamps, 'end': DateTime.now()}));
+        _saveProgressLocally();
+        return;
+      }
+
+      emit(state.copyWith(timestamps: {...state.timestamps, 'start': DateTime.now()}));
+      _saveProgressLocally();
+      return;
+    }
+
+    emit(state.copyWith(timestamps: {...state.timestamps, exercise.id: DateTime.now()}));
+  }
+
   Future<void> updateExerciseWeight(UserExercise exercise, int splitDayKey, int selectedSet, double weight) async {
     if (state.currentWorkoutPlan == null) return;
 
@@ -152,8 +201,7 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
     exercises.add(exercise.copyWith(weights: weights));
 
     final updatedSplitDay = splitDay.copyWith(exercises: exercises);
-    final updatedWorkoutPlan = workoutPlan
-        .copyWith(days: {...workoutPlan.days, splitDayKey: updatedSplitDay});
+    final updatedWorkoutPlan = workoutPlan.copyWith(days: {...workoutPlan.days, splitDayKey: updatedSplitDay});
     final updatedWorkoutPlans = state.workoutPlans;
     updatedWorkoutPlans[workoutPlan.id] = updatedWorkoutPlan;
 
@@ -166,6 +214,18 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
       progress[selectedSet] = weight;
     }
     emit(state.copyWith(workoutPlans: updatedWorkoutPlans, progress: {...state.progress, exercise.id: progress}));
+    await _saveProgressLocally();
+  }
+
+  Future<void> _saveProgressLocally() async {
+    final prefs = await SharedPreferences.getInstance();
+    final now = DateTime.now();
+    final prefix = '${now.year}${now.month}${now.day}_';
+
+    await prefs.setString('${prefix}progess',
+        jsonEncode(state.progress.map((key, value) => MapEntry(key, value.map((k, v) => MapEntry(k.toString(), v))))));
+    await prefs.setString('${prefix}timestamps',
+        jsonEncode(state.timestamps.map((key, value) => MapEntry(key, value.toIso8601String()))));
   }
 
   @override

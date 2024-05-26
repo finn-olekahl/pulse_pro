@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pulse_pro/features/trainings_plan/cubit/trainings_plan_cubit.dart';
-import 'package:pulse_pro/features/trainings_plan/view/widgets/splitday_view.dart';
 
 class DaysView extends StatefulWidget {
   const DaysView({super.key});
@@ -16,7 +15,7 @@ class _DaysViewState extends State<DaysView> {
   void initState() {
     _pageController.addListener(() {
       final index = _pageController.page!;
-      if (index != index.toInt().toDouble()) return;
+      
 
       final state = context.read<TrainingsPlanCubit>().state;
       if (index < state.history.length) {
@@ -24,10 +23,10 @@ class _DaysViewState extends State<DaysView> {
         return;
       }
 
-      if (index >= state.history.length + 1) {
+      if (index >= state.history.length + (state.todayDone ? 0 : 1)) {
         context
             .read<TrainingsPlanCubit>()
-            .updateCurrentDay(state.plan[index.toInt() - (state.history.length + 1)].date);
+            .updateCurrentDay(state.plan[index.toInt() - (state.history.length + (state.todayDone ? 0 : 1))].date);
         return;
       }
 
@@ -47,25 +46,6 @@ class _DaysViewState extends State<DaysView> {
         final now = DateTime.now();
         final cleanNow = DateTime(now.year, now.month, now.day);
 
-        if (state.currentDay!.compareTo(cleanNow) < 0) {
-          final index = state.history.indexWhere((element) => element.date.compareTo(state.currentDay!) == 0);
-          setState(() {
-            _pageController.jumpToPage(index);
-          });
-          return;
-        }
-
-        if (state.currentDay!.compareTo(cleanNow) > 0) {
-          final index = state.plan.indexWhere((element) => element.date.compareTo(state.currentDay!) == 0);
-          setState(() {
-            _pageController.jumpToPage(index + state.history.length + 1);
-          });
-          return;
-        }
-
-        setState(() {
-          _pageController.jumpToPage(state.history.length);
-        });
       },
       builder: (context, state) {
         if (state.currentWorkoutPlan == null) {
@@ -74,21 +54,9 @@ class _DaysViewState extends State<DaysView> {
 
         return PageView.builder(
             controller: _pageController,
-            itemCount: state.history.length + state.plan.length + 1,
+            itemCount: state.history.length + state.plan.length + (state.todayDone ? 0 : 1),
             itemBuilder: (context, index) {
-              if (index < state.history.length) {
-                return SplitDayView(splitDay: state.history[index].completedSplitDay, exercises: state.exercises);
-              }
-
-              if (index >= state.history.length + 1) {
-                return SplitDayView(
-                    splitDay:
-                        state.currentWorkoutPlan!.days[state.plan[index - (state.history.length + 1)].splitDayNumber]!,
-                    exercises: state.exercises);
-              }
-
-              return SplitDayView(
-                  splitDay: state.currentWorkoutPlan!.days[state.currentSplitDay]!, exercises: state.exercises);
+              return const SizedBox();
             });
       },
     );
