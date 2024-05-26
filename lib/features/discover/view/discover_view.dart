@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pulse_pro/features/home/cubit/home_cubit.dart';
 
 class DiscoverView extends StatefulWidget {
   const DiscoverView({super.key});
