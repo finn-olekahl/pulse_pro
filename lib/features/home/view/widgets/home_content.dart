@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pulse_pro/bloc/app_state_bloc.dart';
-import 'package:pulse_pro/features/home/view/widgets/muscle_highlight.dart';
+import 'package:pulse_pro/features/home/view/widgets/muscle_indicator.dart';
+import 'package:pulse_pro/shared/models/muscle_group.dart';
 
 class HomeContent extends StatefulWidget {
   const HomeContent({super.key});
@@ -187,34 +188,27 @@ class _HomeContentState extends State<HomeContent>
                           const SizedBox(
                             height: 10,
                           ),
-                          Align(
-                            alignment: Alignment.bottomRight,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: Colors.deepPurple.shade300
-                                      .withOpacity(0.2)),
-                              child: Row(
-                                children: [
-                                  Container(
-                                      child: const MuscleHighlightWidget(
-                                    muscleGroups: [
-                                      MuscleGroup.abs,
-                                      MuscleGroup.chest,
-                                      MuscleGroup.calves
-                                    ],
-                                  )),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 12, vertical: 10),
-                                    child: FaIcon(
-                                      color: Colors.deepPurple.shade300,
-                                      size: 20,
-                                      FontAwesomeIcons.arrowRightLong,
-                                    ),
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.deepPurple.shade300
+                                    .withOpacity(0.2)),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(30),
+                                  child: MuscleIndicator(
+                                    silhouetteColor: Colors.deepPurple.shade400
+                                        .withOpacity(0.15),
+                                    muscleBaseColor: Colors.deepPurple.shade400
+                                        .withOpacity(0.3),
+                                    muscleHighlightColor: Colors
+                                        .deepPurple.shade300
+                                        .withOpacity(1),
+                                    muscleGroups: [MuscleGroup.forearms],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           )
                         ],
