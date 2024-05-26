@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pulse_pro/bloc/app_state_bloc.dart';
 import 'package:pulse_pro/features/trainings_plan/cubit/trainings_plan_cubit.dart';
 
@@ -47,25 +48,26 @@ class _HomeContentState extends State<HomeContent>
           children: [
             Container(
               width: double.infinity,
-              height: MediaQuery.sizeOf(context).width * 0.7 - 40,
+              height: MediaQuery.sizeOf(context).width * 0.6,
               child: Stack(
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(40).copyWith(bottom: 0),
+                    padding: const EdgeInsets.only(top: 40, left: 20, right: 20)
+                        .copyWith(bottom: 0),
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
+                        borderRadius: BorderRadius.circular(30),
                         border: Border.all(
                           strokeAlign: BorderSide.strokeAlignCenter,
-                          color:
-                              Color.fromARGB(255, 255, 183, 0).withOpacity(0.3),
-                          width: 1,
+                          color: const Color.fromARGB(255, 255, 183, 0)
+                              .withOpacity(0.3),
+                          width: 3,
                         ),
                       ),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
+                        borderRadius: BorderRadius.circular(30),
                         child: Padding(
-                          padding: EdgeInsets.all(50),
+                          padding: const EdgeInsets.all(45),
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.transparent,
@@ -73,7 +75,7 @@ class _HomeContentState extends State<HomeContent>
                                 BoxShadow(
                                   blurRadius: 80,
                                   blurStyle: BlurStyle.normal,
-                                  color: Color.fromARGB(255, 255, 119, 0)
+                                  color: const Color.fromARGB(255, 255, 119, 0)
                                       .withOpacity(0.4),
                                 ),
                               ],
@@ -96,14 +98,14 @@ class _HomeContentState extends State<HomeContent>
                             borderRadius: BorderRadius.circular(999),
                           ),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 30),
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
                             child: Center(
                               child: Text(
                                 "Streak: ${(context.read<AppStateBloc>().state as AppStateLoggedIn).pulseProUser.streak}",
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontFamily: "sansman",
-                                  fontSize: 25,
+                                  fontSize: 17.5,
                                 ),
                               ),
                             ),
@@ -117,7 +119,7 @@ class _HomeContentState extends State<HomeContent>
                       animation: _animation,
                       builder: (context, child) {
                         return Transform.translate(
-                          offset: const Offset(0, -25),
+                          offset: const Offset(0, -20),
                           child: Transform.scale(
                             scale: _animation.value,
                             child: Transform.rotate(
@@ -135,6 +137,83 @@ class _HomeContentState extends State<HomeContent>
                 ],
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 25 + 20),
+              child: Column(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 3,
+                            color: Colors.deepPurple.shade200.withOpacity(0.2)),
+                        boxShadow: [
+                          BoxShadow(
+                              color:
+                                  Colors.deepPurple.shade400.withOpacity(0.4)),
+                          const BoxShadow(
+                            blurStyle: BlurStyle.inner,
+                            color: Color.fromARGB(255, 15, 8, 26),
+                            spreadRadius: 10.0,
+                            blurRadius: 40.0,
+                          )
+                        ],
+                        borderRadius: BorderRadius.circular(30)),
+                    padding: const EdgeInsets.all(15),
+                    child: Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text.rich(TextSpan(
+                              style: TextStyle(
+                                  color: Colors.white.withOpacity(0.75),
+                                  fontFamily: "sansman",
+                                  fontSize: 20),
+                              children: const [
+                                TextSpan(
+                                  text: "Todays ",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                TextSpan(
+                                  text: "Mission",
+                                  style: TextStyle(
+                                      color: Colors.deepPurple),
+                                ),
+                              ])),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.deepPurple.shade300
+                                    .withOpacity(0.2)),
+                            child: Row(
+                              children: [
+                                Container(
+                                  child: //here should be the image, the paths to the svgs are "assets/images/body_front.svg" and "assets/images/body_back.svg"
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 10),
+                                  child: FaIcon(
+                                    color: Colors.deepPurple.shade300,
+                                    size: 20,
+                                    FontAwesomeIcons.arrowRightLong,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),

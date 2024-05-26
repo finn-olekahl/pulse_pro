@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:preload_page_view/preload_page_view.dart';
+import 'package:pulse_pro/features/discover/discover_page.dart';
 
 import 'package:pulse_pro/features/home/view/widgets/dock/dock.dart';
 import 'package:pulse_pro/features/home/view/widgets/dock/dock_controller.dart';
 import 'package:pulse_pro/features/home/view/widgets/home_content.dart';
+import 'package:pulse_pro/features/profile/profile_page.dart';
 import 'package:pulse_pro/features/trainings_plan/plan_page.dart';
 
 class HomeView extends StatefulWidget {
@@ -45,15 +47,11 @@ class _HomeViewState extends State<HomeView> {
             }
           }
         },
-        children: [
-          const HomeContent(),
-          Container(
-            color: Colors.black,
-          ),
-          const TrainingPlanPage(),
-          Container(
-            color: Colors.yellow,
-          ),
+        children: const [
+          HomeContent(),
+          DiscoverPage(),
+          TrainingPlanPage(),
+          ProfilePage()
         ],
       ),
       bottomNavigationBar: Dock(

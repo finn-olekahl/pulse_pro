@@ -80,7 +80,7 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
 
   Future<Exercise> _loadExercise(String exerciseId) async {
     final exercise = await exerciseRepository.getExercise(exerciseId);
-    if (exercise == null) throw Exception('Exercise not found');
+    if (exercise == null) throw Exception('Exercise not found: $exerciseId');
     return exercise;
   }
 

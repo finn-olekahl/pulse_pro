@@ -115,35 +115,27 @@ class DockState extends State<Dock> with TickerProviderStateMixin {
 
     return Padding(
       padding: EdgeInsets.only(
-          left: 10,
-          right: 10,
+          left: 30,
+          right: 30,
           bottom: MediaQuery.of(context).padding.bottom + 10),
       child: Container(
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.white.withOpacity(0.3),
-                    blurRadius: 0,
-                    spreadRadius: 1)
-              ]),
+            borderRadius: BorderRadius.circular(25),
+            border: Border.all(
+                width: 2,
+                color: Colors.deepPurple.shade200.withOpacity(0.2),
+                strokeAlign: BorderSide.strokeAlignOutside),
+          ),
           child: SizedBox(
             height: 50,
             child: Stack(
               children: [
                 Container(
-                  color: Colors.black,
-                ),
-                Container(
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomLeft,
-                          colors: [
-                        Colors.black.withOpacity(0),
-                        Colors.black.withOpacity(0.5),
-                      ])),
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(25),
+                  ),
                 ),
                 if (tileWidths.isNotEmpty)
                   AnimatedPositioned(
@@ -174,7 +166,7 @@ class DockState extends State<Dock> with TickerProviderStateMixin {
                         child: Container(
                           height: 36,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
+                            borderRadius: BorderRadius.circular(999),
                             color: Colors.deepPurple,
                           ),
                         ),
@@ -285,8 +277,7 @@ class _DockTabTile extends DockTile {
           behavior: HitTestBehavior.translucent,
           onTap: callback,
           child: Container(
-            constraints: BoxConstraints(minWidth: minWidth),
-            color: Colors.transparent,
+            constraints: BoxConstraints(minWidth: minWidth, minHeight: 55),
             child: Center(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -295,7 +286,7 @@ class _DockTabTile extends DockTile {
                       text ?? "",
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
-                        color: Colors.white.withOpacity(0.7),
+                        color: Colors.deepPurple.shade200,
                       ),
                     ),
               ),

@@ -22,5 +22,4 @@ enum MuscleGroup {
   triceps,
   upperBack,
   upperBody,
-  wrists,
 }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -72,6 +73,7 @@ class UserRepository {
     };
 
     final HttpsCallableResult result = await callable.call(data);
+    log(result.data.toString());
 
     final jsonString = result.data['response'][0]['text']['value'];
     Map<String, dynamic> jsonMap = jsonDecode(jsonString);
@@ -115,8 +117,10 @@ class UserRepository {
     };
 
     final HttpsCallableResult result = await callable.call(data);
+    log(result.data.toString());
 
-    final jsonString = result.data['response'][0]['text']['value'];
+    final jsonString =
+        cleanJsonString(result.data['response'][0]['text']['value']);
     Map<String, dynamic> jsonRaw = jsonDecode(jsonString);
 
     Map<String, dynamic> json = {
@@ -146,10 +150,23 @@ class UserRepository {
   }
 
   Future<void> updateCurrentWorkoutPlan(String userId, String id) async {
-    await FirebaseFirestore.instance.collection('user').doc(userId).update({
-      'current_workout_plan': id
-    });
-  } 
+    await FirebaseFirestore.instance
+        .collection('user')
+        .doc(userId)
+        .update({'current_workout_plan': id});
+  }
+
+  dynamic cleanJsonString(String jsonString) {
+    const pattern = r'^```json\s*(.*?)\s*```$';
+    final regex = RegExp(pattern, dotAll: true);
+    final match = regex.firstMatch(jsonString);
+
+    if (match != null && match.groupCount >= 1) {
+      return match.group(1)!.trim();
+    }
+
+    return jsonString.trim();
+  }
 }
 
 enum SportOrientation {

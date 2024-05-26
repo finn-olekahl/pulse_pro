@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pulse_pro/bloc/app_state_bloc.dart';
@@ -29,7 +30,9 @@ class _CreateAccountLoadingViewState extends State<CreateAccountLoadingView> {
       return "Workout Split Generation in Progress...";
     } else if (context.watch<CreateAccountCubit>().state
         is GeneratingWorkoutPlan) {
-      return "Generating your Workout Plan...";
+      return "Generating Your Workout Plan...";
+    } else if (context.watch<CreateAccountCubit>().state is AddingWorkoutPlan) {
+      return "Adding Workout Plan to Your Account...";
     }
     return "";
   }
@@ -56,13 +59,7 @@ class _CreateAccountLoadingViewState extends State<CreateAccountLoadingView> {
         height != null &&
         name != null &&
         gender != null) {
-      await context.read<CreateAccountCubit>().createUserObject(context,
-          name: name,
-          birthdate: birthDate,
-          weight: weight,
-          height: height,
-          gender: gender);
-
+          print("generating split....");
       List<List<String>> split = await context
           .read<CreateAccountCubit>()
           .generateSplit(context,
@@ -76,6 +73,7 @@ class _CreateAccountLoadingViewState extends State<CreateAccountLoadingView> {
               sportOrientation: sportOrientation!,
               workoutExperience: workoutExperience!);
 
+      print("generating workout plan....");
       WorkoutPlan workoutPlan = await context
           .read<CreateAccountCubit>()
           .generateWorkoutPlan(context,
@@ -89,16 +87,27 @@ class _CreateAccountLoadingViewState extends State<CreateAccountLoadingView> {
               sportOrientation: sportOrientation,
               workoutExperience: workoutExperience);
 
-      print(workoutPlan.toJson().toString());
-      context
+      log(workoutPlan.toJson().toString());
+            await context.read<CreateAccountCubit>().createUserObject(context,
+          name: name,
+          birthdate: birthDate,
+          weight: weight,
+          height: height,
+          gender: gender);
+      print("updating workout plans....");
+      await context
           .read<CreateAccountCubit>()
           .updateWorkoutPlans({workoutPlan.id: workoutPlan});
-      context
+      print("update current workout plan....");
+      await context
           .read<CreateAccountCubit>()
           .updateCurrentWorkoutPlan(workoutPlan.id);
 
-      print("Here, the user should be redirected");
+      print("redirect....");
       context.read<AppStateBloc>().add(const LocalUserLookUp());
+      setState(() {
+        
+      });
     }
   }
 

@@ -14,3 +14,5 @@ final class CreatingAccount extends CreateAccountState {}
 final class GeneratingSplit extends CreateAccountState {}
 
 final class GeneratingWorkoutPlan extends CreateAccountState {}
+
+final class AddingWorkoutPlan extends CreateAccountState {}

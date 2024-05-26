@@ -32,6 +32,8 @@ class UserExercise {
       );
 
   factory UserExercise.fromJson(Map<String, dynamic> json) {
+    print(json['id']);
+    print(json['effort_level']);
     return UserExercise(
       id: json['id'],
       sets: json['sets'],

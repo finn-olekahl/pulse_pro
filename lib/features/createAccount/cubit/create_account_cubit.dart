@@ -80,10 +80,12 @@ class CreateAccountCubit extends Cubit<CreateAccountState> {
   }
 
   Future<void> updateWorkoutPlans(Map<String, WorkoutPlan> workoutPlans) async {
+    emit(AddingWorkoutPlan());
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       await userRepository.updateWorkoutPlans(user.uid, workoutPlans);
     }
+    emit(CreateAccountInitial());
   }
 
   Future<void> updateCurrentWorkoutPlan(String id) async {
