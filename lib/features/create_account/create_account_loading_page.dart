@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pulse_pro/features/createAccount/cubit/create_account_cubit.dart';
-import 'package:pulse_pro/features/createAccount/view/create_account_loading_view.dart';
+import 'package:pulse_pro/features/create_account/cubit/create_account_cubit.dart';
+import 'package:pulse_pro/features/create_account/view/create_account_loading_view.dart';
 import 'package:pulse_pro/repositories/user_repository.dart';
 
 class CreateAccountLoadingPage extends StatelessWidget {

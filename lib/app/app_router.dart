@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pulse_pro/bloc/app_state_bloc.dart';
 import 'package:pulse_pro/features/home/home_page.dart';
-import 'package:pulse_pro/features/createAccount/create_account_loading_page.dart';
+import 'package:pulse_pro/features/create_account/create_account_loading_page.dart';
 import 'package:pulse_pro/features/login/login_page.dart';
 import 'package:pulse_pro/features/profile/profile_page.dart';
 import 'package:pulse_pro/features/splash/view/splash_screen.dart';

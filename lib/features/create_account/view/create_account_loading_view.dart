@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pulse_pro/bloc/app_state_bloc.dart';
-import 'package:pulse_pro/features/createAccount/cubit/create_account_cubit.dart';
+import 'package:pulse_pro/features/create_account/cubit/create_account_cubit.dart';
 import 'package:pulse_pro/shared/models/workout_plan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -62,7 +62,7 @@ class _CreateAccountLoadingViewState extends State<CreateAccountLoadingView> {
           print("generating split....");
       List<List<String>> split = await context
           .read<CreateAccountCubit>()
-          .generateSplit(context,
+          .generateSplit(
               gender: gender,
               workoutGoal: workoutGoal!,
               workoutIntensity: workoutIntensity!,
@@ -76,7 +76,7 @@ class _CreateAccountLoadingViewState extends State<CreateAccountLoadingView> {
       print("generating workout plan....");
       WorkoutPlan workoutPlan = await context
           .read<CreateAccountCubit>()
-          .generateWorkoutPlan(context,
+          .generateWorkoutPlan(
               split: split,
               gender: gender,
               workoutGoal: workoutGoal,
@@ -88,7 +88,7 @@ class _CreateAccountLoadingViewState extends State<CreateAccountLoadingView> {
               workoutExperience: workoutExperience);
 
       log(workoutPlan.toJson().toString());
-            await context.read<CreateAccountCubit>().createUserObject(context,
+            await context.read<CreateAccountCubit>().createUserObject(
           name: name,
           birthdate: birthDate,
           weight: weight,

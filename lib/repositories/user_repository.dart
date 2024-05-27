@@ -3,27 +3,24 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:pulse_pro/shared/models/day_entry.dart';
 import 'package:pulse_pro/shared/models/workout_plan.dart';
 import 'package:uuid/uuid.dart';
 
 class UserRepository {
   Future<bool> userExists(String userId) async {
-    final data =
-        await FirebaseFirestore.instance.collection('user').doc(userId).get();
+    final data = await FirebaseFirestore.instance.collection('user').doc(userId).get();
     return data.exists;
   }
 
-  Future<void> createUserObject(BuildContext context,
+  Future<void> createUserObject(
       {required String name,
       required int birthdate,
       required double weight,
       required int height,
       required String gender}) async {
     try {
-      HttpsCallable callable =
-          FirebaseFunctions.instanceFor(region: 'europe-west1')
-              .httpsCallable('createUserObject');
+      HttpsCallable callable = FirebaseFunctions.instanceFor(region: 'europe-west1').httpsCallable('createUserObject');
 
       // Prepare the data
       final Map<String, dynamic> data = {
@@ -45,7 +42,7 @@ class UserRepository {
     }
   }
 
-  Future<List<List<String>>> generateSplit(context,
+  Future<List<List<String>>> generateSplit(
       {required String gender,
       required String workoutGoal,
       required String workoutIntensity,
@@ -55,9 +52,7 @@ class UserRepository {
       required List<String> muscleFocus,
       required String sportOrientation,
       required String workoutExperience}) async {
-    HttpsCallable callable =
-        FirebaseFunctions.instanceFor(region: 'europe-west1')
-            .httpsCallable('createSplit');
+    HttpsCallable callable = FirebaseFunctions.instanceFor(region: 'europe-west1').httpsCallable('createSplit');
 
     // Prepare the data
     final Map<String, dynamic> data = {
@@ -79,17 +74,13 @@ class UserRepository {
     Map<String, dynamic> jsonMap = jsonDecode(jsonString);
 
     List<List<String>> split = (jsonMap['split'] as List<dynamic>)
-        .map((item) => (item as List<dynamic>)
-            .map((element) => element as String)
-            .toList())
+        .map((item) => (item as List<dynamic>).map((element) => element as String).toList())
         .toList();
-
-    print(split);
 
     return split;
   }
 
-  Future<WorkoutPlan> generateWorkoutPlan(context,
+  Future<WorkoutPlan> generateWorkoutPlan(
       {required List<List<String>> split,
       required String workoutGoal,
       required String gender,
@@ -99,9 +90,7 @@ class UserRepository {
       required List<String> muscleFocus,
       required String sportOrientation,
       required String workoutExperience}) async {
-    HttpsCallable callable =
-        FirebaseFunctions.instanceFor(region: 'europe-west1')
-            .httpsCallable('createWorkoutPlan');
+    HttpsCallable callable = FirebaseFunctions.instanceFor(region: 'europe-west1').httpsCallable('createWorkoutPlan');
 
     // Prepare the data
     final Map<String, dynamic> data = {
@@ -119,8 +108,7 @@ class UserRepository {
     final HttpsCallableResult result = await callable.call(data);
     log(result.data.toString());
 
-    final jsonString =
-        cleanJsonString(result.data['response'][0]['text']['value']);
+    final jsonString = cleanJsonString(result.data['response'][0]['text']['value']);
     Map<String, dynamic> jsonRaw = jsonDecode(jsonString);
 
     Map<String, dynamic> json = {
@@ -135,25 +123,28 @@ class UserRepository {
       'split': jsonRaw
     };
 
-    final WorkoutPlan workoutPlan =
-        WorkoutPlan.fromJson(const Uuid().v4(), json);
+    final WorkoutPlan workoutPlan = WorkoutPlan.fromJson(const Uuid().v4(), json);
 
     return workoutPlan;
   }
 
-  Future<void> updateWorkoutPlans(
-      String userId, Map<String, WorkoutPlan> workoutPlans) async {
-    await FirebaseFirestore.instance.collection('user').doc(userId).update({
-      'workout_plans':
-          workoutPlans.map((key, value) => MapEntry(key, value.toJson()))
-    });
-  }
-
-  Future<void> updateCurrentWorkoutPlan(String userId, String id) async {
+  Future<void> updateWorkoutPlans(String userId, Map<String, WorkoutPlan> workoutPlans) async {
     await FirebaseFirestore.instance
         .collection('user')
         .doc(userId)
-        .update({'current_workout_plan': id});
+        .update({'workout_plans': workoutPlans.map((key, value) => MapEntry(key, value.toJson()))});
+  }
+
+  Future<void> updateCurrentWorkoutPlan(String userId, String id) async {
+    await FirebaseFirestore.instance.collection('user').doc(userId).update({'current_workout_plan': id});
+  }
+
+  Future<void> addHistoryDayEntry(String userId, HistoryDayEntry historyDayEntry) async {
+    final userDoc = await FirebaseFirestore.instance.collection('user').doc(userId).get();
+    if (!userDoc.exists) return;
+
+    final history = userDoc.data()?['history'] as List<dynamic>? ?? [];
+    await FirebaseFirestore.instance.collection('user').doc(userId).update({'history': [...history, historyDayEntry.toJson()]});
   }
 
   dynamic cleanJsonString(String jsonString) {
