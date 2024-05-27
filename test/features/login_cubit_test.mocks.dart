@@ -111,7 +111,7 @@ class MockLoginCubit extends _i1.Mock implements _i3.LoginCubit {
       ) as _i5.Future<_i6.FirebaseAuthException?>);
 
   @override
-  _i5.Future<_i6.FirebaseAuthException?> signInWithEmailAndPassword({
+  _i5.Future<bool> signInWithEmailAndPassword({
     required String? email,
     required String? password,
   }) =>
@@ -124,10 +124,9 @@ class MockLoginCubit extends _i1.Mock implements _i3.LoginCubit {
             #password: password,
           },
         ),
-        returnValue: _i5.Future<_i6.FirebaseAuthException?>.value(),
-        returnValueForMissingStub:
-            _i5.Future<_i6.FirebaseAuthException?>.value(),
-      ) as _i5.Future<_i6.FirebaseAuthException?>);
+        returnValue: _i5.Future<bool>.value(false),
+        returnValueForMissingStub: _i5.Future<bool>.value(false),
+      ) as _i5.Future<bool>);
 
   @override
   _i5.Future<_i6.FirebaseAuthException?> signUpWithEmailAndPassword({
