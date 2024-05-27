@@ -15,18 +15,15 @@ void main() {
   late test_mocks.MockAuthenticationRepository mockAuthenticationRepository;
 
   setUp(() {
-    print('Setting up MockAuthenticationRepository');
     mockAuthenticationRepository = test_mocks.MockAuthenticationRepository();
   });
 
   testWidgets('LoginPage provides LoginCubit and shows LoginView', (WidgetTester tester) async {
-    print('Starting test: LoginPage provides LoginCubit and shows LoginView');
     final goRouter = GoRouter(
       routes: [
         GoRoute(
           path: '/',
           builder: (context, state) {
-            print('Building GoRoute');
             return BlocProvider(
               create: (context) => LoginCubit(authenticationRepository: mockAuthenticationRepository),
               child: const LoginPage(),
@@ -45,10 +42,8 @@ void main() {
     );
 
     await tester.pumpAndSettle(); // Warten bis alle Animationen und Frames verarbeitet wurden
-    print('Pumped widget');
 
     // Überprüfen, ob LoginView im Widgetbaum vorhanden ist
     expect(find.byType(LoginView), findsOneWidget);
-    print('LoginView found in the widget tree');
   });
 }
