@@ -26,6 +26,7 @@ class _HomeViewState extends State<HomeView> {
 
   bool _pageSwitchFromDock = false;
 
+  @override
   void initState() {
     _dockController = context.read<HomeCubit>().dockController;
     _pageController = PreloadPageController(initialPage: _currentScreen);

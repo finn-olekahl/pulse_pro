@@ -8,10 +8,10 @@ class HomeContent extends StatefulWidget {
   const HomeContent({super.key});
 
   @override
-  _HomeContentState createState() => _HomeContentState();
+  HomeContentState createState() => HomeContentState();
 }
 
-class _HomeContentState extends State<HomeContent>
+class HomeContentState extends State<HomeContent>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {

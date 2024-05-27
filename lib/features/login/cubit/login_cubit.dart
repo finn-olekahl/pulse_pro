@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,12 +11,12 @@ import 'package:pulse_pro/repositories/user_repository.dart';
 import 'package:pulse_pro/shared/models/muscle_group.dart';
 import 'package:pulse_pro/shared/models/pulsepro_user.dart';
 import 'package:pulse_pro/shared/models/workout_plan.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit({required this.authenticationRepository})
-      : super(const LoginState.initial());
+  LoginCubit({required this.authenticationRepository}) : super(const LoginState.initial());
 
   final AuthenticationRepository authenticationRepository;
 
@@ -28,25 +30,22 @@ class LoginCubit extends Cubit<LoginState> {
     return await authenticationRepository.signInWithGoogle();
   }
 
-  Future<FirebaseAuthException?> signInWithEmailAndPassword(
-      {required String email, required String password}) async {
+  Future<bool> signInWithEmailAndPassword({required String email, required String password}) async {
     HapticFeedback.mediumImpact();
-    return await authenticationRepository.signInWithEmailAndPassword(
-        email, password);
+    await authenticationRepository.signInWithEmailAndPassword(email, password);
+
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('name') != null;
   }
 
-  Future<FirebaseAuthException?> signUpWithEmailAndPassword(
-      {required String email, required String password}) async {
+  Future<FirebaseAuthException?> signUpWithEmailAndPassword({required String email, required String password}) async {
     HapticFeedback.mediumImpact();
-    return await authenticationRepository.signUpWithEmailAndPassword(
-        email, password);
+    return await authenticationRepository.signUpWithEmailAndPassword(email, password);
   }
 
-  Future<FirebaseAuthException?> signOutWithEmailAndPassword(
-      {required String email, required String password}) async {
+  Future<FirebaseAuthException?> signOutWithEmailAndPassword({required String email, required String password}) async {
     HapticFeedback.mediumImpact();
-    return await authenticationRepository.signUpWithEmailAndPassword(
-        email, password);
+    return await authenticationRepository.signUpWithEmailAndPassword(email, password);
   }
 
   void startOnboarding(BuildContext context) {

@@ -1,5 +1,4 @@
 import 'package:animated_weight_picker/animated_weight_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -90,15 +89,13 @@ class OnboardingViewState extends State<OnboardingView> {
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController repeatPasswordController =
-      TextEditingController();
+  final TextEditingController repeatPasswordController = TextEditingController();
 
   final PageController pageController = PageController();
 
   void goBack() {
     pageController.animateToPage(currentPage - 1,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOutCubic);
+        duration: const Duration(milliseconds: 300), curve: Curves.easeOutCubic);
     setState(() {
       currentPage--;
     });
@@ -134,6 +131,7 @@ class OnboardingViewState extends State<OnboardingView> {
           ).toList());
       await prefs.setString('sportOrientation', sportOrientation.name);
 
+      if (!mounted) return;
       if (widget.continueSignup == false) {
         return context.go('/login/createAccountLoading');
       }
@@ -156,8 +154,7 @@ class OnboardingViewState extends State<OnboardingView> {
           );
     }
     pageController.animateToPage(currentPage + 1,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOutCubic);
+        duration: const Duration(milliseconds: 300), curve: Curves.easeOutCubic);
     setState(() {
       currentPage++;
     });
@@ -216,11 +213,8 @@ class OnboardingViewState extends State<OnboardingView> {
                 decoration: InputDecoration(
                   hintText: "Tell us your name",
                   hintStyle: const TextStyle(color: Colors.grey),
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                      borderSide: BorderSide.none),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0), borderSide: BorderSide.none),
                   filled: true,
                   fillColor: Colors.white.withAlpha(30),
                 ),
@@ -267,13 +261,11 @@ class OnboardingViewState extends State<OnboardingView> {
                       children: List.generate(
                     Gender.values.length,
                     (index) {
-                      final _gender = Gender.values[index];
-                      final name = enumToText(_gender.name);
+                      final newGender = Gender.values[index];
+                      final name = enumToText(newGender.name);
 
                       return Padding(
-                        padding: EdgeInsets.only(
-                            bottom:
-                                _gender != Gender.values.lastOrNull ? 15 : 0),
+                        padding: EdgeInsets.only(bottom: newGender != Gender.values.lastOrNull ? 15 : 0),
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             backgroundColor: Colors.white.withAlpha(30),
@@ -285,11 +277,11 @@ class OnboardingViewState extends State<OnboardingView> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
-                          onPressed: gender == _gender
+                          onPressed: gender == newGender
                               ? null
                               : () {
                                   setState(() {
-                                    gender = _gender;
+                                    gender = newGender;
                                     goForth();
                                   });
                                 },
@@ -364,15 +356,11 @@ class OnboardingViewState extends State<OnboardingView> {
                       children: List.generate(
                     WorkoutGoal.values.length,
                     (index) {
-                      final _workoutGoal = WorkoutGoal.values[index];
-                      final name = enumToText(_workoutGoal.name);
+                      final newWorkoutGoal = WorkoutGoal.values[index];
+                      final name = enumToText(newWorkoutGoal.name);
 
                       return Padding(
-                        padding: EdgeInsets.only(
-                            bottom:
-                                _workoutGoal != WorkoutGoal.values.lastOrNull
-                                    ? 15
-                                    : 0),
+                        padding: EdgeInsets.only(bottom: newWorkoutGoal != WorkoutGoal.values.lastOrNull ? 15 : 0),
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             backgroundColor: Colors.white.withAlpha(30),
@@ -384,11 +372,11 @@ class OnboardingViewState extends State<OnboardingView> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
-                          onPressed: workoutGoal == _workoutGoal
+                          onPressed: workoutGoal == newWorkoutGoal
                               ? null
                               : () {
                                   setState(() {
-                                    workoutGoal = _workoutGoal;
+                                    workoutGoal = newWorkoutGoal;
                                     goForth();
                                   });
                                 },
@@ -463,16 +451,12 @@ class OnboardingViewState extends State<OnboardingView> {
                       children: List.generate(
                     WorkoutExperience.values.length,
                     (index) {
-                      final _workoutExperience =
-                          WorkoutExperience.values[index];
-                      final name = enumToText(_workoutExperience.name);
+                      final newWorkoutExperience = WorkoutExperience.values[index];
+                      final name = enumToText(newWorkoutExperience.name);
 
                       return Padding(
-                        padding: EdgeInsets.only(
-                            bottom: _workoutExperience !=
-                                    WorkoutExperience.values.lastOrNull
-                                ? 15
-                                : 0),
+                        padding:
+                            EdgeInsets.only(bottom: newWorkoutExperience != WorkoutExperience.values.lastOrNull ? 15 : 0),
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             backgroundColor: Colors.white.withAlpha(30),
@@ -484,11 +468,11 @@ class OnboardingViewState extends State<OnboardingView> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
-                          onPressed: workoutExperience == _workoutExperience
+                          onPressed: workoutExperience == newWorkoutExperience
                               ? null
                               : () {
                                   setState(() {
-                                    workoutExperience = _workoutExperience;
+                                    workoutExperience = newWorkoutExperience;
                                     goForth();
                                   });
                                 },
@@ -563,15 +547,12 @@ class OnboardingViewState extends State<OnboardingView> {
                       children: List.generate(
                     WorkoutIntensity.values.length,
                     (index) {
-                      final _workoutIntensity = WorkoutIntensity.values[index];
-                      final name = enumToText(_workoutIntensity.name);
+                      final newWorkoutIntensity = WorkoutIntensity.values[index];
+                      final name = enumToText(newWorkoutIntensity.name);
 
                       return Padding(
-                        padding: EdgeInsets.only(
-                            bottom: _workoutIntensity !=
-                                    WorkoutIntensity.values.lastOrNull
-                                ? 15
-                                : 0),
+                        padding:
+                            EdgeInsets.only(bottom: newWorkoutIntensity != WorkoutIntensity.values.lastOrNull ? 15 : 0),
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             backgroundColor: Colors.white.withAlpha(30),
@@ -583,11 +564,11 @@ class OnboardingViewState extends State<OnboardingView> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
-                          onPressed: workoutIntensity == _workoutIntensity
+                          onPressed: workoutIntensity == newWorkoutIntensity
                               ? null
                               : () {
                                   setState(() {
-                                    workoutIntensity = _workoutIntensity;
+                                    workoutIntensity = newWorkoutIntensity;
                                     goForth();
                                   });
                                 },
@@ -662,10 +643,9 @@ class OnboardingViewState extends State<OnboardingView> {
                       children: List.generate(
                     7,
                     (index) {
-                      int _maxTimesPerWeek = index + 1;
+                      int newMaxTimesPerWeek = index + 1;
                       return Padding(
-                        padding: EdgeInsets.only(
-                            bottom: _maxTimesPerWeek != 7 ? 15 : 0),
+                        padding: EdgeInsets.only(bottom: newMaxTimesPerWeek != 7 ? 15 : 0),
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             backgroundColor: Colors.white.withAlpha(30),
@@ -677,11 +657,11 @@ class OnboardingViewState extends State<OnboardingView> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
-                          onPressed: maxTimesPerWeek == _maxTimesPerWeek
+                          onPressed: maxTimesPerWeek == newMaxTimesPerWeek
                               ? null
                               : () {
                                   setState(() {
-                                    maxTimesPerWeek = _maxTimesPerWeek;
+                                    maxTimesPerWeek = newMaxTimesPerWeek;
                                     goForth();
                                   });
                                 },
@@ -690,7 +670,7 @@ class OnboardingViewState extends State<OnboardingView> {
                               height: 50,
                               child: Center(
                                   child: Text(
-                                _maxTimesPerWeek.toString(),
+                                newMaxTimesPerWeek.toString(),
                                 style: const TextStyle(
                                   fontSize: 16,
                                 ),
@@ -752,13 +732,7 @@ class OnboardingViewState extends State<OnboardingView> {
                 return const LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
-                  colors: [
-                    Colors.transparent,
-                    Colors.white,
-                    Colors.white,
-                    Colors.white,
-                    Colors.transparent
-                  ],
+                  colors: [Colors.transparent, Colors.white, Colors.white, Colors.white, Colors.transparent],
                 ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
               },
               child: AnimatedNumberPicker(
@@ -778,8 +752,7 @@ class OnboardingViewState extends State<OnboardingView> {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                      color: Colors.white.withOpacity(0.3), width: 3),
+                  border: Border.all(color: Colors.white.withOpacity(0.3), width: 3),
                 ),
                 onChanged: (value) => setState(() => timePerDay = value),
               ),
@@ -848,14 +821,12 @@ class OnboardingViewState extends State<OnboardingView> {
                     });
                   },
                   listenAfterAnimation: false,
-                  startDate:
-                      DateTime.now().add(const Duration(days: -(365 * 100))),
+                  startDate: DateTime.now().add(const Duration(days: -(365 * 100))),
                   lastDate: DateTime.now(),
                   theme: CurveDatePickerTheme(
                     wheelPickerHeight: 200.0,
                     overlay: ScrollWheelDatePickerOverlay.highlight,
-                    itemTextStyle:
-                        defaultItemTextStyle.copyWith(color: Colors.white),
+                    itemTextStyle: defaultItemTextStyle.copyWith(color: Colors.white),
                     overlayColor: Colors.deepPurple.shade300.withOpacity(0.5),
                     overAndUnderCenterOpacity: 0.3,
                   ),
@@ -921,10 +892,7 @@ class OnboardingViewState extends State<OnboardingView> {
                 squeeze: 4,
                 dialHeight: 45,
                 division: 0.5,
-                selectedValueStyle: TextStyle(
-                    fontFamily: 'sansman',
-                    fontSize: 30,
-                    color: Colors.deepPurple.shade500),
+                selectedValueStyle: TextStyle(fontFamily: 'sansman', fontSize: 30, color: Colors.deepPurple.shade500),
                 onChange: (newValue) {
                   setState(() {
                     weight = double.parse(newValue);
@@ -982,13 +950,7 @@ class OnboardingViewState extends State<OnboardingView> {
                 return const LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
-                  colors: [
-                    Colors.transparent,
-                    Colors.white,
-                    Colors.white,
-                    Colors.white,
-                    Colors.transparent
-                  ],
+                  colors: [Colors.transparent, Colors.white, Colors.white, Colors.white, Colors.transparent],
                 ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
               },
               child: AnimatedNumberPicker(
@@ -1008,8 +970,7 @@ class OnboardingViewState extends State<OnboardingView> {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                      color: Colors.white.withOpacity(0.3), width: 3),
+                  border: Border.all(color: Colors.white.withOpacity(0.3), width: 3),
                 ),
                 onChanged: (value) => setState(() => height = value),
               ),
@@ -1078,33 +1039,30 @@ class OnboardingViewState extends State<OnboardingView> {
                       children: List.generate(
                     Injury.values.length,
                     (index) {
-                      final _injury = Injury.values[index];
-                      final name = enumToText(_injury.name);
+                      final newInjury = Injury.values[index];
+                      final name = enumToText(newInjury.name);
 
                       return Padding(
-                        padding: EdgeInsets.only(
-                            bottom:
-                                _injury != Injury.values.lastOrNull ? 15 : 0),
+                        padding: EdgeInsets.only(bottom: newInjury != Injury.values.lastOrNull ? 15 : 0),
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
-                            backgroundColor: injuries.contains(_injury)
-                                ? Colors.deepPurple.shade400
-                                : Colors.white.withAlpha(30),
+                            backgroundColor:
+                                injuries.contains(newInjury) ? Colors.deepPurple.shade400 : Colors.white.withAlpha(30),
                             foregroundColor: Colors.white,
                             side: BorderSide.none,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
-                          onPressed: injuries.contains(_injury)
+                          onPressed: injuries.contains(newInjury)
                               ? () {
                                   setState(() {
-                                    injuries.remove(_injury);
+                                    injuries.remove(newInjury);
                                   });
                                 }
                               : () {
                                   setState(() {
-                                    injuries.add(_injury);
+                                    injuries.add(newInjury);
                                   });
                                 },
                           child: SizedBox(
@@ -1178,18 +1136,14 @@ class OnboardingViewState extends State<OnboardingView> {
                       children: List.generate(
                     MuscleGroup.values.length,
                     (index) {
-                      final _muscleFocus = MuscleGroup.values[index];
-                      final name = enumToText(_muscleFocus.name);
+                      final newMuscleFocus = MuscleGroup.values[index];
+                      final name = enumToText(newMuscleFocus.name);
 
                       return Padding(
-                        padding: EdgeInsets.only(
-                            bottom:
-                                _muscleFocus != MuscleGroup.values.lastOrNull
-                                    ? 15
-                                    : 0),
+                        padding: EdgeInsets.only(bottom: newMuscleFocus != MuscleGroup.values.lastOrNull ? 15 : 0),
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
-                            backgroundColor: muscleFocus.contains(_muscleFocus)
+                            backgroundColor: muscleFocus.contains(newMuscleFocus)
                                 ? Colors.deepPurple.shade400
                                 : Colors.white.withAlpha(30),
                             foregroundColor: Colors.white,
@@ -1198,15 +1152,15 @@ class OnboardingViewState extends State<OnboardingView> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
-                          onPressed: muscleFocus.contains(_muscleFocus)
+                          onPressed: muscleFocus.contains(newMuscleFocus)
                               ? () {
                                   setState(() {
-                                    muscleFocus.remove(_muscleFocus);
+                                    muscleFocus.remove(newMuscleFocus);
                                   });
                                 }
                               : () {
                                   setState(() {
-                                    muscleFocus.add(_muscleFocus);
+                                    muscleFocus.add(newMuscleFocus);
                                   });
                                 },
                           child: SizedBox(
@@ -1280,31 +1234,26 @@ class OnboardingViewState extends State<OnboardingView> {
                       children: List.generate(
                     SportOrientation.values.length,
                     (index) {
-                      final _sportOrientation = SportOrientation.values[index];
-                      final name = enumToText(_sportOrientation.name);
+                      final newSportOrientation = SportOrientation.values[index];
+                      final name = enumToText(newSportOrientation.name);
 
-                      if (_sportOrientation == SportOrientation.none)
-                        return Container();
+                      if (newSportOrientation == SportOrientation.none) return Container();
 
                       return Padding(
-                        padding: EdgeInsets.only(
-                            bottom: _sportOrientation !=
-                                    SportOrientation.values.lastOrNull
-                                ? 15
-                                : 0),
+                        padding:
+                            EdgeInsets.only(bottom: newSportOrientation != SportOrientation.values.lastOrNull ? 15 : 0),
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
-                            backgroundColor:
-                                sportOrientation == _sportOrientation
-                                    ? Colors.deepPurple.shade400
-                                    : Colors.white.withAlpha(30),
+                            backgroundColor: sportOrientation == newSportOrientation
+                                ? Colors.deepPurple.shade400
+                                : Colors.white.withAlpha(30),
                             foregroundColor: Colors.white,
                             side: BorderSide.none,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
-                          onPressed: sportOrientation == _sportOrientation
+                          onPressed: sportOrientation == newSportOrientation
                               ? () {
                                   setState(() {
                                     sportOrientation = SportOrientation.none;
@@ -1312,7 +1261,7 @@ class OnboardingViewState extends State<OnboardingView> {
                                 }
                               : () {
                                   setState(() {
-                                    sportOrientation = _sportOrientation;
+                                    sportOrientation = newSportOrientation;
                                   });
                                 },
                           child: SizedBox(
@@ -1357,9 +1306,7 @@ class OnboardingViewState extends State<OnboardingView> {
                   IconButton(
                       onPressed: () {
                         if (widget.continueSignup == false) {
-                          return context
-                              .read<LoginCubit>()
-                              .cancelOnboardingSignOut(context);
+                          return context.read<LoginCubit>().cancelOnboardingSignOut(context);
                         }
                         context.read<LoginCubit>().cancelOnboarding(context);
                       },
@@ -1373,8 +1320,7 @@ class OnboardingViewState extends State<OnboardingView> {
                       builder: (context, constraints) {
                         double barWidth = constraints.maxWidth;
                         int totalPages = pages().length;
-                        double filledWidth =
-                            barWidth * currentPage / (totalPages - 1);
+                        double filledWidth = barWidth * currentPage / (totalPages - 1);
                         return Stack(
                           children: [
                             Container(
@@ -1459,14 +1405,10 @@ class OnboardingViewState extends State<OnboardingView> {
                           duration: const Duration(milliseconds: 300),
                           curve: Curves.easeInOutQuad,
                           height: 50,
-                          color: currentPage == pages().length - 1
-                              ? Colors.deepPurple
-                              : Colors.transparent,
+                          color: currentPage == pages().length - 1 ? Colors.deepPurple : Colors.transparent,
                           child: Center(
                               child: Text(
-                            currentPage == pages().length - 1
-                                ? 'Finish'
-                                : 'Continue',
+                            currentPage == pages().length - 1 ? 'Finish' : 'Continue',
                             style: const TextStyle(
                               fontSize: 16,
                             ),

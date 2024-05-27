@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pulse_pro/features/home/view/widgets/dock/dock_controller.dart';
@@ -300,13 +298,10 @@ class _DockFunctionTile extends DockTile {
   final void Function() function;
   final Color? backgroundColor;
   final Widget? child;
-  final IconData? icon;
-  final String? text;
   const _DockFunctionTile(
       {required this.function,
       required super.minWidth,
-      this.icon,
-      this.text,
+      super.icon,
       this.backgroundColor,
       super.onBuildGetWidth,
       this.child});

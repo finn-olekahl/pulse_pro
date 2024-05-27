@@ -12,18 +12,17 @@ class MuscleIndicator extends StatefulWidget {
   final Color muscleHighlightColor;
 
   const MuscleIndicator(
-      {Key? key,
+      {super.key,
       required this.muscleGroups,
       required this.silhouetteColor,
       required this.muscleBaseColor,
-      required this.muscleHighlightColor})
-      : super(key: key);
+      required this.muscleHighlightColor});
 
   @override
-  _MuscleIndicatorState createState() => _MuscleIndicatorState();
+  MuscleIndicatorState createState() => MuscleIndicatorState();
 }
 
-class _MuscleIndicatorState extends State<MuscleIndicator> {
+class MuscleIndicatorState extends State<MuscleIndicator> {
   String _frontSvgString = '';
   String _backSvgString = '';
   SvgPicture? _frontSvgPicture;

@@ -46,6 +46,7 @@ dependencies:
   sliding_up_panel: ^2.0.0+1
   flutter_svg: ^2.0.10+1
   xml: ^6.5.0
+  infinite_listview: ^1.1.0
 
 dev_dependencies:
   flutter_test:

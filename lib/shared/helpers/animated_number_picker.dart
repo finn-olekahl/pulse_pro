@@ -57,7 +57,7 @@ class AnimatedNumberPicker extends StatefulWidget {
   final bool infiniteLoop;
 
   const AnimatedNumberPicker({
-    Key? key,
+    super.key,
     required this.minValue,
     required this.maxValue,
     required this.value,
@@ -75,14 +75,13 @@ class AnimatedNumberPicker extends StatefulWidget {
     this.textMapper,
     this.infiniteLoop = false,
   })  : assert(minValue <= value),
-        assert(value <= maxValue),
-        super(key: key);
+        assert(value <= maxValue);
 
   @override
-  _AnimatedNumberPickerState createState() => _AnimatedNumberPickerState();
+  AnimatedNumberPickerState createState() => AnimatedNumberPickerState();
 }
 
-class _AnimatedNumberPickerState extends State<AnimatedNumberPicker> {
+class AnimatedNumberPickerState extends State<AnimatedNumberPicker> {
   late ScrollController _scrollController;
 
   @override
@@ -116,7 +115,7 @@ class _AnimatedNumberPickerState extends State<AnimatedNumberPicker> {
       }
     }
     Future.delayed(
-      Duration(milliseconds: 100),
+      const Duration(milliseconds: 100),
       () => _maybeCenterValue(),
     );
   }
@@ -181,7 +180,7 @@ class _AnimatedNumberPickerState extends State<AnimatedNumberPicker> {
                 itemBuilder: _itemBuilder,
                 padding: EdgeInsets.zero,
               ),
-            _NumberPickerSelectedItemDecoration(
+            NumberPickerSelectedItemDecoration(
               axis: widget.axis,
               itemExtent: itemExtent,
               decoration: widget.decoration,
@@ -251,24 +250,24 @@ class _AnimatedNumberPickerState extends State<AnimatedNumberPicker> {
       }
       _scrollController.animateTo(
         index * itemExtent,
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         curve: Curves.easeOutCubic,
       );
     }
   }
 }
 
-class _NumberPickerSelectedItemDecoration extends StatelessWidget {
+class NumberPickerSelectedItemDecoration extends StatelessWidget {
   final Axis axis;
   final double itemExtent;
   final Decoration? decoration;
 
-  const _NumberPickerSelectedItemDecoration({
-    Key? key,
+  const NumberPickerSelectedItemDecoration({
+    super.key,
     required this.axis,
     required this.itemExtent,
     required this.decoration,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

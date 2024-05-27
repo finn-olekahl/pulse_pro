@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:pulse_pro/shared/models/day_entry.dart';
 import 'package:pulse_pro/shared/models/workout_plan.dart';
 import 'package:uuid/uuid.dart';
@@ -31,14 +32,12 @@ class UserRepository {
         'height': height,
         'gender': gender,
       };
-
-      final HttpsCallableResult result = await callable.call(data);
-
-      print(result.data['message']);
+    
+      await callable.call(data);
     } on FirebaseFunctionsException catch (e) {
-      print('Error: ${e.code} - ${e.message}');
+      debugPrint('Error: ${e.code} - ${e.message}');
     } catch (e) {
-      print('Error: $e');
+      debugPrint('Error: $e');
     }
   }
 
