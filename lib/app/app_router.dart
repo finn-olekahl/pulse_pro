@@ -48,7 +48,8 @@ class AppRouter {
           path: '/profile',
           builder: (context, state) => const ProfilePage(),
         ),
-        GoRoute(path: '/workoutPage', builder: (context, state) => const WorkoutPage(),)
+        GoRoute(path: '/workoutPage', builder: (context, state) => const WorkoutPage(),),
+        GoRoute(path: '/licenses', builder: (context, state) => const LicensePage())
       ],
       redirect: (context, state) async {
         final SharedPreferences prefs = await SharedPreferences.getInstance();

@@ -1,10 +1,14 @@
 part of 'profile_cubit.dart';
 
-sealed class ProfileState extends Equatable {
-  const ProfileState();
+class ProfileState extends Equatable {
+  const ProfileState._({this.pulseProUser});
+
+  const ProfileState.initial() : this._();
+
+  const ProfileState.loggedIn(PulseProUser pulseProUser) : this._(pulseProUser: pulseProUser);
+
+  final PulseProUser? pulseProUser;
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [pulseProUser];
 }
-
-final class ProfileInitial extends ProfileState {}
