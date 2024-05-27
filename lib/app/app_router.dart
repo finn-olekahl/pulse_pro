@@ -8,6 +8,7 @@ import 'package:pulse_pro/features/login/login_page.dart';
 import 'package:pulse_pro/features/profile/profile_page.dart';
 import 'package:pulse_pro/features/splash/view/splash_screen.dart';
 import 'package:pulse_pro/features/login/onboarding_page.dart';
+import 'package:pulse_pro/features/workout_page/workout_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppRouter {
@@ -46,11 +47,13 @@ class AppRouter {
         GoRoute(
           path: '/profile',
           builder: (context, state) => const ProfilePage(),
-        )
+        ),
+        GoRoute(path: '/workoutPage', builder: (context, state) => const WorkoutPage(),)
       ],
       redirect: (context, state) async {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         final isAccountCreationDataSaved = prefs.getString('name') != null;
+        final isWorkoutRunning = prefs.getBool('isWorkoutRunning');
 
         final appState = _appStateBloc.state;
         final matchedLocation = state.matchedLocation;
@@ -73,7 +76,9 @@ class AppRouter {
         if (appState is AppStateNoAccount && !isAccountCreationDataSaved) {
           return '/login/onboarding';
         }
-
+        if (isWorkoutRunning == true) {
+          return '/workoutPage';
+        }
         if (isOnSplashScreen || isOnLoginPage || isCreateAccountLoadingPage) return '/';
 
         return null;

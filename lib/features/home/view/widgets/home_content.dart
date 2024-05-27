@@ -44,9 +44,8 @@ class HomeContentState extends State<HomeContent>
                           child: Text.rich(
                               textAlign: TextAlign.center,
                               TextSpan(
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontFamily: 'sansman',
-                                      color: Colors.white.withOpacity(0.75),
                                       fontSize: 22.5),
                                   children: [
                                     TextSpan(

@@ -22,7 +22,7 @@ class _HomeViewState extends State<HomeView> {
 
   late final PreloadPageController _pageController;
 
-  int _currentScreen = 0;
+  int _currentScreen = 2;
 
   bool _pageSwitchFromDock = false;
 
@@ -76,9 +76,9 @@ class _HomeViewState extends State<HomeView> {
           }
         },
         items: [
-          DockTabItem(text: 'Home'),
+          DockTabItem(text: 'Overview'),
           DockTabItem(text: 'Discover'),
-          DockTabItem(text: 'Activity'),
+          DockTabItem(text: 'Workout'),
           DockTabItem(text: 'Profile'),
         ],
       ), // Hintergrundfarbe ändern
