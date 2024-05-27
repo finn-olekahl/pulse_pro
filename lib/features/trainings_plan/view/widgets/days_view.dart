@@ -44,8 +44,6 @@ class _DaysViewState extends State<DaysView> {
           previous.currentDay?.millisecondsSinceEpoch != current.currentDay?.millisecondsSinceEpoch,
       listener: (context, state) {
         if (state.currentDay == null) return;
-        final now = DateTime.now();
-        final cleanNow = DateTime(now.year, now.month, now.day);
       },
       builder: (context, state) {
         if (state.currentWorkoutPlan == null) {
