@@ -3,6 +3,7 @@ import 'package:pulse_pro/shared/models/muscle_group.dart';
 import 'package:pulse_pro/shared/models/warmup.dart';
 
 class SplitDay {
+  final int dayNumber;
   final bool restDay;
   final List<MuscleGroup>? target;
   final int? timeBetweenExercises;
@@ -10,6 +11,7 @@ class SplitDay {
   final WarmUp? warmUp;
 
   SplitDay({
+    required this.dayNumber,
     required this.restDay,
     this.target,
     this.timeBetweenExercises,
@@ -18,6 +20,7 @@ class SplitDay {
   });
 
   SplitDay copyWith({
+    int? dayNumber,
     bool? restDay,
     List<MuscleGroup>? target,
     int? timeBetweenExercises,
@@ -25,6 +28,7 @@ class SplitDay {
     WarmUp? warmUp,
   }) {
     return SplitDay(
+      dayNumber: dayNumber ?? this.dayNumber,
       restDay: restDay ?? this.restDay,
       target: target ?? this.target,
       timeBetweenExercises: timeBetweenExercises ?? this.timeBetweenExercises,
@@ -33,8 +37,9 @@ class SplitDay {
     );
   }
 
-  factory SplitDay.fromJson(Map<String, dynamic> json) {
+  factory SplitDay.fromJson(int dayNumber, Map<String, dynamic> json) {
     return SplitDay(
+      dayNumber: dayNumber,
       restDay: json['restday'],
       target: json['target']
           ?.map((item) => MuscleGroup.values.firstWhere((e) => e.toString() == 'MuscleGroup.$item'))

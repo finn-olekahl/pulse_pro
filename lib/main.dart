@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +16,8 @@ import 'package:pulse_pro/repositories/user_repository.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
   await Firebase.initializeApp();
@@ -32,14 +35,16 @@ void main() async {
     ],
     child: BlocProvider(
       lazy: false,
-      create: (context) => AppStateBloc(userRepository: context.read<UserRepository>()),
+      create: (context) =>
+          AppStateBloc(userRepository: context.read<UserRepository>()),
       child: const PulseProApp(),
     ),
   ));
 }
 
 class PulseProApp extends StatelessWidget {
-  static final storageUrl = 'gs://${FirebaseStorage.instance.app.options.storageBucket}';
+  static final storageUrl =
+      'gs://${FirebaseStorage.instance.app.options.storageBucket}';
 
   const PulseProApp({super.key});
 
@@ -49,8 +54,28 @@ class PulseProApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'PulsePro',
       themeMode: ThemeMode.system,
-      theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.black, brightness: Brightness.light),
+      theme: ThemeData(
+        useMaterial3: true,
+        colorSchemeSeed: Colors.black,
+        brightness: Brightness.light,
+        cupertinoOverrideTheme: const CupertinoThemeData(
+          primaryColor: Colors.deepPurple,
+        ),
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: Colors.deepPurple,
+          selectionColor: Colors.deepPurple,
+          selectionHandleColor: Colors.deepPurple,
+        ),
+      ),
       darkTheme: ThemeData(
+          cupertinoOverrideTheme: const CupertinoThemeData(
+            primaryColor: Colors.deepPurple,
+          ),
+          textSelectionTheme: const TextSelectionThemeData(
+            cursorColor: Colors.deepPurple,
+            selectionColor: Colors.deepPurple,
+            selectionHandleColor: Colors.deepPurple,
+          ),
           textTheme: const AppTextTheme(),
           useMaterial3: true,
           colorSchemeSeed: Colors.black,

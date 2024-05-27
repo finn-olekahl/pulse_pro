@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pulse_pro/features/trainings_plan/cubit/trainings_plan_cubit.dart';
 import 'package:pulse_pro/features/trainings_plan/view/widgets/days_view.dart';
-import 'package:pulse_pro/features/trainings_plan/view/widgets/splitday_view.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class TrainingsPlanView extends StatelessWidget {
@@ -48,22 +45,25 @@ class TrainingsPlanView extends StatelessWidget {
             if (state.currentWorkoutPlan == null) {
               return const Center(child: CircularProgressIndicator());
             }
-        
+
             final splitDay = state.currentWorkoutPlan!.days[0];
             if (splitDay == null) return const SizedBox();
-        
+
             return Column(
               children: [
                 TableCalendar(
                   focusedDay: state.currentDay ?? DateTime.now(),
-                  firstDay: state.history.isEmpty ? DateTime.now() : state.history.first.date,
+                  firstDay: state.history.isEmpty
+                      ? DateTime.now()
+                      : state.history.first.date,
                   lastDay: state.plan.last.date,
                   rangeSelectionMode: RangeSelectionMode.toggledOff,
                   pageAnimationEnabled: true,
                   calendarFormat: CalendarFormat.week,
                   headerVisible: false,
                   daysOfWeekVisible: true,
-                  startingDayOfWeek: _startingDay(state.currentDay ?? DateTime.now()),
+                  startingDayOfWeek:
+                      _startingDay(state.currentDay ?? DateTime.now()),
                   calendarStyle: const CalendarStyle(
                     isTodayHighlighted: false,
                   ),
@@ -89,10 +89,12 @@ class TrainingsPlanView extends StatelessWidget {
                   pageAnimationCurve: Curves.linear,
                   pageAnimationDuration: const Duration(milliseconds: 1),
                   onDaySelected: (selectedDay, focusedDay) {
-                    context.read<TrainingsPlanCubit>().updateCurrentDay(selectedDay);
+                    context
+                        .read<TrainingsPlanCubit>()
+                        .updateCurrentDay(selectedDay);
                   },
                 ),
-                Expanded(child: DaysView())
+                const Expanded(child: DaysView())
               ],
             );
           },

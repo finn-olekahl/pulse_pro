@@ -1,14 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pulse_pro/repositories/authentication_repository.dart';
+import 'package:pulse_pro/repositories/authencitation_repository.dart';
+import 'package:pulse_pro/repositories/user_repository.dart';
 import 'package:pulse_pro/shared/models/muscle_group.dart';
 import 'package:pulse_pro/shared/models/pulsepro_user.dart';
 import 'package:pulse_pro/shared/models/workout_plan.dart';
-
 
 part 'login_state.dart';
 
@@ -61,6 +61,35 @@ class LoginCubit extends Cubit<LoginState> {
     context.go('/login', extra: this);
   }
 
+  void cancelOnboardingSignOut(BuildContext context) {
+    showCupertinoDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: const Text('Confirm Sign Out'),
+          content: const Text('Are you sure you want to sign out?'),
+          actions: [
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            CupertinoDialogAction(
+              onPressed: () {
+                FirebaseAuth.instance.signOut();
+                emit(state.copyWith(status: LoginStatus.preOnboarding));
+                context.go('/login');
+              },
+              isDestructiveAction: true,
+              child: const Text('Sign Out'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void continueOnboarding(BuildContext context) {
     emit(state.copyWith(status: LoginStatus.postOnboarding));
   }
@@ -102,5 +131,4 @@ class LoginCubit extends Cubit<LoginState> {
   }
 }
 
- 
-
+class MockAuthenticationRepository {}
