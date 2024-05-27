@@ -42,12 +42,12 @@ class PulseProUser {
     if (json['history'] != null) {
       history = json['history']
           .map((item) => HistoryDayEntry.fromJson(item))
-          .toList();
+          .toList().cast<HistoryDayEntry>();
     }
 
     List<PlanDayEntry> plan = [];
     if (json['plan'] != null) {
-      plan = json['plan'].map((item) => PlanDayEntry.fromJson(item)).toList();
+      plan = json['plan'].map((item) => PlanDayEntry.fromJson(item)).toList().cast<PlanDayEntry>();
     }
 
     return PulseProUser(

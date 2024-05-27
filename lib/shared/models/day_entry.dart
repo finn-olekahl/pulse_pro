@@ -14,20 +14,23 @@ abstract class DayEntry {
 
 class HistoryDayEntry extends DayEntry {
   final SplitDay completedSplitDay;
+  final Duration duration;
 
   const HistoryDayEntry({
     required super.workoutPlanId,
     required super.splitDayNumber,
     required super.date,
     required this.completedSplitDay,
+    required this.duration,
   });
 
   factory HistoryDayEntry.fromJson(Map<String, dynamic> json) {
     return HistoryDayEntry(
       workoutPlanId: json['workout_plan_id'],
       splitDayNumber: json['split_day_number'],
-      date: DateTime.fromMillisecondsSinceEpoch(int.parse(json['date'])),
+      date: DateTime.fromMillisecondsSinceEpoch(json['date']),
       completedSplitDay: SplitDay.fromJson(json['split_day_number'], json['split_day']),
+      duration: Duration(milliseconds: json['duration']),
     );
   }
 
@@ -37,6 +40,7 @@ class HistoryDayEntry extends DayEntry {
       'split_day_number': splitDayNumber,
       'date': date.millisecondsSinceEpoch,
       'split_day': completedSplitDay.toJson(),
+      'duration': duration.inMilliseconds,
     };
   }
 }

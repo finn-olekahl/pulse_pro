@@ -4,16 +4,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pulse_pro/features/trainings_plan/cubit/trainings_plan_cubit.dart';
 import 'package:pulse_pro/features/trainings_plan/view/widgets/custom_expansionpanel.dart';
 import 'package:pulse_pro/features/trainings_plan/view/widgets/splitday_card.dart';
+import 'package:pulse_pro/shared/models/day_entry.dart';
 import 'package:pulse_pro/shared/models/exercise.dart';
 import 'package:pulse_pro/shared/models/split_day.dart';
 import 'package:pulse_pro/shared/models/user_exercise.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class SplitDayView extends StatefulWidget {
-  const SplitDayView({super.key, required this.splitDay, required this.exercises});
+  const SplitDayView(
+      {super.key, required this.splitDay, this.historyDayEntry, required this.exercises, this.isToday = false});
 
   final SplitDay splitDay;
+  final HistoryDayEntry? historyDayEntry;
   final Map<String, Exercise> exercises;
+  final bool isToday;
 
   @override
   State<SplitDayView> createState() => _SplitDayViewState();
@@ -35,7 +39,7 @@ class _SplitDayViewState extends State<SplitDayView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SplitDayCard(splitDay: widget.splitDay),
+              SplitDayCard(splitDay: widget.splitDay, historyDayEntry: widget.historyDayEntry),
               const Spacer(
                 flex: 1,
               ),
@@ -230,37 +234,56 @@ class _SplitDayViewState extends State<SplitDayView> {
         listTiles.add(
           BlocBuilder<TrainingsPlanCubit, TrainingsPlanState>(
             builder: (context, state) {
-              if (state.progress[exercise.id] != null && state.progress[exercise.id]![i] != null) {
+              if (widget.isToday && state.progress[exercise.id] != null && state.progress[exercise.id]![i] != null) {
                 return ListTile(
                   title: Text('Set ${i + 1}: $weight kg'),
                   trailing: const Icon(Icons.done),
                 );
               }
 
+              if (widget.historyDayEntry != null) {
+                final historyExercise = widget.historyDayEntry!.completedSplitDay.exercises!
+                    .firstWhere((element) => element.id == exercise.id);
+                final historyWeight = historyExercise.weights?[i];
+
+                return ListTile(
+                  title: Text('Set ${i + 1}: $historyWeight kg'),
+                  trailing: const Icon(Icons.done),
+                );
+              }
+
               return ListTile(
                 title: Text('Set ${i + 1}: ${exercise.reps} reps ${weight != null ? '($weight kg)' : ''}'),
-                trailing: IconButton(
-                  icon: const Icon(Icons.edit),
-                  onPressed: () => setState(() {
-                    _selectedExercise = exercise;
-                    _selectedSet = i;
-                    _panelController.open();
-                  }),
-                ),
+                trailing: widget.isToday
+                    ? IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () => setState(() {
+                          _selectedExercise = exercise;
+                          _selectedSet = i;
+                          _panelController.open();
+                        }),
+                      )
+                    : null,
               );
             },
           ),
         );
       }
 
-      bool isFinished = context.watch<TrainingsPlanCubit>().state.progress[exercise.id] != null &&
-          context.watch<TrainingsPlanCubit>().state.progress[exercise.id]!.length == exercise.sets;
+      bool isFinished = (widget.historyDayEntry != null &&
+              widget.historyDayEntry!.completedSplitDay.exercises != null &&
+              widget.historyDayEntry!.completedSplitDay.exercises!.any((element) => element.id == exercise.id)) ||
+          (widget.isToday &&
+              (context.watch<TrainingsPlanCubit>().state.todayDone ||
+                  (context.watch<TrainingsPlanCubit>().state.progress[exercise.id] != null &&
+                      context.watch<TrainingsPlanCubit>().state.progress[exercise.id]!.length == exercise.sets)));
 
       expansionPanels.add(CustomExpansionPanel(
           title: Text('${widget.exercises[exercise.id]?.name ?? 'Exercise'} ${exercise.sets}x${exercise.reps}'),
           body: Column(
             children: listTiles,
-          ), isFinished: isFinished));
+          ),
+          isFinished: isFinished));
     }
 
     return expansionPanels;
