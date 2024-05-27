@@ -279,14 +279,16 @@ class _DockTabTile extends DockTile {
             child: Center(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: child ??
-                    Text(
-                      text ?? "",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: Colors.deepPurple.shade200,
+                child: DefaultTextStyle(
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.deepPurple.shade200,
+                  ),
+                  child: child ??
+                      Text(
+                        text ?? "",
                       ),
-                    ),
+                ),
               ),
             ),
           ),
@@ -348,7 +350,7 @@ class DockItem {
 class DockTabItem extends DockItem {
   Widget? child;
 
-  DockTabItem({required super.text, this.child});
+  DockTabItem({super.text, this.child});
 }
 
 class DockFunctionItem extends DockItem {
@@ -356,6 +358,10 @@ class DockFunctionItem extends DockItem {
   Color? iconColor = Colors.grey;
   Widget? child = Container();
 
-  DockFunctionItem(
-      {super.icon, required this.function, this.iconColor, this.child});
+  DockFunctionItem({
+    super.icon,
+    required this.function,
+    this.iconColor,
+    this.child,
+  });
 }

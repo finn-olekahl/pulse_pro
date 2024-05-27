@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pulse_pro/bloc/app_state_bloc.dart';
 import 'package:pulse_pro/repositories/exercise_repository.dart';
 import 'package:pulse_pro/repositories/user_repository.dart';
@@ -149,7 +151,7 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
     return emit(state.copyWith(currentDay: cleanDate));
   }
 
-  Future<void> startTraining() async {
+  Future<void> startTraining(BuildContext context) async {
     await _setTimestamp();
     await _setTimestamp(exercise: state.currentWorkoutPlan!.days[state.currentSplitDay]!.exercises!.first);
   }
