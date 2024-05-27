@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pulse_pro/features/login/cubit/login_cubit.dart';
 import 'package:pulse_pro/features/login/view/login_view.dart';
-import 'package:pulse_pro/repositories/authencitation_repository.dart';
+import 'package:pulse_pro/repositories/authentication_repository.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});

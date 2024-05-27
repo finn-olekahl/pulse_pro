@@ -4,7 +4,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pulse_pro/features/login/cubit/login_cubit.dart';
 import 'package:pulse_pro/features/login/view/login_view.dart';
-import 'package:pulse_pro/repositories/authencitation_repository.dart';
+import 'package:pulse_pro/repositories/authentication_repository.dart';
 
 import 'login_view_test.mocks.dart';
 
