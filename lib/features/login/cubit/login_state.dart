@@ -91,6 +91,8 @@ final class LoginState extends Equatable {
       split: split ?? this.split,
     );
   }
+
+  static postOnboarding() {}
 }
 
 enum LoginStatus { preOnboarding, onboarding, postOnboarding }
