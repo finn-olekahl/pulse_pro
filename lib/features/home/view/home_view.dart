@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:pulse_pro/features/discover/discover_page.dart';
+import 'package:pulse_pro/features/home/cubit/home_cubit.dart';
 
 import 'package:pulse_pro/features/home/view/widgets/dock/dock.dart';
 import 'package:pulse_pro/features/home/view/widgets/dock/dock_controller.dart';
@@ -16,7 +18,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  final DockController _dockController = DockController();
+  late final DockController _dockController;
 
   late final PreloadPageController _pageController;
 
@@ -25,6 +27,7 @@ class _HomeViewState extends State<HomeView> {
   bool _pageSwitchFromDock = false;
 
   void initState() {
+    _dockController = context.read<HomeCubit>().dockController;
     _pageController = PreloadPageController(initialPage: _currentScreen);
     super.initState();
   }

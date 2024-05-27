@@ -3,13 +3,15 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i5;
+import 'dart:async' as _i6;
 
-import 'package:bloc/bloc.dart' as _i6;
+import 'package:bloc/bloc.dart' as _i7;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i4;
-import 'package:pulse_pro/features/home/cubit/home_cubit.dart' as _i3;
-import 'package:pulse_pro/repositories/authencitation_repository.dart' as _i2;
+import 'package:mockito/src/dummies.dart' as _i5;
+import 'package:pulse_pro/features/home/cubit/home_cubit.dart' as _i4;
+import 'package:pulse_pro/features/home/view/widgets/dock/dock_controller.dart'
+    as _i3;
+import 'package:pulse_pro/repositories/authentication_repository.dart' as _i2;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -35,10 +37,21 @@ class _FakeAuthenticationRepository_0 extends _i1.SmartFake
         );
 }
 
+class _FakeDockController_1 extends _i1.SmartFake
+    implements _i3.DockController {
+  _FakeDockController_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [HomeCubit].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockHomeCubit extends _i1.Mock implements _i3.HomeCubit {
+class MockHomeCubit extends _i1.Mock implements _i4.HomeCubit {
   @override
   _i2.AuthenticationRepository get authenticationRepository =>
       (super.noSuchMethod(
@@ -54,24 +67,37 @@ class MockHomeCubit extends _i1.Mock implements _i3.HomeCubit {
       ) as _i2.AuthenticationRepository);
 
   @override
-  _i3.HomeState get state => (super.noSuchMethod(
-        Invocation.getter(#state),
-        returnValue: _i4.dummyValue<_i3.HomeState>(
+  _i3.DockController get dockController => (super.noSuchMethod(
+        Invocation.getter(#dockController),
+        returnValue: _FakeDockController_1(
           this,
-          Invocation.getter(#state),
+          Invocation.getter(#dockController),
         ),
-        returnValueForMissingStub: _i4.dummyValue<_i3.HomeState>(
+        returnValueForMissingStub: _FakeDockController_1(
           this,
-          Invocation.getter(#state),
+          Invocation.getter(#dockController),
         ),
-      ) as _i3.HomeState);
+      ) as _i3.DockController);
 
   @override
-  _i5.Stream<_i3.HomeState> get stream => (super.noSuchMethod(
+  _i4.HomeState get state => (super.noSuchMethod(
+        Invocation.getter(#state),
+        returnValue: _i5.dummyValue<_i4.HomeState>(
+          this,
+          Invocation.getter(#state),
+        ),
+        returnValueForMissingStub: _i5.dummyValue<_i4.HomeState>(
+          this,
+          Invocation.getter(#state),
+        ),
+      ) as _i4.HomeState);
+
+  @override
+  _i6.Stream<_i4.HomeState> get stream => (super.noSuchMethod(
         Invocation.getter(#stream),
-        returnValue: _i5.Stream<_i3.HomeState>.empty(),
-        returnValueForMissingStub: _i5.Stream<_i3.HomeState>.empty(),
-      ) as _i5.Stream<_i3.HomeState>);
+        returnValue: _i6.Stream<_i4.HomeState>.empty(),
+        returnValueForMissingStub: _i6.Stream<_i4.HomeState>.empty(),
+      ) as _i6.Stream<_i4.HomeState>);
 
   @override
   bool get isClosed => (super.noSuchMethod(
@@ -81,17 +107,17 @@ class MockHomeCubit extends _i1.Mock implements _i3.HomeCubit {
       ) as bool);
 
   @override
-  _i5.Future<void> signOut() => (super.noSuchMethod(
+  _i6.Future<void> signOut() => (super.noSuchMethod(
         Invocation.method(
           #signOut,
           [],
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
 
   @override
-  void emit(_i3.HomeState? state) => super.noSuchMethod(
+  void emit(_i4.HomeState? state) => super.noSuchMethod(
         Invocation.method(
           #emit,
           [state],
@@ -100,7 +126,7 @@ class MockHomeCubit extends _i1.Mock implements _i3.HomeCubit {
       );
 
   @override
-  void onChange(_i6.Change<_i3.HomeState>? change) => super.noSuchMethod(
+  void onChange(_i7.Change<_i4.HomeState>? change) => super.noSuchMethod(
         Invocation.method(
           #onChange,
           [change],
@@ -141,12 +167,12 @@ class MockHomeCubit extends _i1.Mock implements _i3.HomeCubit {
       );
 
   @override
-  _i5.Future<void> close() => (super.noSuchMethod(
+  _i6.Future<void> close() => (super.noSuchMethod(
         Invocation.method(
           #close,
           [],
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
 }

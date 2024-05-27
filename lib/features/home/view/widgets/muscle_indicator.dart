@@ -2,45 +2,28 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:pulse_pro/shared/models/muscle_group.dart';
 import 'package:xml/xml.dart' as xml;
 
-enum MuscleGroup {
-  abs,
-  abductors,
-  adductors,
-  arms,
-  back,
-  biceps,
-  calves,
-  chest,
-  core,
-  forearms,
-  fullBody,
-  glutes,
-  hamstrings,
-  legs,
-  lowerBack,
-  lowerBody,
-  obliques,
-  quads,
-  shoulders,
-  traps,
-  triceps,
-  upperBack,
-  upperBody
-}
-
-class MuscleHighlightWidget extends StatefulWidget {
+class MuscleIndicator extends StatefulWidget {
   final List<MuscleGroup> muscleGroups;
+  final Color silhouetteColor;
+  final Color muscleBaseColor;
+  final Color muscleHighlightColor;
 
-  const MuscleHighlightWidget({Key? key, required this.muscleGroups})
+  const MuscleIndicator(
+      {Key? key,
+      required this.muscleGroups,
+      required this.silhouetteColor,
+      required this.muscleBaseColor,
+      required this.muscleHighlightColor})
       : super(key: key);
 
   @override
-  _MuscleHighlightWidgetState createState() => _MuscleHighlightWidgetState();
+  _MuscleIndicatorState createState() => _MuscleIndicatorState();
 }
 
-class _MuscleHighlightWidgetState extends State<MuscleHighlightWidget> {
+class _MuscleIndicatorState extends State<MuscleIndicator> {
   String _frontSvgString = '';
   String _backSvgString = '';
   SvgPicture? _frontSvgPicture;
@@ -62,12 +45,14 @@ class _MuscleHighlightWidgetState extends State<MuscleHighlightWidget> {
       _frontSvgString = frontSvgString;
       _backSvgString = backSvgString;
       _frontSvgPicture = SvgPicture.string(
-        _updateSvgOpacity(
+        _updateSvgOpacityAndColor(
             _frontSvgString, _getHighlightIds(widget.muscleGroups)),
+        fit: BoxFit.contain,
       );
       _backSvgPicture = SvgPicture.string(
-        _updateSvgOpacity(
+        _updateSvgOpacityAndColor(
             _backSvgString, _getHighlightIds(widget.muscleGroups)),
+        fit: BoxFit.contain,
       );
     });
   }
@@ -155,25 +140,60 @@ class _MuscleHighlightWidgetState extends State<MuscleHighlightWidget> {
     return highlightIds.toList();
   }
 
-  String _updateSvgOpacity(String svgString, List<String> highlightIds) {
+  String _updateSvgOpacityAndColor(
+      String svgString, List<String> highlightIds) {
     final document = xml.XmlDocument.parse(svgString);
-
     final idsToHighlight = highlightIds.toSet();
 
-    for (final element in document.findAllElements('*')) {
-      if (element.getAttribute('id') != null &&
-          idsToHighlight.contains(element.getAttribute('id'))) {
-        element.setAttribute('opacity', '1.0');
-      } else {
-        element.setAttribute('opacity', '0.3');
-      }
+    final silhouetteColorHex =
+        '#${widget.silhouetteColor.value.toRadixString(16).substring(2)}';
+    final silhouetteOpacity = widget.silhouetteColor.opacity.toString();
 
-      for (final childElement in element.findAllElements('*')) {
-        if (childElement.getAttribute('id') != null &&
-            idsToHighlight.contains(childElement.getAttribute('id'))) {
-          childElement.setAttribute('opacity', '1.0');
+    final muscleHighlightColorHex =
+        '#${widget.muscleHighlightColor.value.toRadixString(16).substring(2)}';
+    final muscleHighlightOpacity =
+        widget.muscleHighlightColor.opacity.toString();
+
+    final muscleBaseColorHex =
+        '#${widget.muscleBaseColor.value.toRadixString(16).substring(2)}';
+    final muscleBaseOpacity = widget.muscleBaseColor.opacity.toString();
+
+    void setAttributesForElementAndParents(
+        xml.XmlElement element, String opacity, String color) {
+      element.setAttribute('opacity', opacity);
+      element.setAttribute('style', 'fill: $color; stroke-width: 0px;');
+      final parent = element.parentElement;
+      if (parent != null &&
+          parent.getAttribute('id') != 'silhouette' &&
+          parent.getAttribute('id') != 'silhouette-2') {
+        setAttributesForElementAndParents(parent, opacity, color);
+      }
+    }
+
+    for (final element in document.findAllElements('*')) {
+      final elementId = element.getAttribute('id');
+      if (elementId != null) {
+        if (elementId == 'silhouette' || elementId == 'silhouette-2') {
+          element.setAttribute('opacity', silhouetteOpacity);
+          element.setAttribute(
+              'style', 'fill: $silhouetteColorHex; stroke-width: 0px;');
         } else {
-          childElement.setAttribute('opacity', '0.3');
+          bool shouldHighlight = false;
+          for (final id in idsToHighlight) {
+            if (elementId.contains(id)) {
+              shouldHighlight = true;
+              break;
+            }
+          }
+          if (shouldHighlight) {
+            setAttributesForElementAndParents(
+                element, muscleHighlightOpacity, muscleHighlightColorHex);
+          } else {
+            element.setAttribute('opacity',
+                muscleBaseOpacity);
+            element.setAttribute(
+                'style', 'fill: $muscleBaseColorHex; stroke-width: 0px;');
+          }
         }
       }
     }
@@ -183,33 +203,22 @@ class _MuscleHighlightWidgetState extends State<MuscleHighlightWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        double maxWidth = constraints.maxWidth;
-        double svgWidth = maxWidth / 2 - 5; // Split the available width
-
-        return Column(
+    if (_frontSvgPicture != null && _backSvgPicture != null) {
+      return FittedBox(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            if (_frontSvgPicture != null && _backSvgPicture != null)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: svgWidth,
-                    child: _frontSvgPicture!,
-                  ),
-                  SizedBox(width: 10),
-                  SizedBox(
-                    width: svgWidth,
-                    child: _backSvgPicture!,
-                  ),
-                ],
-              )
-            else
-              CircularProgressIndicator(),
+            IntrinsicWidth(child: IntrinsicHeight(child: _frontSvgPicture!)),
+            IntrinsicWidth(child: IntrinsicHeight(child: _backSvgPicture!))
           ],
-        );
-      },
-    );
+        ),
+      );
+    } else {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
   }
 }
