@@ -124,7 +124,7 @@ class DockState extends State<Dock> with TickerProviderStateMixin {
             borderRadius: BorderRadius.circular(25),
             border: Border.all(
                 width: 2,
-                color: Colors.deepPurple.shade200.withOpacity(0.2),
+                color: Colors.deepPurple.shade300.withOpacity(0.15),
                 strokeAlign: BorderSide.strokeAlignOutside),
           ),
           child: SizedBox(
