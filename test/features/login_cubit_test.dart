@@ -4,19 +4,20 @@ import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:pulse_pro/features/login/cubit/login_cubit.dart';
 import 'package:pulse_pro/repositories/authentication_repository.dart';
+import 'package:pulse_pro/repositories/user_repository.dart';
 import 'package:pulse_pro/shared/models/muscle_group.dart';
 import 'package:pulse_pro/shared/models/pulsepro_user.dart';
 import 'package:pulse_pro/shared/models/workout_plan.dart';
 import 'package:go_router/go_router.dart';
-import 'login_cubit_test.mocks.dart';
+import 'login_cubit_test.mocks.dart' as mocks;
 
 @GenerateNiceMocks([MockSpec<AuthenticationRepository>()])
 void main() {
   late LoginCubit loginCubit;
-  late MockAuthenticationRepository mockAuthenticationRepository;
+  late mocks.MockAuthenticationRepository mockAuthenticationRepository;
 
   setUp(() {
-    mockAuthenticationRepository = MockAuthenticationRepository();
+    mockAuthenticationRepository = mocks.MockAuthenticationRepository();
     loginCubit = LoginCubit(authenticationRepository: mockAuthenticationRepository);
   });
 
