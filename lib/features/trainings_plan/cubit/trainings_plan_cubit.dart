@@ -100,16 +100,19 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
     if (history.isEmpty) return 0;
     final lastDay = history.last;
 
+    final now = DateTime.now();
+    final cleanNowDate = DateTime(now.year, now.month, now.day);
+
+    if (history.any((element) => element.date == cleanNowDate)) return history.last.splitDayNumber;
+
     final int lastSplitDay = lastDay.splitDayNumber;
     int currentSplitDay = lastSplitDay + 1;
     if (currentSplitDay >= workoutPlan.days.length) {
       currentSplitDay = 0;
     }
 
-    final now = DateTime.now();
-
     final cleanLastDate = DateTime(lastDay.date.year, lastDay.date.month, lastDay.date.day);
-    final cleanNowDate = DateTime(now.year, now.month, now.day);
+
     int difference = 0;
 
     while ((cleanNowDate.difference(cleanLastDate).inDays) > difference &&
@@ -156,6 +159,8 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
     if (state.currentWorkoutPlan == null) return;
     final splitday = state.currentWorkoutPlan!.days[state.currentSplitDay]!;
 
+    splitday.exercises?.removeWhere((element) => !state.progress.containsKey(element.id));
+
     final historyEntry = HistoryDayEntry(
         workoutPlanId: state.currentWorkoutPlan!.id,
         splitDayNumber: state.currentSplitDay,
@@ -163,7 +168,8 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
         completedSplitDay: splitday,
         duration: DateTime.now().difference(state.timestamps['start']!));
 
-        print(historyEntry.toJson());
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
 
     await userRepository.addHistoryDayEntry(state.userId, historyEntry);
     return emit(state.copyWith(history: [...state.history, historyEntry], todayDone: true));
@@ -215,6 +221,21 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
     }
     emit(state.copyWith(workoutPlans: updatedWorkoutPlans, progress: {...state.progress, exercise.id: progress}));
     await _saveProgressLocally();
+
+    if (exercise.sets >= selectedSet) await nextExercise(exercise);
+  }
+
+  Future<void> nextExercise(UserExercise userExercise) async {
+    if (state.currentWorkoutPlan == null) return;
+    final remainingExercises = state.currentWorkoutPlan!.days[state.currentSplitDay]?.exercises ?? [];
+    remainingExercises.remove(userExercise);
+
+    if (remainingExercises.isEmpty) {
+      await finishTraining();
+      return;
+    }
+
+    await _setTimestamp(exercise: remainingExercises.first);
   }
 
   Future<void> _saveProgressLocally() async {

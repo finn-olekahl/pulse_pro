@@ -18,7 +18,6 @@ class _CustomExpansionPanelState extends State<CustomExpansionPanel> {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        if (widget.isFinished) return;
         setState(() {
           _isExpanded = !_isExpanded;
         });
