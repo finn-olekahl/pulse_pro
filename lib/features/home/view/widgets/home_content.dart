@@ -83,7 +83,8 @@ class HomeContentState extends State<HomeContent>
                                         child: Text(
                                           "Chest, Triceps & Calves",
                                           style: TextStyle(
-                                              fontSize: 30,
+                                              fontSize: 27,
+                                              fontWeight: FontWeight.w700,
                                               color:
                                                   Colors.deepPurple.shade100),
                                         ),
@@ -141,12 +142,12 @@ class HomeContentState extends State<HomeContent>
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: MediaQuery.paddingOf(context).bottom + 20,
-                  ),
                 ],
               ),
-            )
+            ),
+            SizedBox(
+              height: MediaQuery.paddingOf(context).bottom + 20,
+            ),
           ],
         ),
       ),

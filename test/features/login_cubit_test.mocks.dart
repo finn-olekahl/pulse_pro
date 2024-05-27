@@ -3,11 +3,19 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i3;
+import 'dart:async' as _i5;
 
-import 'package:firebase_auth/firebase_auth.dart' as _i4;
+import 'package:firebase_auth/firebase_auth.dart' as _i6;
+import 'package:flutter/cupertino.dart' as _i7;
+import 'package:flutter_bloc/flutter_bloc.dart' as _i12;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:mockito/src/dummies.dart' as _i4;
+import 'package:pulse_pro/features/login/cubit/login_cubit.dart' as _i3;
 import 'package:pulse_pro/repositories/authentication_repository.dart' as _i2;
+import 'package:pulse_pro/repositories/user_repository.dart' as _i11;
+import 'package:pulse_pro/shared/models/muscle_group.dart' as _i10;
+import 'package:pulse_pro/shared/models/pulsepro_user.dart' as _i8;
+import 'package:pulse_pro/shared/models/workout_plan.dart' as _i9;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -22,47 +30,321 @@ import 'package:pulse_pro/repositories/authentication_repository.dart' as _i2;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
+class _FakeAuthenticationRepository_0 extends _i1.SmartFake
+    implements _i2.AuthenticationRepository {
+  _FakeAuthenticationRepository_0(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+/// A class which mocks [LoginCubit].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockLoginCubit extends _i1.Mock implements _i3.LoginCubit {
+  @override
+  _i2.AuthenticationRepository get authenticationRepository =>
+      (super.noSuchMethod(
+        Invocation.getter(#authenticationRepository),
+        returnValue: _FakeAuthenticationRepository_0(
+          this,
+          Invocation.getter(#authenticationRepository),
+        ),
+        returnValueForMissingStub: _FakeAuthenticationRepository_0(
+          this,
+          Invocation.getter(#authenticationRepository),
+        ),
+      ) as _i2.AuthenticationRepository);
+
+  @override
+  _i3.LoginState get state => (super.noSuchMethod(
+        Invocation.getter(#state),
+        returnValue: _i4.dummyValue<_i3.LoginState>(
+          this,
+          Invocation.getter(#state),
+        ),
+        returnValueForMissingStub: _i4.dummyValue<_i3.LoginState>(
+          this,
+          Invocation.getter(#state),
+        ),
+      ) as _i3.LoginState);
+
+  @override
+  _i5.Stream<_i3.LoginState> get stream => (super.noSuchMethod(
+        Invocation.getter(#stream),
+        returnValue: _i5.Stream<_i3.LoginState>.empty(),
+        returnValueForMissingStub: _i5.Stream<_i3.LoginState>.empty(),
+      ) as _i5.Stream<_i3.LoginState>);
+
+  @override
+  bool get isClosed => (super.noSuchMethod(
+        Invocation.getter(#isClosed),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+
+  @override
+  _i5.Future<_i6.FirebaseAuthException?> signInWithApple() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #signInWithApple,
+          [],
+        ),
+        returnValue: _i5.Future<_i6.FirebaseAuthException?>.value(),
+        returnValueForMissingStub:
+            _i5.Future<_i6.FirebaseAuthException?>.value(),
+      ) as _i5.Future<_i6.FirebaseAuthException?>);
+
+  @override
+  _i5.Future<_i6.FirebaseAuthException?> signInWithGoogle() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #signInWithGoogle,
+          [],
+        ),
+        returnValue: _i5.Future<_i6.FirebaseAuthException?>.value(),
+        returnValueForMissingStub:
+            _i5.Future<_i6.FirebaseAuthException?>.value(),
+      ) as _i5.Future<_i6.FirebaseAuthException?>);
+
+  @override
+  _i5.Future<_i6.FirebaseAuthException?> signInWithEmailAndPassword({
+    required String? email,
+    required String? password,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #signInWithEmailAndPassword,
+          [],
+          {
+            #email: email,
+            #password: password,
+          },
+        ),
+        returnValue: _i5.Future<_i6.FirebaseAuthException?>.value(),
+        returnValueForMissingStub:
+            _i5.Future<_i6.FirebaseAuthException?>.value(),
+      ) as _i5.Future<_i6.FirebaseAuthException?>);
+
+  @override
+  _i5.Future<_i6.FirebaseAuthException?> signUpWithEmailAndPassword({
+    required String? email,
+    required String? password,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #signUpWithEmailAndPassword,
+          [],
+          {
+            #email: email,
+            #password: password,
+          },
+        ),
+        returnValue: _i5.Future<_i6.FirebaseAuthException?>.value(),
+        returnValueForMissingStub:
+            _i5.Future<_i6.FirebaseAuthException?>.value(),
+      ) as _i5.Future<_i6.FirebaseAuthException?>);
+
+  @override
+  _i5.Future<_i6.FirebaseAuthException?> signOutWithEmailAndPassword({
+    required String? email,
+    required String? password,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #signOutWithEmailAndPassword,
+          [],
+          {
+            #email: email,
+            #password: password,
+          },
+        ),
+        returnValue: _i5.Future<_i6.FirebaseAuthException?>.value(),
+        returnValueForMissingStub:
+            _i5.Future<_i6.FirebaseAuthException?>.value(),
+      ) as _i5.Future<_i6.FirebaseAuthException?>);
+
+  @override
+  void startOnboarding(_i7.BuildContext? context) => super.noSuchMethod(
+        Invocation.method(
+          #startOnboarding,
+          [context],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void cancelOnboarding(_i7.BuildContext? context) => super.noSuchMethod(
+        Invocation.method(
+          #cancelOnboarding,
+          [context],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void cancelOnboardingSignOut(_i7.BuildContext? context) => super.noSuchMethod(
+        Invocation.method(
+          #cancelOnboardingSignOut,
+          [context],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void continueOnboarding(_i7.BuildContext? context) => super.noSuchMethod(
+        Invocation.method(
+          #continueOnboarding,
+          [context],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void finishOnboarding(
+    _i7.BuildContext? context, {
+    required String? name,
+    required _i8.Gender? gender,
+    required DateTime? birthDate,
+    required double? weight,
+    required int? height,
+    required _i9.WorkoutGoal? workoutGoal,
+    required _i9.WorkoutIntensity? workoutIntensity,
+    required _i9.WorkoutExperience? workoutExperience,
+    required int? maxTimesPerWeek,
+    required int? timePerDay,
+    required List<_i9.Injury>? injuries,
+    required List<_i10.MuscleGroup>? muscleFocus,
+    required _i11.SportOrientation? sportOrientation,
+  }) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #finishOnboarding,
+          [context],
+          {
+            #name: name,
+            #gender: gender,
+            #birthDate: birthDate,
+            #weight: weight,
+            #height: height,
+            #workoutGoal: workoutGoal,
+            #workoutIntensity: workoutIntensity,
+            #workoutExperience: workoutExperience,
+            #maxTimesPerWeek: maxTimesPerWeek,
+            #timePerDay: timePerDay,
+            #injuries: injuries,
+            #muscleFocus: muscleFocus,
+            #sportOrientation: sportOrientation,
+          },
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void emit(_i3.LoginState? state) => super.noSuchMethod(
+        Invocation.method(
+          #emit,
+          [state],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void onChange(_i12.Change<_i3.LoginState>? change) => super.noSuchMethod(
+        Invocation.method(
+          #onChange,
+          [change],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void addError(
+    Object? error, [
+    StackTrace? stackTrace,
+  ]) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #addError,
+          [
+            error,
+            stackTrace,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void onError(
+    Object? error,
+    StackTrace? stackTrace,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #onError,
+          [
+            error,
+            stackTrace,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i5.Future<void> close() => (super.noSuchMethod(
+        Invocation.method(
+          #close,
+          [],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+}
+
 /// A class which mocks [AuthenticationRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockAuthenticationRepository extends _i1.Mock
     implements _i2.AuthenticationRepository {
   @override
-  _i3.Future<_i4.FirebaseAuthException?> signInWithGoogle() =>
+  _i5.Future<_i6.FirebaseAuthException?> signInWithGoogle() =>
       (super.noSuchMethod(
         Invocation.method(
           #signInWithGoogle,
           [],
         ),
-        returnValue: _i3.Future<_i4.FirebaseAuthException?>.value(),
+        returnValue: _i5.Future<_i6.FirebaseAuthException?>.value(),
         returnValueForMissingStub:
-            _i3.Future<_i4.FirebaseAuthException?>.value(),
-      ) as _i3.Future<_i4.FirebaseAuthException?>);
+            _i5.Future<_i6.FirebaseAuthException?>.value(),
+      ) as _i5.Future<_i6.FirebaseAuthException?>);
 
   @override
-  _i3.Future<_i4.FirebaseAuthException?> signInWithApple() =>
+  _i5.Future<_i6.FirebaseAuthException?> signInWithApple() =>
       (super.noSuchMethod(
         Invocation.method(
           #signInWithApple,
           [],
         ),
-        returnValue: _i3.Future<_i4.FirebaseAuthException?>.value(),
+        returnValue: _i5.Future<_i6.FirebaseAuthException?>.value(),
         returnValueForMissingStub:
-            _i3.Future<_i4.FirebaseAuthException?>.value(),
-      ) as _i3.Future<_i4.FirebaseAuthException?>);
+            _i5.Future<_i6.FirebaseAuthException?>.value(),
+      ) as _i5.Future<_i6.FirebaseAuthException?>);
 
   @override
-  _i3.Future<void> signOut() => (super.noSuchMethod(
+  _i5.Future<void> signOut() => (super.noSuchMethod(
         Invocation.method(
           #signOut,
           [],
         ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 
   @override
-  _i3.Future<_i4.FirebaseAuthException?> signUpWithEmailAndPassword(
+  _i5.Future<_i6.FirebaseAuthException?> signUpWithEmailAndPassword(
     String? email,
     String? password,
   ) =>
@@ -74,13 +356,13 @@ class MockAuthenticationRepository extends _i1.Mock
             password,
           ],
         ),
-        returnValue: _i3.Future<_i4.FirebaseAuthException?>.value(),
+        returnValue: _i5.Future<_i6.FirebaseAuthException?>.value(),
         returnValueForMissingStub:
-            _i3.Future<_i4.FirebaseAuthException?>.value(),
-      ) as _i3.Future<_i4.FirebaseAuthException?>);
+            _i5.Future<_i6.FirebaseAuthException?>.value(),
+      ) as _i5.Future<_i6.FirebaseAuthException?>);
 
   @override
-  _i3.Future<_i4.FirebaseAuthException?> signInWithEmailAndPassword(
+  _i5.Future<_i6.FirebaseAuthException?> signInWithEmailAndPassword(
     String? email,
     String? password,
   ) =>
@@ -92,8 +374,8 @@ class MockAuthenticationRepository extends _i1.Mock
             password,
           ],
         ),
-        returnValue: _i3.Future<_i4.FirebaseAuthException?>.value(),
+        returnValue: _i5.Future<_i6.FirebaseAuthException?>.value(),
         returnValueForMissingStub:
-            _i3.Future<_i4.FirebaseAuthException?>.value(),
-      ) as _i3.Future<_i4.FirebaseAuthException?>);
+            _i5.Future<_i6.FirebaseAuthException?>.value(),
+      ) as _i5.Future<_i6.FirebaseAuthException?>);
 }

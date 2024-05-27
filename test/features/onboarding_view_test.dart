@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:pulse_pro/features/login/cubit/login_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pulse_pro/features/login/view/onboarding_view.dart';
-import 'package:pulse_pro/repositories/authentication_repository.dart';
 import 'package:pulse_pro/repositories/user_repository.dart';
 import 'package:pulse_pro/shared/models/muscle_group.dart';
 import 'package:pulse_pro/shared/models/pulsepro_user.dart';
@@ -13,7 +12,7 @@ import 'package:pulse_pro/shared/models/workout_plan.dart';
 
 import 'onboarding_view_test.mocks.dart';
 
-@GenerateNiceMocks([MockSpec<LoginCubit>(), MockSpec<AuthenticationRepository>()])
+@GenerateNiceMocks([MockSpec<LoginCubit>()])
 void main() {
   late MockLoginCubit mockLoginCubit;
 
@@ -26,7 +25,7 @@ void main() {
       MaterialApp(
         home: BlocProvider<LoginCubit>.value(
           value: mockLoginCubit,
-          child: OnboardingView(),
+          child: const OnboardingView(),
         ),
       ),
     );
@@ -66,19 +65,19 @@ void main() {
     // ...
 
     // Beispielwerte für die Argumente von finishOnboarding
-    final String name = 'Test Name';
-    final Gender gender = Gender.male;
-    final DateTime birthDate = DateTime(1990, 1, 1);
-    final double weight = 70.0;
-    final int height = 175;
-    final WorkoutGoal workoutGoal = WorkoutGoal.loseWeight;
-    final WorkoutIntensity workoutIntensity = WorkoutIntensity.medium;
-    final WorkoutExperience workoutExperience = WorkoutExperience.beginner;
-    final int maxTimesPerWeek = 3;
-    final int timePerDay = 60;
-    final List<Injury> injuries = [];
-    final List<MuscleGroup> muscleFocus = [];
-    final SportOrientation sportOrientation = SportOrientation.none;
+    const String name = 'Test Name';
+    const Gender gender = Gender.male;
+    final DateTime birthDate = DateTime(1990, 1, 1); // DateTime kann nicht const sein
+    const double weight = 70.0;
+    const int height = 175;
+    const WorkoutGoal workoutGoal = WorkoutGoal.loseWeight;
+    const WorkoutIntensity workoutIntensity = WorkoutIntensity.medium;
+    const WorkoutExperience workoutExperience = WorkoutExperience.beginner;
+    const int maxTimesPerWeek = 3;
+    const int timePerDay = 60;
+    final List<Injury> injuries = []; // Listen können nicht const sein
+    final List<MuscleGroup> muscleFocus = []; // Listen können nicht const sein
+    const SportOrientation sportOrientation = SportOrientation.none;
 
     when(mockLoginCubit.finishOnboarding(
       any,

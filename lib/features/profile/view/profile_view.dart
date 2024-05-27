@@ -8,7 +8,19 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 15, 8, 26),
-      body: SafeArea(child: Container()),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.viewPaddingOf(context).top,
+            ),
+            
+            SizedBox(
+              height: MediaQuery.paddingOf(context).bottom + 20,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
