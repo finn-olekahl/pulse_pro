@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pulse_pro/bloc/app_state_bloc.dart';
-import 'package:pulse_pro/repositories/authencitation_repository.dart';
+import 'package:pulse_pro/repositories/authentication_repository.dart';
 import 'package:pulse_pro/shared/models/muscle_group.dart';
 import 'package:pulse_pro/shared/models/pulsepro_user.dart';
 import 'package:pulse_pro/shared/models/workout_plan.dart';
@@ -14,7 +13,7 @@ import 'package:pulse_pro/shared/models/workout_plan.dart';
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit(MockAuthenticationRepository mockAuthenticationRepository, {required this.authenticationRepository})
+  LoginCubit({required this.authenticationRepository})
       : super(const LoginState.initial());
 
   final AuthenticationRepository authenticationRepository;
@@ -103,5 +102,5 @@ class LoginCubit extends Cubit<LoginState> {
   }
 }
 
-class MockAuthenticationRepository {
-}
+ 
+

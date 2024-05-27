@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:pulse_pro/repositories/authencitation_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pulse_pro/repositories/authentication_repository.dart';
 
 part 'home_state.dart';
 

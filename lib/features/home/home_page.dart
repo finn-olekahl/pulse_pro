@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pulse_pro/features/home/cubit/home_cubit.dart';
 import 'package:pulse_pro/features/home/view/home_view.dart';
-import 'package:pulse_pro/repositories/authencitation_repository.dart';
+import 'package:pulse_pro/repositories/authentication_repository.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
