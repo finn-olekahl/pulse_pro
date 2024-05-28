@@ -29,10 +29,7 @@ void main() {
     test('Successful signInWithEmailAndPassword should emit loggedIn state', () async {
       // Verwendung von 'any' um sicherzustellen, dass die Parameter nicht null sind
       when(mockAuthenticationRepository.signInWithEmailAndPassword('email','password'))
-          .thenAnswer((_) async {
-            await Future.delayed(Duration(seconds: 2));
-            return Future.value(null); 
-          });
+          .thenAnswer((_) async => Future.value(null));
       when(mockSharedPreferences.getString('name')).thenReturn('Test User');
 
       expectLater(
