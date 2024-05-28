@@ -95,4 +95,4 @@ final class LoginState extends Equatable {
   static postOnboarding() {}
 }
 
-enum LoginStatus { preOnboarding, onboarding, postOnboarding }
+enum LoginStatus { preOnboarding, onboarding, postOnboarding, loggedIn, initial }

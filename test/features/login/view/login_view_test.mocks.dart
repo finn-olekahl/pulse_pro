@@ -301,4 +301,12 @@ class MockLoginCubit extends _i1.Mock implements _i3.LoginCubit {
         returnValue: _i5.Future<void>.value(),
         returnValueForMissingStub: _i5.Future<void>.value(),
       ) as _i5.Future<void>);
+
+  void nameChanged(String name) {}
+
+  void genderChanged(_i8.Gender gender) {}
+
+  void birthDateChanged(DateTime birthDate) {}
+
+  void weightChanged(double weight) {}
 }
