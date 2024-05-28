@@ -30,6 +30,9 @@ class CreateAccountCubit extends Cubit<CreateAccountState> {
 
   Future<List<List<String>>> generateSplit(
       {required String gender,
+      required int height,
+      required double weight,
+      required int birthdate,
       required String workoutGoal,
       required String workoutIntensity,
       required int maxTimesPerWeek,
@@ -41,6 +44,9 @@ class CreateAccountCubit extends Cubit<CreateAccountState> {
     emit(GeneratingSplit());
     final split = await userRepository.generateSplit(
         gender: gender,
+        height: height,
+        weight: weight,
+        birthdate: birthdate,
         workoutGoal: workoutGoal,
         workoutIntensity: workoutIntensity,
         maxTimesPerWeek: maxTimesPerWeek,
@@ -57,6 +63,9 @@ class CreateAccountCubit extends Cubit<CreateAccountState> {
       {required List<List<String>> split,
       required String workoutGoal,
       required String gender,
+      required int height,
+      required double weight,
+      required int birthdate,
       required String workoutIntensity,
       required int timePerDay,
       required List<String> injuries,
@@ -68,6 +77,9 @@ class CreateAccountCubit extends Cubit<CreateAccountState> {
         split: split,
         workoutGoal: workoutGoal,
         gender: gender,
+        height: height,
+        weight: weight,
+        birthdate: birthdate,
         workoutIntensity: workoutIntensity,
         timePerDay: timePerDay,
         injuries: injuries,

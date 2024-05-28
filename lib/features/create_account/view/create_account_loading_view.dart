@@ -11,7 +11,8 @@ class CreateAccountLoadingView extends StatefulWidget {
   const CreateAccountLoadingView({super.key});
 
   @override
-  State<CreateAccountLoadingView> createState() => _CreateAccountLoadingViewState();
+  State<CreateAccountLoadingView> createState() =>
+      _CreateAccountLoadingViewState();
 }
 
 class _CreateAccountLoadingViewState extends State<CreateAccountLoadingView> {
@@ -28,7 +29,8 @@ class _CreateAccountLoadingViewState extends State<CreateAccountLoadingView> {
       return "Setting Up Your Account...";
     } else if (context.watch<CreateAccountCubit>().state is GeneratingSplit) {
       return "Workout Split Generation in Progress...";
-    } else if (context.watch<CreateAccountCubit>().state is GeneratingWorkoutPlan) {
+    } else if (context.watch<CreateAccountCubit>().state
+        is GeneratingWorkoutPlan) {
       return "Generating Your Workout Plan...";
     } else if (context.watch<CreateAccountCubit>().state is AddingWorkoutPlan) {
       return "Adding Workout Plan to Your Account...";
@@ -53,41 +55,66 @@ class _CreateAccountLoadingViewState extends State<CreateAccountLoadingView> {
     final weight = prefs.getDouble('weight');
     final height = prefs.getInt('height');
 
-    if (birthDate != null && weight != null && height != null && name != null && gender != null) {
+    if (birthDate != null &&
+        weight != null &&
+        height != null &&
+        name != null &&
+        gender != null) {
       if (!mounted) return;
-      List<List<String>> split = await context.read<CreateAccountCubit>().generateSplit(
-          gender: gender,
-          workoutGoal: workoutGoal!,
-          workoutIntensity: workoutIntensity!,
-          maxTimesPerWeek: maxTimesPerWeek!,
-          timePerDay: timePerDay!,
-          injuries: injuries ?? [],
-          muscleFocus: muscleFocus ?? [],
-          sportOrientation: sportOrientation!,
-          workoutExperience: workoutExperience!);
+      List<List<String>> split = await context
+          .read<CreateAccountCubit>()
+          .generateSplit(
+              gender: gender,
+              height: height,
+              weight: weight,
+              birthdate: birthDate,
+              workoutGoal: workoutGoal!,
+              workoutIntensity: workoutIntensity!,
+              maxTimesPerWeek: maxTimesPerWeek!,
+              timePerDay: timePerDay!,
+              injuries: injuries ?? [],
+              muscleFocus: muscleFocus ?? [],
+              sportOrientation: sportOrientation!,
+              workoutExperience: workoutExperience!);
 
+      await Future.delayed(const Duration(milliseconds: 1000));
       if (!mounted) return;
-      WorkoutPlan workoutPlan = await context.read<CreateAccountCubit>().generateWorkoutPlan(
-          split: split,
-          gender: gender,
-          workoutGoal: workoutGoal,
-          workoutIntensity: workoutIntensity,
-          timePerDay: timePerDay,
-          injuries: injuries ?? [],
-          muscleFocus: muscleFocus ?? [],
-          sportOrientation: sportOrientation,
-          workoutExperience: workoutExperience);
+      WorkoutPlan workoutPlan = await context
+          .read<CreateAccountCubit>()
+          .generateWorkoutPlan(
+              split: split,
+              gender: gender,
+              height: height,
+              weight: weight,
+              birthdate: birthDate,
+              workoutGoal: workoutGoal,
+              workoutIntensity: workoutIntensity,
+              timePerDay: timePerDay,
+              injuries: injuries ?? [],
+              muscleFocus: muscleFocus ?? [],
+              sportOrientation: sportOrientation,
+              workoutExperience: workoutExperience);
 
       log(workoutPlan.toJson().toString());
+      await Future.delayed(const Duration(milliseconds: 1000));
+      if (!mounted) return;
+      await context.read<CreateAccountCubit>().createUserObject(
+          name: name,
+          birthdate: birthDate,
+          weight: weight,
+          height: height,
+          gender: gender);
       if (!mounted) return;
       await context
           .read<CreateAccountCubit>()
-          .createUserObject(name: name, birthdate: birthDate, weight: weight, height: height, gender: gender);
+          .updateWorkoutPlans({workoutPlan.id: workoutPlan});
+      await Future.delayed(const Duration(milliseconds: 1000));
       if (!mounted) return;
-      await context.read<CreateAccountCubit>().updateWorkoutPlans({workoutPlan.id: workoutPlan});
-      if (!mounted) return;
-      await context.read<CreateAccountCubit>().updateCurrentWorkoutPlan(workoutPlan.id);
+      await context
+          .read<CreateAccountCubit>()
+          .updateCurrentWorkoutPlan(workoutPlan.id);
 
+      await Future.delayed(const Duration(milliseconds: 500));
       if (!mounted) return;
       context.read<AppStateBloc>().add(const LocalUserLookUp());
     }
