@@ -7,13 +7,14 @@ import 'dart:async' as _i5;
 
 import 'package:firebase_auth/firebase_auth.dart' as _i6;
 import 'package:flutter/cupertino.dart' as _i7;
-import 'package:flutter_bloc/flutter_bloc.dart' as _i11;
+import 'package:flutter_bloc/flutter_bloc.dart' as _i12;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i4;
 import 'package:pulse_pro/features/login/cubit/login_cubit.dart' as _i3;
 import 'package:pulse_pro/repositories/authentication_repository.dart' as _i2;
 import 'package:pulse_pro/shared/models/muscle_group.dart' as _i10;
 import 'package:pulse_pro/shared/models/pulsepro_user.dart' as _i8;
+import 'package:pulse_pro/shared/models/sport_orientation.dart' as _i11;
 import 'package:pulse_pro/shared/models/workout_plan.dart' as _i9;
 
 // ignore_for_file: type=lint
@@ -216,7 +217,7 @@ class MockLoginCubit extends _i1.Mock implements _i3.LoginCubit {
     required int? timePerDay,
     required List<_i9.Injury>? injuries,
     required List<_i10.MuscleGroup>? muscleFocus,
-    required dynamic sportOrientation,
+    required _i11.SportOrientation? sportOrientation,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -251,7 +252,7 @@ class MockLoginCubit extends _i1.Mock implements _i3.LoginCubit {
       );
 
   @override
-  void onChange(_i11.Change<_i3.LoginState>? change) => super.noSuchMethod(
+  void onChange(_i12.Change<_i3.LoginState>? change) => super.noSuchMethod(
         Invocation.method(
           #onChange,
           [change],
@@ -300,80 +301,4 @@ class MockLoginCubit extends _i1.Mock implements _i3.LoginCubit {
         returnValue: _i5.Future<void>.value(),
         returnValueForMissingStub: _i5.Future<void>.value(),
       ) as _i5.Future<void>);
-}
-
-/// A class which mocks [AuthenticationRepository].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockAuthenticationRepository extends _i1.Mock
-    implements _i2.AuthenticationRepository {
-  @override
-  _i5.Future<_i6.FirebaseAuthException?> signInWithGoogle() =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #signInWithGoogle,
-          [],
-        ),
-        returnValue: _i5.Future<_i6.FirebaseAuthException?>.value(),
-        returnValueForMissingStub:
-            _i5.Future<_i6.FirebaseAuthException?>.value(),
-      ) as _i5.Future<_i6.FirebaseAuthException?>);
-
-  @override
-  _i5.Future<_i6.FirebaseAuthException?> signInWithApple() =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #signInWithApple,
-          [],
-        ),
-        returnValue: _i5.Future<_i6.FirebaseAuthException?>.value(),
-        returnValueForMissingStub:
-            _i5.Future<_i6.FirebaseAuthException?>.value(),
-      ) as _i5.Future<_i6.FirebaseAuthException?>);
-
-  @override
-  _i5.Future<void> signOut() => (super.noSuchMethod(
-        Invocation.method(
-          #signOut,
-          [],
-        ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
-
-  @override
-  _i5.Future<_i6.FirebaseAuthException?> signUpWithEmailAndPassword(
-    String? email,
-    String? password,
-  ) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #signUpWithEmailAndPassword,
-          [
-            email,
-            password,
-          ],
-        ),
-        returnValue: _i5.Future<_i6.FirebaseAuthException?>.value(),
-        returnValueForMissingStub:
-            _i5.Future<_i6.FirebaseAuthException?>.value(),
-      ) as _i5.Future<_i6.FirebaseAuthException?>);
-
-  @override
-  _i5.Future<_i6.FirebaseAuthException?> signInWithEmailAndPassword(
-    String? email,
-    String? password,
-  ) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #signInWithEmailAndPassword,
-          [
-            email,
-            password,
-          ],
-        ),
-        returnValue: _i5.Future<_i6.FirebaseAuthException?>.value(),
-        returnValueForMissingStub:
-            _i5.Future<_i6.FirebaseAuthException?>.value(),
-      ) as _i5.Future<_i6.FirebaseAuthException?>);
 }

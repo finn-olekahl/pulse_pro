@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pulse_pro/features/login/cubit/login_cubit.dart';
 import 'package:pulse_pro/repositories/authentication_repository.dart';
@@ -7,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class MockAuthenticationRepository extends Mock implements AuthenticationRepository {}
 class MockSharedPreferences extends Mock implements SharedPreferences {}
 
+@GenerateNiceMocks([MockSpec<LoginCubit>()])
 void main() {
   group('LoginCubit Tests', () {
     late LoginCubit loginCubit;
@@ -28,7 +30,8 @@ void main() {
       // Verwendung von 'any' um sicherzustellen, dass die Parameter nicht null sind
       when(mockAuthenticationRepository.signInWithEmailAndPassword('email','password'))
           .thenAnswer((_) async {
-            return true; 
+            await Future.delayed(Duration(seconds: 2));
+            return Future.value(null); 
           });
       when(mockSharedPreferences.getString('name')).thenReturn('Test User');
 
@@ -45,7 +48,9 @@ void main() {
 
     test('Failed signInWithEmailAndPassword should emit initial state', () async {
       when(mockAuthenticationRepository.signInWithEmailAndPassword('email','password'))
-          .thenAnswer((_) async {});
+          .thenAnswer((_) async {
+            return Future.value(null);
+          });
       when(mockSharedPreferences.getString('name')).thenReturn(null);
 
       expectLater(
