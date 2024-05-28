@@ -7,12 +7,11 @@ import 'dart:async' as _i5;
 
 import 'package:firebase_auth/firebase_auth.dart' as _i6;
 import 'package:flutter/cupertino.dart' as _i7;
-import 'package:flutter_bloc/flutter_bloc.dart' as _i12;
+import 'package:flutter_bloc/flutter_bloc.dart' as _i11;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i4;
 import 'package:pulse_pro/features/login/cubit/login_cubit.dart' as _i3;
 import 'package:pulse_pro/repositories/authentication_repository.dart' as _i2;
-import 'package:pulse_pro/repositories/user_repository.dart' as _i11;
 import 'package:pulse_pro/shared/models/muscle_group.dart' as _i10;
 import 'package:pulse_pro/shared/models/pulsepro_user.dart' as _i8;
 import 'package:pulse_pro/shared/models/workout_plan.dart' as _i9;
@@ -217,7 +216,7 @@ class MockLoginCubit extends _i1.Mock implements _i3.LoginCubit {
     required int? timePerDay,
     required List<_i9.Injury>? injuries,
     required List<_i10.MuscleGroup>? muscleFocus,
-    required _i11.SportOrientation? sportOrientation,
+    required dynamic sportOrientation,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -252,7 +251,7 @@ class MockLoginCubit extends _i1.Mock implements _i3.LoginCubit {
       );
 
   @override
-  void onChange(_i12.Change<_i3.LoginState>? change) => super.noSuchMethod(
+  void onChange(_i11.Change<_i3.LoginState>? change) => super.noSuchMethod(
         Invocation.method(
           #onChange,
           [change],

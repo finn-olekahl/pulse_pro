@@ -1,20 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:pulse_pro/features/profile/cubit/profile_cubit.dart';
 import 'package:pulse_pro/features/profile/view/widgets/edit_data_button.dart';
 import 'package:pulse_pro/features/profile/view/widgets/logout_slide.dart';
 import 'package:pulse_pro/features/profile/view/widgets/profile_detail.dart';
-import 'package:pulse_pro/shared/models/pulsepro_user.dart';
+import 'package:pulse_pro/features/profile/view/widgets/profile_page_header.dart';
+import 'package:pulse_pro/features/profile/view/widgets/profile_settings_panel.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class ProfileView extends StatelessWidget {
-  const ProfileView({super.key});
+  ProfileView({super.key});
+  final PanelController _panelController = PanelController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 15, 8, 26),
-      body: BlocBuilder<ProfileCubit, ProfileState>(
+      body: BlocConsumer<ProfileCubit, ProfileState>(
+        listenWhen: (previous, current) => previous.status != current.status,
+        listener: (context, state) {
+          if (state.status == ProfileStatus.initial || state.status == ProfileStatus.loaded) return;
+          if (state.status == ProfileStatus.edit) {
+            _panelController.close();
+            return;
+          }
+          _panelController.open();
+        },
         builder: (context, state) {
           if (state.pulseProUser == null) {
             return const Center(
@@ -24,55 +37,9 @@ class ProfileView extends StatelessWidget {
 
           return Stack(
             children: [
-              Stack(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: MediaQuery.viewPaddingOf(context).top,
-                        left: 20,
-                        right: MediaQuery.sizeOf(context).width * 1 / 4),
-                    child: Text.rich(
-                      TextSpan(
-                        style: const TextStyle(
-                            fontSize: 24.0, fontFamily: 'sansman'),
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: 'Stay Strong,\n',
-                            style: TextStyle(
-                              color: Colors.grey.shade300,
-                              fontSize: 25,
-                            ),
-                          ),
-                          TextSpan(
-                            text: "${state.pulseProUser!.name}!",
-                            style: TextStyle(
-                              color: Colors.deepPurple.shade300,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 35,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Transform.translate(
-                    offset: Offset(MediaQuery.sizeOf(context).width * 1 / 3,
-                        -MediaQuery.sizeOf(context).width * 0.05),
-                    child: Align(
-                        alignment: Alignment.topCenter,
-                        child: SizedBox(
-                            width: MediaQuery.sizeOf(context).width * 0.666,
-                            child: state.pulseProUser!.gender == Gender.female
-                                ? Image.asset('assets/images/avatar_female.png')
-                                : Image.asset(
-                                    'assets/images/avatar_male.png'))),
-                  ),
-                ],
-              ),
+              const ProfilePageHeader(),
               Padding(
-                padding: EdgeInsets.only(
-                    top:
-                        MediaQuery.sizeOf(context).width * (2 / 3 - 0.05) - 30),
+                padding: EdgeInsets.only(top: MediaQuery.sizeOf(context).width * (2 / 3 - 0.05) - 30),
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.black,
@@ -93,19 +60,17 @@ class ProfileView extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               ProfileDetail(
-                                  label: 'Age',
-                                  value: calculateAge(
-                                          state.pulseProUser!.birthDate)
-                                      .toString()),
+                                label: 'Birthdate',
+                                value: formatDate(state.pulseProUser!.birthDate),
+                                onEdit: () => context.read<ProfileCubit>().editValue(ProfileStatus.editBirthDate),
+                              ),
                               const SizedBox(
                                 width: 10,
                               ),
                               ProfileDetail(
                                   label: 'Gender',
-                                  value: capitalize(state.pulseProUser!.gender
-                                      .toString()
-                                      .split('.')
-                                      .last))
+                                  value: capitalize(state.pulseProUser!.gender.toString().split('.').last),
+                                  onEdit: () => context.read<ProfileCubit>().editValue(ProfileStatus.editGender))
                             ],
                           ),
                           const SizedBox(
@@ -116,13 +81,15 @@ class ProfileView extends StatelessWidget {
                             children: [
                               ProfileDetail(
                                   label: 'Height',
-                                  value: '${state.pulseProUser!.height} cm'),
+                                  value: '${state.pulseProUser!.height} cm',
+                                  onEdit: () => context.read<ProfileCubit>().editValue(ProfileStatus.editHeight)),
                               const SizedBox(
                                 width: 10,
                               ),
                               ProfileDetail(
                                   label: 'Weight',
-                                  value: '${state.pulseProUser!.weight} kg')
+                                  value: '${state.pulseProUser!.weight} kg',
+                                  onEdit: () => context.read<ProfileCubit>().editValue(ProfileStatus.editWeight))
                             ],
                           ),
                           const SizedBox(
@@ -139,8 +106,7 @@ class ProfileView extends StatelessWidget {
                               child: Text(
                                 'Open Source Licenses',
                                 style: TextStyle(
-                                    color: Colors.deepPurple.shade200
-                                        .withOpacity(0.5),
+                                    color: Colors.deepPurple.shade200.withOpacity(0.5),
                                     decoration: TextDecoration.underline),
                               )),
                           SizedBox(
@@ -150,6 +116,19 @@ class ProfileView extends StatelessWidget {
                       )),
                 ),
               ),
+              SlidingUpPanel(
+                color: Colors.transparent,
+                boxShadow: null,
+                backdropTapClosesPanel: false,
+                backdropEnabled: true,
+                isDraggable: false,
+                controller: _panelController,
+                panelBuilder: (scrollController) => const ProfileSettingPanel(),
+                defaultPanelState: PanelState.CLOSED,
+                maxHeight: MediaQuery.sizeOf(context).height,
+                padding: EdgeInsets.only(top: MediaQuery.sizeOf(context).width * (2 / 3 - 0.05) - 30),
+                minHeight: 0,
+              )
             ],
           );
         },
@@ -158,17 +137,10 @@ class ProfileView extends StatelessWidget {
   }
 }
 
-int calculateAge(DateTime birthDate) {
-  final currentDate = DateTime.now();
-  int age = currentDate.year - birthDate.year;
-  if (birthDate.month > currentDate.month) {
-    age--;
-  } else if (birthDate.month == currentDate.month) {
-    if (birthDate.day > currentDate.day) {
-      age--;
-    }
-  }
-  return age;
+String formatDate(DateTime dateTime) {
+  final DateFormat formatter = DateFormat('dd.MM.yyyy');
+  final String formatted = formatter.format(dateTime);
+  return formatted;
 }
 
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
