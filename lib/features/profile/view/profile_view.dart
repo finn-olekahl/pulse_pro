@@ -40,15 +40,15 @@ class ProfileView extends StatelessWidget {
                             text: 'Stay Strong,\n',
                             style: TextStyle(
                               color: Colors.grey.shade300,
-                              fontSize: 28,
+                              fontSize: 25,
                             ),
                           ),
                           TextSpan(
-                            text: state.pulseProUser!.name,
+                            text: "${state.pulseProUser!.name}!",
                             style: TextStyle(
                               color: Colors.deepPurple.shade300,
                               fontWeight: FontWeight.bold,
-                              fontSize: 28,
+                              fontSize: 35,
                             ),
                           ),
                         ],
