@@ -69,7 +69,7 @@ class UserRepository {
     final HttpsCallableResult result = await callable.call(data);
     log(result.data.toString());
 
-    final jsonString = result.data['response'][0]['text']['value'];
+    final jsonString = cleanJsonString(result.data['response'][0]['text']['value']);
     Map<String, dynamic> jsonMap = jsonDecode(jsonString);
 
     List<List<String>> split = (jsonMap['split'] as List<dynamic>)

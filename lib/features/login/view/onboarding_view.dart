@@ -89,13 +89,15 @@ class OnboardingViewState extends State<OnboardingView> {
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController repeatPasswordController = TextEditingController();
+  final TextEditingController repeatPasswordController =
+      TextEditingController();
 
   final PageController pageController = PageController();
 
   void goBack() {
     pageController.animateToPage(currentPage - 1,
-        duration: const Duration(milliseconds: 300), curve: Curves.easeOutCubic);
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOutCubic);
     setState(() {
       currentPage--;
     });
@@ -154,7 +156,8 @@ class OnboardingViewState extends State<OnboardingView> {
           );
     }
     pageController.animateToPage(currentPage + 1,
-        duration: const Duration(milliseconds: 300), curve: Curves.easeOutCubic);
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOutCubic);
     setState(() {
       currentPage++;
     });
@@ -213,8 +216,11 @@ class OnboardingViewState extends State<OnboardingView> {
                 decoration: InputDecoration(
                   hintText: "Tell us your name",
                   hintStyle: const TextStyle(color: Colors.grey),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0), borderSide: BorderSide.none),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                      borderSide: BorderSide.none),
                   filled: true,
                   fillColor: Colors.white.withAlpha(30),
                 ),
@@ -265,7 +271,9 @@ class OnboardingViewState extends State<OnboardingView> {
                       final name = enumToText(newGender.name);
 
                       return Padding(
-                        padding: EdgeInsets.only(bottom: newGender != Gender.values.lastOrNull ? 15 : 0),
+                        padding: EdgeInsets.only(
+                            bottom:
+                                newGender != Gender.values.lastOrNull ? 15 : 0),
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             backgroundColor: Colors.white.withAlpha(30),
@@ -360,7 +368,11 @@ class OnboardingViewState extends State<OnboardingView> {
                       final name = enumToText(newWorkoutGoal.name);
 
                       return Padding(
-                        padding: EdgeInsets.only(bottom: newWorkoutGoal != WorkoutGoal.values.lastOrNull ? 15 : 0),
+                        padding: EdgeInsets.only(
+                            bottom:
+                                newWorkoutGoal != WorkoutGoal.values.lastOrNull
+                                    ? 15
+                                    : 0),
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             backgroundColor: Colors.white.withAlpha(30),
@@ -451,12 +463,16 @@ class OnboardingViewState extends State<OnboardingView> {
                       children: List.generate(
                     WorkoutExperience.values.length,
                     (index) {
-                      final newWorkoutExperience = WorkoutExperience.values[index];
+                      final newWorkoutExperience =
+                          WorkoutExperience.values[index];
                       final name = enumToText(newWorkoutExperience.name);
 
                       return Padding(
-                        padding:
-                            EdgeInsets.only(bottom: newWorkoutExperience != WorkoutExperience.values.lastOrNull ? 15 : 0),
+                        padding: EdgeInsets.only(
+                            bottom: newWorkoutExperience !=
+                                    WorkoutExperience.values.lastOrNull
+                                ? 15
+                                : 0),
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             backgroundColor: Colors.white.withAlpha(30),
@@ -547,12 +563,16 @@ class OnboardingViewState extends State<OnboardingView> {
                       children: List.generate(
                     WorkoutIntensity.values.length,
                     (index) {
-                      final newWorkoutIntensity = WorkoutIntensity.values[index];
+                      final newWorkoutIntensity =
+                          WorkoutIntensity.values[index];
                       final name = enumToText(newWorkoutIntensity.name);
 
                       return Padding(
-                        padding:
-                            EdgeInsets.only(bottom: newWorkoutIntensity != WorkoutIntensity.values.lastOrNull ? 15 : 0),
+                        padding: EdgeInsets.only(
+                            bottom: newWorkoutIntensity !=
+                                    WorkoutIntensity.values.lastOrNull
+                                ? 15
+                                : 0),
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             backgroundColor: Colors.white.withAlpha(30),
@@ -645,7 +665,8 @@ class OnboardingViewState extends State<OnboardingView> {
                     (index) {
                       int newMaxTimesPerWeek = index + 1;
                       return Padding(
-                        padding: EdgeInsets.only(bottom: newMaxTimesPerWeek != 7 ? 15 : 0),
+                        padding: EdgeInsets.only(
+                            bottom: newMaxTimesPerWeek != 7 ? 15 : 0),
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             backgroundColor: Colors.white.withAlpha(30),
@@ -732,7 +753,13 @@ class OnboardingViewState extends State<OnboardingView> {
                 return const LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
-                  colors: [Colors.transparent, Colors.white, Colors.white, Colors.white, Colors.transparent],
+                  colors: [
+                    Colors.transparent,
+                    Colors.white,
+                    Colors.white,
+                    Colors.white,
+                    Colors.transparent
+                  ],
                 ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
               },
               child: AnimatedNumberPicker(
@@ -752,7 +779,8 @@ class OnboardingViewState extends State<OnboardingView> {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.white.withOpacity(0.3), width: 3),
+                  border: Border.all(
+                      color: Colors.white.withOpacity(0.3), width: 3),
                 ),
                 onChanged: (value) => setState(() => timePerDay = value),
               ),
@@ -821,12 +849,14 @@ class OnboardingViewState extends State<OnboardingView> {
                     });
                   },
                   listenAfterAnimation: false,
-                  startDate: DateTime.now().add(const Duration(days: -(365 * 100))),
+                  startDate:
+                      DateTime.now().add(const Duration(days: -(365 * 100))),
                   lastDate: DateTime.now(),
                   theme: CurveDatePickerTheme(
                     wheelPickerHeight: 200.0,
                     overlay: ScrollWheelDatePickerOverlay.highlight,
-                    itemTextStyle: defaultItemTextStyle.copyWith(color: Colors.white),
+                    itemTextStyle:
+                        defaultItemTextStyle.copyWith(color: Colors.white),
                     overlayColor: Colors.deepPurple.shade300.withOpacity(0.5),
                     overAndUnderCenterOpacity: 0.3,
                   ),
@@ -892,7 +922,10 @@ class OnboardingViewState extends State<OnboardingView> {
                 squeeze: 4,
                 dialHeight: 45,
                 division: 0.5,
-                selectedValueStyle: TextStyle(fontFamily: 'sansman', fontSize: 30, color: Colors.deepPurple.shade500),
+                selectedValueStyle: TextStyle(
+                    fontFamily: 'sansman',
+                    fontSize: 30,
+                    color: Colors.deepPurple.shade500),
                 onChange: (newValue) {
                   setState(() {
                     weight = double.parse(newValue);
@@ -950,7 +983,13 @@ class OnboardingViewState extends State<OnboardingView> {
                 return const LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
-                  colors: [Colors.transparent, Colors.white, Colors.white, Colors.white, Colors.transparent],
+                  colors: [
+                    Colors.transparent,
+                    Colors.white,
+                    Colors.white,
+                    Colors.white,
+                    Colors.transparent
+                  ],
                 ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
               },
               child: AnimatedNumberPicker(
@@ -970,7 +1009,8 @@ class OnboardingViewState extends State<OnboardingView> {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.white.withOpacity(0.3), width: 3),
+                  border: Border.all(
+                      color: Colors.white.withOpacity(0.3), width: 3),
                 ),
                 onChanged: (value) => setState(() => height = value),
               ),
@@ -1043,11 +1083,14 @@ class OnboardingViewState extends State<OnboardingView> {
                       final name = enumToText(newInjury.name);
 
                       return Padding(
-                        padding: EdgeInsets.only(bottom: newInjury != Injury.values.lastOrNull ? 15 : 0),
+                        padding: EdgeInsets.only(
+                            bottom:
+                                newInjury != Injury.values.lastOrNull ? 15 : 0),
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
-                            backgroundColor:
-                                injuries.contains(newInjury) ? Colors.deepPurple.shade400 : Colors.white.withAlpha(30),
+                            backgroundColor: injuries.contains(newInjury)
+                                ? Colors.deepPurple.shade400
+                                : Colors.white.withAlpha(30),
                             foregroundColor: Colors.white,
                             side: BorderSide.none,
                             shape: RoundedRectangleBorder(
@@ -1140,12 +1183,17 @@ class OnboardingViewState extends State<OnboardingView> {
                       final name = enumToText(newMuscleFocus.name);
 
                       return Padding(
-                        padding: EdgeInsets.only(bottom: newMuscleFocus != MuscleGroup.values.lastOrNull ? 15 : 0),
+                        padding: EdgeInsets.only(
+                            bottom:
+                                newMuscleFocus != MuscleGroup.values.lastOrNull
+                                    ? 15
+                                    : 0),
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
-                            backgroundColor: muscleFocus.contains(newMuscleFocus)
-                                ? Colors.deepPurple.shade400
-                                : Colors.white.withAlpha(30),
+                            backgroundColor:
+                                muscleFocus.contains(newMuscleFocus)
+                                    ? Colors.deepPurple.shade400
+                                    : Colors.white.withAlpha(30),
                             foregroundColor: Colors.white,
                             side: BorderSide.none,
                             shape: RoundedRectangleBorder(
@@ -1234,19 +1282,26 @@ class OnboardingViewState extends State<OnboardingView> {
                       children: List.generate(
                     SportOrientation.values.length,
                     (index) {
-                      final newSportOrientation = SportOrientation.values[index];
+                      final newSportOrientation =
+                          SportOrientation.values[index];
                       final name = enumToText(newSportOrientation.name);
 
-                      if (newSportOrientation == SportOrientation.none) return Container();
+                      if (newSportOrientation == SportOrientation.none) {
+                        return Container();
+                      }
 
                       return Padding(
-                        padding:
-                            EdgeInsets.only(bottom: newSportOrientation != SportOrientation.values.lastOrNull ? 15 : 0),
+                        padding: EdgeInsets.only(
+                            bottom: newSportOrientation !=
+                                    SportOrientation.values.lastOrNull
+                                ? 15
+                                : 0),
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
-                            backgroundColor: sportOrientation == newSportOrientation
-                                ? Colors.deepPurple.shade400
-                                : Colors.white.withAlpha(30),
+                            backgroundColor:
+                                sportOrientation == newSportOrientation
+                                    ? Colors.deepPurple.shade400
+                                    : Colors.white.withAlpha(30),
                             foregroundColor: Colors.white,
                             side: BorderSide.none,
                             shape: RoundedRectangleBorder(
@@ -1306,7 +1361,9 @@ class OnboardingViewState extends State<OnboardingView> {
                   IconButton(
                       onPressed: () {
                         if (widget.continueSignup == false) {
-                          return context.read<LoginCubit>().cancelOnboardingSignOut(context);
+                          return context
+                              .read<LoginCubit>()
+                              .cancelOnboardingSignOut(context);
                         }
                         context.read<LoginCubit>().cancelOnboarding(context);
                       },
@@ -1320,7 +1377,8 @@ class OnboardingViewState extends State<OnboardingView> {
                       builder: (context, constraints) {
                         double barWidth = constraints.maxWidth;
                         int totalPages = pages().length;
-                        double filledWidth = barWidth * currentPage / (totalPages - 1);
+                        double filledWidth =
+                            barWidth * currentPage / (totalPages - 1);
                         return Stack(
                           children: [
                             Container(
@@ -1405,10 +1463,14 @@ class OnboardingViewState extends State<OnboardingView> {
                           duration: const Duration(milliseconds: 300),
                           curve: Curves.easeInOutQuad,
                           height: 50,
-                          color: currentPage == pages().length - 1 ? Colors.deepPurple : Colors.transparent,
+                          color: currentPage == pages().length - 1
+                              ? Colors.deepPurple
+                              : Colors.transparent,
                           child: Center(
                               child: Text(
-                            currentPage == pages().length - 1 ? 'Finish' : 'Continue',
+                            currentPage == pages().length - 1
+                                ? 'Finish'
+                                : 'Continue',
                             style: const TextStyle(
                               fontSize: 16,
                             ),

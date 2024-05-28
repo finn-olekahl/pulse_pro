@@ -66,6 +66,7 @@ class _CreateAccountLoadingViewState extends State<CreateAccountLoadingView> {
           sportOrientation: sportOrientation!,
           workoutExperience: workoutExperience!);
 
+      await Future.delayed(const Duration(milliseconds: 1000));
       if (!mounted) return;
       WorkoutPlan workoutPlan = await context.read<CreateAccountCubit>().generateWorkoutPlan(
           split: split,
@@ -79,15 +80,19 @@ class _CreateAccountLoadingViewState extends State<CreateAccountLoadingView> {
           workoutExperience: workoutExperience);
 
       log(workoutPlan.toJson().toString());
+      await Future.delayed(const Duration(milliseconds: 1000));
       if (!mounted) return;
       await context
           .read<CreateAccountCubit>()
           .createUserObject(name: name, birthdate: birthDate, weight: weight, height: height, gender: gender);
+      await Future.delayed(const Duration(milliseconds: 1000));
       if (!mounted) return;
       await context.read<CreateAccountCubit>().updateWorkoutPlans({workoutPlan.id: workoutPlan});
+      await Future.delayed(const Duration(milliseconds: 1000));
       if (!mounted) return;
       await context.read<CreateAccountCubit>().updateCurrentWorkoutPlan(workoutPlan.id);
 
+      await Future.delayed(const Duration(milliseconds: 500));
       if (!mounted) return;
       context.read<AppStateBloc>().add(const LocalUserLookUp());
     }
