@@ -1,19 +1,17 @@
-// Datei: onboarding_view_test.dart
 
-// Funktion zur Namensvalidierung
 import 'package:flutter_test/flutter_test.dart';
 
 bool isValidName(String name) {
   return name.isNotEmpty && name.length > 2;
 }
 
-// Funktion zur Geschlechtsauswahl
+
 bool isGenderSelected(String gender) {
   const validGenders = ['Male', 'Female', 'Other'];
   return validGenders.contains(gender);
 }
 
-// Funktion zur Erstellung der Onboarding-Nachricht
+
 String getOnboardingMessage(String gender) {
   if (isGenderSelected(gender)) {
     return 'Your Fitness Journey Starts Here.';
