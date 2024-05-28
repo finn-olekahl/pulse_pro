@@ -43,6 +43,9 @@ class UserRepository {
 
   Future<List<List<String>>> generateSplit(
       {required String gender,
+      required int height,
+      required double weight,
+      required int birthdate,
       required String workoutGoal,
       required String workoutIntensity,
       required int maxTimesPerWeek,
@@ -56,6 +59,9 @@ class UserRepository {
     // Prepare the data
     final Map<String, dynamic> data = {
       'gender': gender,
+      'height': height,
+      'weight': weight,
+      'birthdate': birthdate,
       'workout_goal': workoutGoal,
       'workout_intensity': workoutIntensity,
       'max_times_per_week': maxTimesPerWeek,
@@ -83,6 +89,9 @@ class UserRepository {
       {required List<List<String>> split,
       required String workoutGoal,
       required String gender,
+      required int height,
+      required double weight,
+      required int birthdate,
       required String workoutIntensity,
       required int timePerDay,
       required List<String> injuries,
@@ -95,6 +104,9 @@ class UserRepository {
     final Map<String, dynamic> data = {
       'split': split,
       'gender': gender,
+      'height': height,
+      'weight': weight,
+      'birthdate': birthdate,
       'workout_goal': workoutGoal,
       'workout_intensity': workoutIntensity,
       'time_per_day': timePerDay * 60 * 1000,
