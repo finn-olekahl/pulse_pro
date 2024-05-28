@@ -1,5 +1,6 @@
 import 'package:animated_weight_picker/animated_weight_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pulse_pro/features/profile/cubit/profile_cubit.dart';
 import 'package:pulse_pro/shared/helpers/animated_number_picker.dart';
@@ -15,6 +16,8 @@ class ProfileSettingPanel extends StatefulWidget {
 }
 
 class _ProfileSettingPanelState extends State<ProfileSettingPanel> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   DateTime? _birthDate;
   Gender? _gender;
   int? _height;
@@ -36,6 +39,10 @@ class _ProfileSettingPanelState extends State<ProfileSettingPanel> {
           BlocBuilder<ProfileCubit, ProfileState>(
             builder: (context, state) {
               switch (state.status) {
+                case ProfileStatus.editName:
+                  return _editNamePage();
+                case ProfileStatus.editEmail:
+                  return _editEmailPage();
                 case ProfileStatus.editBirthDate:
                   return _editBirthDatePage();
                 case ProfileStatus.editGender:
@@ -64,6 +71,12 @@ class _ProfileSettingPanelState extends State<ProfileSettingPanel> {
                   ),
                 ),
                 onPressed: () {
+                  if (_nameController.text.isNotEmpty) {
+                    context.read<ProfileCubit>().updateValue('name', _nameController.text);
+                  }
+                  if (_emailController.text.isNotEmpty) {
+                    context.read<ProfileCubit>().updateValue('email', _emailController.text);
+                  }
                   if (_birthDate != null) {
                     context.read<ProfileCubit>().updateValue('birthdate', _birthDate!.millisecondsSinceEpoch);
                   }
@@ -89,6 +102,114 @@ class _ProfileSettingPanelState extends State<ProfileSettingPanel> {
           )
         ],
       ),
+    );
+  }
+
+  Widget _editNamePage() {
+    return Column(
+      children: [
+        Text.rich(
+          TextSpan(
+            style: const TextStyle(fontSize: 24.0, fontFamily: 'sansman'),
+            children: <TextSpan>[
+              TextSpan(
+                text: 'Edit your ',
+                style: TextStyle(
+                  color: Colors.grey.shade300,
+                  fontSize: 32,
+                ),
+              ),
+              TextSpan(
+                text: 'name.',
+                style: TextStyle(
+                  color: Colors.deepPurple.shade300,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 32,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(
+          height: 30,
+        ),
+        BlocBuilder<ProfileCubit, ProfileState>(
+          builder: (context, state) {
+            if (state.pulseProUser == null) return const SizedBox();
+
+            return SizedBox(
+              height: 50,
+              child: TextField(
+                controller: _nameController,
+                onChanged: (value) => setState(() {}),
+                style: const TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  hintText: state.pulseProUser!.name,
+                  hintStyle: const TextStyle(color: Colors.grey),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0), borderSide: BorderSide.none),
+                  filled: true,
+                  fillColor: Colors.white.withAlpha(30),
+                ),
+              ),
+            );
+          },
+        )
+      ],
+    );
+  }
+
+  Widget _editEmailPage() {
+    return Column(
+      children: [
+        Text.rich(
+          TextSpan(
+            style: const TextStyle(fontSize: 24.0, fontFamily: 'sansman'),
+            children: <TextSpan>[
+              TextSpan(
+                text: 'Edit your ',
+                style: TextStyle(
+                  color: Colors.grey.shade300,
+                  fontSize: 32,
+                ),
+              ),
+              TextSpan(
+                text: 'mail.',
+                style: TextStyle(
+                  color: Colors.deepPurple.shade300,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 32,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(
+          height: 30,
+        ),
+        BlocBuilder<ProfileCubit, ProfileState>(
+          builder: (context, state) {
+            if (state.pulseProUser == null) return const SizedBox();
+
+            return SizedBox(
+              height: 50,
+              child: TextField(
+                controller: _emailController,
+                onChanged: (value) => setState(() {}),
+                style: const TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  hintText: state.pulseProUser!.email,
+                  hintStyle: const TextStyle(color: Colors.grey),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0), borderSide: BorderSide.none),
+                  filled: true,
+                  fillColor: Colors.white.withAlpha(30),
+                ),
+              ),
+            );
+          },
+        )
+      ],
     );
   }
 

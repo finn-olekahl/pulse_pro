@@ -1,6 +1,6 @@
 part of 'profile_cubit.dart';
 
-enum ProfileStatus { initial, loaded, edit, editBirthDate, editGender, editHeight, editWeight }
+enum ProfileStatus { initial, loaded, edit, editName, editEmail, editBirthDate, editGender, editHeight, editWeight }
 
 class ProfileState extends Equatable {
   const ProfileState._({this.status = ProfileStatus.initial, this.pulseProUser});

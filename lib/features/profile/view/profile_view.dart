@@ -60,6 +60,25 @@ class ProfileView extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               ProfileDetail(
+                                  label: 'Name',
+                                  value: state.pulseProUser!.name,
+                                  onEdit: () => context.read<ProfileCubit>().editValue(ProfileStatus.editName)),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              ProfileDetail(
+                                  label: 'Email',
+                                  value: state.pulseProUser!.email,
+                                  onEdit: () => context.read<ProfileCubit>().editValue(ProfileStatus.editEmail))
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              ProfileDetail(
                                 label: 'Birthdate',
                                 value: formatDate(state.pulseProUser!.birthDate),
                                 onEdit: () => context.read<ProfileCubit>().editValue(ProfileStatus.editBirthDate),
