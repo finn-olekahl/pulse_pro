@@ -51,7 +51,12 @@ class _HomeViewState extends State<HomeView> {
             }
           }
         },
-        children: const [HomeContent(), DiscoverPage(), TrainingPlanPage(), ProfilePage()],
+        children: const [
+          HomeContent(),
+          DiscoverPage(),
+          TrainingPlanPage(),
+          ProfilePage()
+        ],
       ),
       bottomNavigationBar: Dock(
         initialPadding: const EdgeInsets.only(left: 10, right: 10),
@@ -65,7 +70,8 @@ class _HomeViewState extends State<HomeView> {
             });
             if (true) {
               _pageController.animateToPage(_currentScreen,
-                  duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
+                  duration: const Duration(milliseconds: 250),
+                  curve: Curves.easeOut);
             }
           }
         },

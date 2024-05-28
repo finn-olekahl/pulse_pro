@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:pulse_pro/bloc/app_state_bloc.dart';
 import 'package:pulse_pro/features/home/home_page.dart';
 import 'package:pulse_pro/features/create_account/create_account_loading_page.dart';
+import 'package:pulse_pro/features/licenses/license_page.dart';
+import 'package:pulse_pro/features/licenses/view/license_detail_view.dart';
 import 'package:pulse_pro/features/login/login_page.dart';
 import 'package:pulse_pro/features/profile/profile_page.dart';
 import 'package:pulse_pro/features/splash/view/splash_screen.dart';
@@ -48,8 +50,21 @@ class AppRouter {
           path: '/profile',
           builder: (context, state) => const ProfilePage(),
         ),
-        GoRoute(path: '/workoutPage', builder: (context, state) => const WorkoutPage(),),
-        GoRoute(path: '/licenses', builder: (context, state) => const LicensePage())
+        GoRoute(
+          path: '/workoutPage',
+          builder: (context, state) => const WorkoutPage(),
+        ),
+        GoRoute(
+            path: '/licenses',
+            builder: (context, state) => const LicensesPage()),
+        GoRoute(
+            path: '/license',
+            builder: (context, state) {
+              final title = state.uri.queryParameters['title'];
+              final license = state.uri.queryParameters['license'];
+              if (title == null || license == null) return const SizedBox();
+              return LicenseDetailsView(title: title, license: license);
+            })
       ],
       redirect: (context, state) async {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -62,7 +77,8 @@ class AppRouter {
         final bool isOnSplashScreen = matchedLocation == '/splash';
         final bool isOnLoginPage = matchedLocation == '/login';
         final bool isOnboardingPage = matchedLocation == '/login/onboarding';
-        final bool isCreateAccountLoadingPage = matchedLocation == '/login/createAccountLoading';
+        final bool isCreateAccountLoadingPage =
+            matchedLocation == '/login/createAccountLoading';
 
         if (appState is AppStateInitial || appState is AppStateLoading) {
           return '/splash';
@@ -80,7 +96,8 @@ class AppRouter {
         if (isWorkoutRunning == true) {
           return '/workoutPage';
         }
-        if (isOnSplashScreen || isOnLoginPage || isCreateAccountLoadingPage) return '/';
+        if (isOnSplashScreen || isOnLoginPage || isCreateAccountLoadingPage)
+          return '/';
 
         return null;
       },

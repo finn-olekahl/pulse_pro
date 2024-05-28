@@ -6,14 +6,14 @@ class EditDataButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 45,
-      width: MediaQuery.sizeOf(context).width * 0.7,
+      width: double.infinity,
+      height: 40,
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.deepPurple.shade500,
-            foregroundColor: Colors.deepPurple.shade100,
+            foregroundColor: Colors.deepPurple.shade500,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(20),
             ),
           ),
           onPressed: () => {},

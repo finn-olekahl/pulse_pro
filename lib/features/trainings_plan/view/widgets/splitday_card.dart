@@ -99,10 +99,14 @@ class _SplitDayCardState extends State<SplitDayCard> {
                 child: Column(
                   children: [
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _getTargetText(),
-                        const Spacer(),
-                        if (_duration == null && !state.todayDone)
+                        Flexible(flex: 999, child: _getTargetText()),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        if (!state.todayDone)
                           GestureDetector(
                             onTap: () => context
                                 .read<TrainingsPlanCubit>()
@@ -121,27 +125,6 @@ class _SplitDayCardState extends State<SplitDayCard> {
                               ),
                             ),
                           ),
-                        if (_duration != null &&
-                            (_durationTimer?.isActive ?? true) &&
-                            !state.todayDone)
-                          GestureDetector(
-                            onTap: () => context
-                                .read<TrainingsPlanCubit>()
-                                .finishTraining(),
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(50.0))),
-                              child: const Padding(
-                                padding: EdgeInsets.all(5.0),
-                                child: Icon(
-                                  Icons.stop,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          )
                       ],
                     ),
                     const SizedBox(
@@ -151,29 +134,16 @@ class _SplitDayCardState extends State<SplitDayCard> {
                       children: [
                         Text('Duration',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.normal,
                                 fontSize: 18.0,
                                 color: Colors.deepPurple.shade100)),
                         const Spacer(),
-                        Text(
-                            '${twoDigits(_duration?.inHours ?? 0)}:${twoDigits((_duration?.inMinutes ?? 0) % 60)}:${twoDigits((_duration?.inSeconds ?? 0) % 60)}',
+                        Text('120min',
                             style: TextStyle(
                                 fontSize: 18.0,
                                 color: Colors.deepPurple.shade100))
                       ],
                     ),
-                    if (_exerciseDuration != null)
-                      Row(
-                        children: [
-                          Text(_currentExerciseName ?? 'Exercise',
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16.0)),
-                          const Spacer(),
-                          Text(
-                              '${twoDigits(_exerciseDuration?.inHours ?? 0)}:${twoDigits((_exerciseDuration?.inMinutes ?? 0) % 60)}:${twoDigits((_exerciseDuration?.inSeconds ?? 0) % 60)}',
-                              style: const TextStyle(fontSize: 16.0))
-                        ],
-                      )
                   ],
                 ),
               ),
