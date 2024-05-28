@@ -96,8 +96,9 @@ class AppRouter {
         if (isWorkoutRunning == true) {
           return '/workoutPage';
         }
-        if (isOnSplashScreen || isOnLoginPage || isCreateAccountLoadingPage)
+        if (isOnSplashScreen || isOnLoginPage || isCreateAccountLoadingPage) {
           return '/';
+        }
 
         return null;
       },

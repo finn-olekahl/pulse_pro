@@ -32,7 +32,7 @@ class UserRepository {
         'height': height,
         'gender': gender,
       };
-    
+
       await callable.call(data);
     } on FirebaseFunctionsException catch (e) {
       debugPrint('Error: ${e.code} - ${e.message}');
@@ -43,6 +43,9 @@ class UserRepository {
 
   Future<List<List<String>>> generateSplit(
       {required String gender,
+      required int height,
+      required double weight,
+      required int birthdate,
       required String workoutGoal,
       required String workoutIntensity,
       required int maxTimesPerWeek,
@@ -56,6 +59,9 @@ class UserRepository {
     // Prepare the data
     final Map<String, dynamic> data = {
       'gender': gender,
+      'height': height,
+      'weight': weight,
+      'birthdate': birthdate,
       'workout_goal': workoutGoal,
       'workout_intensity': workoutIntensity,
       'max_times_per_week': maxTimesPerWeek,
@@ -83,6 +89,9 @@ class UserRepository {
       {required List<List<String>> split,
       required String workoutGoal,
       required String gender,
+      required int height,
+      required double weight,
+      required int birthdate,
       required String workoutIntensity,
       required int timePerDay,
       required List<String> injuries,
@@ -95,6 +104,9 @@ class UserRepository {
     final Map<String, dynamic> data = {
       'split': split,
       'gender': gender,
+      'height': height,
+      'weight': weight,
+      'birthdate': birthdate,
       'workout_goal': workoutGoal,
       'workout_intensity': workoutIntensity,
       'time_per_day': timePerDay * 60 * 1000,
@@ -143,65 +155,24 @@ class UserRepository {
     if (!userDoc.exists) return;
 
     final history = userDoc.data()?['history'] as List<dynamic>? ?? [];
-    await FirebaseFirestore.instance.collection('user').doc(userId).update({'history': [...history, historyDayEntry.toJson()]});
+    await FirebaseFirestore.instance.collection('user').doc(userId).update({
+      'history': [...history, historyDayEntry.toJson()]
+    });
   }
 
-  dynamic cleanJsonString(String jsonString) {
-    const pattern = r'^```json\s*(.*?)\s*```$';
-    final regex = RegExp(pattern, dotAll: true);
-    final match = regex.firstMatch(jsonString);
-
-    if (match != null && match.groupCount >= 1) {
-      return match.group(1)!.trim();
-    }
-
-    return jsonString.trim();
+  Future<void> updateValue(String userId, String key, dynamic value) async {
+    await FirebaseFirestore.instance.collection('user').doc(userId).update({key: value});
   }
 }
 
-enum SportOrientation {
-  none,
-  archery,
-  badminton,
-  baseball,
-  basketball,
-  boxing,
-  climbing,
-  cricket,
-  crossfit,
-  cycling,
-  fencing,
-  fieldHockey,
-  football,
-  golf,
-  gymnastics,
-  handball,
-  hiking,
-  hockey,
-  iceHockey,
-  judo,
-  karate,
-  kickboxing,
-  lacrosse,
-  martialArts,
-  mountainBiking,
-  netball,
-  parkour,
-  rowing,
-  rugby,
-  running,
-  sailing,
-  skiing,
-  snowboarding,
-  squash,
-  surfing,
-  swimming,
-  tableTennis,
-  taekwondo,
-  tennis,
-  triathlon,
-  volleyball,
-  waterPolo,
-  weightlifting,
-  wrestling
+dynamic cleanJsonString(String jsonString) {
+  const pattern = r'^```json\s*(.*?)\s*```$';
+  final regex = RegExp(pattern, dotAll: true);
+  final match = regex.firstMatch(jsonString);
+
+  if (match != null && match.groupCount >= 1) {
+    return match.group(1)!.trim();
+  }
+
+  return jsonString.trim();
 }

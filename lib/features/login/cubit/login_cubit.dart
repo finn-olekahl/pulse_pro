@@ -7,9 +7,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pulse_pro/repositories/authentication_repository.dart';
-import 'package:pulse_pro/repositories/user_repository.dart';
 import 'package:pulse_pro/shared/models/muscle_group.dart';
 import 'package:pulse_pro/shared/models/pulsepro_user.dart';
+import 'package:pulse_pro/shared/models/sport_orientation.dart';
 import 'package:pulse_pro/shared/models/workout_plan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
