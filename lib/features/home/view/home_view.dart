@@ -11,7 +11,9 @@ import 'package:pulse_pro/features/profile/profile_page.dart';
 import 'package:pulse_pro/features/trainings_plan/plan_page.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({super.key});
+  const HomeView({super.key, this.preloadPagesCount = 4});
+
+  final int preloadPagesCount;
 
   @override
   State<HomeView> createState() => _HomeViewState();
@@ -22,7 +24,7 @@ class _HomeViewState extends State<HomeView> {
 
   late final PreloadPageController _pageController;
 
-  int _currentScreen = 2;
+  int _currentScreen = 0;
 
   bool _pageSwitchFromDock = false;
 
@@ -39,7 +41,7 @@ class _HomeViewState extends State<HomeView> {
       extendBody: true,
       body: PreloadPageView(
         physics: const AlwaysScrollableScrollPhysics(),
-        preloadPagesCount: 4,
+        preloadPagesCount: widget.preloadPagesCount,
         controller: _pageController,
         onPageChanged: (index) {
           if (!_pageSwitchFromDock) {
@@ -51,12 +53,7 @@ class _HomeViewState extends State<HomeView> {
             }
           }
         },
-        children: const [
-          HomeContent(),
-          DiscoverPage(),
-          TrainingPlanPage(),
-          ProfilePage()
-        ],
+        children: const [HomeContent(), DiscoverPage(), TrainingPlanPage(), ProfilePage()],
       ),
       bottomNavigationBar: Dock(
         initialPadding: const EdgeInsets.only(left: 10, right: 10),
@@ -70,8 +67,7 @@ class _HomeViewState extends State<HomeView> {
             });
             if (true) {
               _pageController.animateToPage(_currentScreen,
-                  duration: const Duration(milliseconds: 250),
-                  curve: Curves.easeOut);
+                  duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
             }
           }
         },

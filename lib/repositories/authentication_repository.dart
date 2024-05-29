@@ -7,7 +7,7 @@ class AuthenticationRepository {
     return FirebaseAuth.instance.currentUser;
   }
 
-  Future<FirebaseAuthException?> signInWithGoogle() async {
+  Future<FirebaseAuthException?>? signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -40,7 +40,7 @@ class AuthenticationRepository {
     }
   }
 
-  Future<FirebaseAuthException?> signInWithApple() async {
+  Future<FirebaseAuthException?>? signInWithApple() async {
     try {
       final appleIdCredential = await SignInWithApple.getAppleIDCredential(
         scopes: [
@@ -83,7 +83,7 @@ class AuthenticationRepository {
     await FirebaseAuth.instance.signOut();
   }
 
-  Future<FirebaseAuthException?> signUpWithEmailAndPassword(
+  Future<FirebaseAuthException?>? signUpWithEmailAndPassword(
       String email, String password) async {
     try {
       await FirebaseAuth.instance
@@ -94,7 +94,7 @@ class AuthenticationRepository {
     }
   }
 
-  Future<FirebaseAuthException?> signInWithEmailAndPassword(
+  Future<FirebaseAuthException?>? signInWithEmailAndPassword(
       String email, String password) async {
     try {
       await FirebaseAuth.instance
