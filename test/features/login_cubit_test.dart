@@ -27,8 +27,7 @@ void main() {
     });
 
     test('Successful signInWithEmailAndPassword should emit loggedIn state', () async {
-      // Verwendung von 'any' um sicherzustellen, dass die Parameter nicht null sind
-      when(mockAuthenticationRepository.signInWithEmailAndPassword('email','password'))
+      when(mockAuthenticationRepository.signInWithEmailAndPassword('test@example.com', 'test123'))
           .thenAnswer((_) async => Future.value(null));
       when(mockSharedPreferences.getString('name')).thenReturn('Test User');
 
@@ -44,10 +43,8 @@ void main() {
     });
 
     test('Failed signInWithEmailAndPassword should emit initial state', () async {
-      when(mockAuthenticationRepository.signInWithEmailAndPassword('email','password'))
-          .thenAnswer((_) async {
-            return Future.value(null);
-          });
+      when(mockAuthenticationRepository.signInWithEmailAndPassword('fail@example.com', 'fail123'))
+          .thenThrow(Exception('Failed login'));
       when(mockSharedPreferences.getString('name')).thenReturn(null);
 
       expectLater(
