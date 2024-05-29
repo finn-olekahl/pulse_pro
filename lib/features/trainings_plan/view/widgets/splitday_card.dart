@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pulse_pro/features/trainings_plan/cubit/trainings_plan_cubit.dart';
 import 'package:pulse_pro/shared/models/day_entry.dart';
 import 'package:pulse_pro/shared/models/split_day.dart';
@@ -20,26 +21,26 @@ class _SplitDayCardState extends State<SplitDayCard> {
   Timer? _durationTimer;
   Timer? _exerciseTimer;
 
-  Duration? _duration;
-  Duration? _exerciseDuration;
-  String? _currentExerciseName;
+  //Duration? _duration;
+  //Duration? _exerciseDuration;
+  //String? _currentExerciseName;
 
   void _startDurationTimer(DateTime start) {
     _durationTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
-        final now = DateTime.now();
-        _duration = now.difference(start);
+        //final now = DateTime.now();
+        //_duration = now.difference(start);
       });
     });
   }
 
   void _resetExerciseTimer(DateTime start) {
-    _exerciseDuration = null;
+    //_exerciseDuration = null;
     _exerciseTimer?.cancel();
     _exerciseTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
-        final now = DateTime.now();
-        _exerciseDuration = now.difference(start);
+        //final now = DateTime.now();
+        //_exerciseDuration = now.difference(start);
       });
     });
   }
@@ -57,11 +58,11 @@ class _SplitDayCardState extends State<SplitDayCard> {
     if (newestEntry.key == 'end') {
       _durationTimer?.cancel();
       _exerciseTimer?.cancel();
-      _exerciseDuration = null;
+      //_exerciseDuration = null;
       return;
     }
 
-    _currentExerciseName = state.exercises[newestEntry.key]?.name;
+    //_currentExerciseName = state.exercises[newestEntry.key]?.name;
     _resetExerciseTimer(newestEntry.value);
   }
 
@@ -79,7 +80,7 @@ class _SplitDayCardState extends State<SplitDayCard> {
       listener: (context, state) => _stateUpdate(state),
       builder: (context, state) {
         if (widget.historyDayEntry != null) {
-          _duration = widget.historyDayEntry!.duration;
+          //_duration = widget.historyDayEntry!.duration;
         }
 
         return Center(
@@ -108,9 +109,12 @@ class _SplitDayCardState extends State<SplitDayCard> {
                         ),
                         if (!state.todayDone)
                           GestureDetector(
-                            onTap: () => context
-                                .read<TrainingsPlanCubit>()
-                                .startTraining(context),
+                            onTap: () {
+                              context
+                                  .read<TrainingsPlanCubit>()
+                                  .startTraining(context);
+                              context.push('/workoutPage');
+                            },
                             child: Container(
                               decoration: const BoxDecoration(
                                   color: Colors.green,

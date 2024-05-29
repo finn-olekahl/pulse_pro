@@ -62,7 +62,7 @@ class _ProfileDetailState extends State<ProfileDetail> with SingleTickerProvider
                               Text(
                                 widget.label,
                                 style: TextStyle(
-                                  color: Colors.deepPurple.shade100.withOpacity(0.25),
+                                  color: Colors.deepPurple.shade100.withOpacity(0.4),
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -98,6 +98,7 @@ class _ProfileDetailState extends State<ProfileDetail> with SingleTickerProvider
                               child: Text(
                                 widget.value,
                                 style: TextStyle(
+                                  fontWeight: FontWeight.w400,
                                   color: Colors.deepPurple.shade100,
                                   fontSize: 17,
                                 ),

@@ -1,16 +1,20 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mockito/annotations.dart';
 import 'package:pulse_pro/features/login/cubit/login_cubit.dart';
 import 'package:pulse_pro/features/login/view/login_view.dart';
-import '../../../fake_authentication_repository.dart';
+import 'package:pulse_pro/repositories/authentication_repository.dart';
+import '../cubit/login_cubit_test.mocks.dart';
+
+@GenerateNiceMocks([MockSpec<AuthenticationRepository>()])
 
 void main() {
   group('LoginView Tests', () {
     Widget createTestWidget({required Widget child}) {
       return MaterialApp(
         home: BlocProvider<LoginCubit>(
-          create: (context) => LoginCubit(authenticationRepository: FakeAuthenticationRepository()),
+          create: (context) => LoginCubit(authenticationRepository: MockAuthenticationRepository()),
           child: child,
         ),
       );

@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pulse_pro/bloc/app_state_bloc.dart';
 import 'package:pulse_pro/repositories/exercise_repository.dart';
 import 'package:pulse_pro/repositories/user_repository.dart';
@@ -61,16 +60,15 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
       final todayDone = history.any((element) => element.date == cleanNowDate);
 
       final prefs = await SharedPreferences.getInstance();
-      final prefix = '${now.year}${now.month}${now.day}_';
       Map<String, Map<int, double>>? progressMap;
       Map<String, DateTime>? timestampMap;
 
-      if (prefs.getString('${prefix}progess') != null && prefs.getString('${prefix}timestamps') != null) {
-        final progress = jsonDecode(prefs.getString('${prefix}progess')!) as Map<String, dynamic>;
+      if (prefs.getString('progess') != null && prefs.getString('timestamps') != null) {
+        final progress = jsonDecode(prefs.getString('progess')!) as Map<String, dynamic>;
         progressMap = progress.map((key, value) =>
             MapEntry(key, (value as Map).map((key, value) => MapEntry(int.parse(key), value as double))));
 
-        final timestamps = jsonDecode(prefs.getString('${prefix}timestamps')!) as Map<String, dynamic>;
+        final timestamps = jsonDecode(prefs.getString('timestamps')!) as Map<String, dynamic>;
         timestampMap = timestamps.map((key, value) => MapEntry(key, DateTime.parse(value as String)));
       }
 
@@ -243,12 +241,10 @@ class TrainingsPlanCubit extends Cubit<TrainingsPlanState> {
 
   Future<void> _saveProgressLocally() async {
     final prefs = await SharedPreferences.getInstance();
-    final now = DateTime.now();
-    final prefix = '${now.year}${now.month}${now.day}_';
 
-    await prefs.setString('${prefix}progess',
+    await prefs.setString('progess',
         jsonEncode(state.progress.map((key, value) => MapEntry(key, value.map((k, v) => MapEntry(k.toString(), v))))));
-    await prefs.setString('${prefix}timestamps',
+    await prefs.setString('timestamps',
         jsonEncode(state.timestamps.map((key, value) => MapEntry(key, value.toIso8601String()))));
   }
 

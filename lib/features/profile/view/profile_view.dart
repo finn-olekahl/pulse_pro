@@ -8,6 +8,7 @@ import 'package:pulse_pro/features/profile/view/widgets/logout_slide.dart';
 import 'package:pulse_pro/features/profile/view/widgets/profile_detail.dart';
 import 'package:pulse_pro/features/profile/view/widgets/profile_page_header.dart';
 import 'package:pulse_pro/features/profile/view/widgets/profile_settings_panel.dart';
+import 'package:pulse_pro/shared/helpers/capitalize.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class ProfileView extends StatelessWidget {
@@ -125,8 +126,12 @@ class ProfileView extends StatelessWidget {
                               child: Text(
                                 'Open Source Licenses',
                                 style: TextStyle(
-                                    color: Colors.deepPurple.shade200.withOpacity(0.5),
-                                    decoration: TextDecoration.underline),
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.deepPurple.shade200
+                                        .withOpacity(0.5),
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: Colors.deepPurple.shade200
+                                        .withOpacity(0.5)),
                               )),
                           SizedBox(
                             height: MediaQuery.paddingOf(context).bottom + 15,
@@ -162,4 +167,15 @@ String formatDate(DateTime dateTime) {
   return formatted;
 }
 
-String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
+int calculateAge(DateTime birthDate) {
+  final currentDate = DateTime.now();
+  int age = currentDate.year - birthDate.year;
+  if (birthDate.month > currentDate.month) {
+    age--;
+  } else if (birthDate.month == currentDate.month) {
+    if (birthDate.day > currentDate.day) {
+      age--;
+    }
+  }
+  return age;
+}
