@@ -457,6 +457,7 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
                                 child: const Center(child: Text('Get Started'))),
                           ),
                           OutlinedButton(
+                            key: Key('loginButton'), // Schlüssel hinzugefügt
                             style: OutlinedButton.styleFrom(
                               backgroundColor: Colors.black.withAlpha(30),
                               foregroundColor: Colors.white,
