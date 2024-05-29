@@ -665,7 +665,7 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
                                                         }
                                                       : () {
                                                           setState(() {
-                                                            context.read<LoginCubit>().continueOnboarding(context);
+                                                            context.read<LoginCubit>().continueOnboarding();
                                                           });
                                                         },
                                                   child: Text(context.read<LoginCubit>().state.status ==
