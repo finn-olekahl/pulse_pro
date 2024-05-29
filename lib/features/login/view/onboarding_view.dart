@@ -1384,7 +1384,8 @@ class OnboardingViewState extends State<OnboardingView> {
                             Container(
                               height: 3,
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.3),
+                                color:
+                                    Colors.deepPurple.shade100.withOpacity(0.3),
                                 borderRadius: BorderRadius.circular(1.5),
                               ),
                             ),
@@ -1394,7 +1395,7 @@ class OnboardingViewState extends State<OnboardingView> {
                               height: 3,
                               width: filledWidth,
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: Colors.deepPurple.shade100,
                                 borderRadius: BorderRadius.circular(1.5),
                               ),
                             ),

@@ -5,6 +5,7 @@ import 'package:pulse_pro/features/profile/cubit/profile_cubit.dart';
 import 'package:pulse_pro/features/profile/view/widgets/edit_data_button.dart';
 import 'package:pulse_pro/features/profile/view/widgets/logout_slide.dart';
 import 'package:pulse_pro/features/profile/view/widgets/profile_detail.dart';
+import 'package:pulse_pro/shared/helpers/capitalize.dart';
 import 'package:pulse_pro/shared/models/pulsepro_user.dart';
 
 class ProfileView extends StatelessWidget {
@@ -139,9 +140,12 @@ class ProfileView extends StatelessWidget {
                               child: Text(
                                 'Open Source Licenses',
                                 style: TextStyle(
+                                    fontWeight: FontWeight.w400,
                                     color: Colors.deepPurple.shade200
                                         .withOpacity(0.5),
-                                    decoration: TextDecoration.underline),
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: Colors.deepPurple.shade200
+                                        .withOpacity(0.5)),
                               )),
                           SizedBox(
                             height: MediaQuery.paddingOf(context).bottom + 15,
@@ -170,5 +174,3 @@ int calculateAge(DateTime birthDate) {
   }
   return age;
 }
-
-String capitalize(String s) => s[0].toUpperCase() + s.substring(1);

@@ -31,7 +31,8 @@ class Exercise {
       target: json['target'],
       secondaryMuscle: json['secondaryMuscles'].cast<String>(),
       equipment: json['equipment'],
-      gif: FirebaseImageProvider(FirebaseUrl('${PulseProApp.storageUrl}/gifs/${json['id']}')),
+      gif: FirebaseImageProvider(
+          FirebaseUrl('${PulseProApp.storageUrl}/gifs/${json['id']}')),
       instructions: json['instructions'].cast<String>(),
     );
   }

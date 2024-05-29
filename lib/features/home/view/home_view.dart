@@ -22,7 +22,7 @@ class _HomeViewState extends State<HomeView> {
 
   late final PreloadPageController _pageController;
 
-  int _currentScreen = 3;
+  int _currentScreen = 2;
 
   bool _pageSwitchFromDock = false;
 

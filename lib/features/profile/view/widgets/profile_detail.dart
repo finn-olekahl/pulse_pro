@@ -26,7 +26,7 @@ class ProfileDetail extends StatelessWidget {
               Text(
                 label,
                 style: TextStyle(
-                  color: Colors.deepPurple.shade100.withOpacity(0.25),
+                  color: Colors.deepPurple.shade100.withOpacity(0.4),
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -41,6 +41,7 @@ class ProfileDetail extends StatelessWidget {
                   child: Text(
                     value,
                     style: TextStyle(
+                      fontWeight: FontWeight.w400,
                       color: Colors.deepPurple.shade100,
                       fontSize: 17,
                     ),

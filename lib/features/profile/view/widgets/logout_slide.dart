@@ -18,6 +18,7 @@ class OutlogSlide extends StatelessWidget {
       sliderButtonIconPadding: 5,
       text: 'Slide To Log Out',
       textStyle: TextStyle(
+        fontWeight: FontWeight.w400,
         color: Colors.deepPurple.shade100,
         fontSize: 15,
       ),
