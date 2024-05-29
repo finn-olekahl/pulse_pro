@@ -1,6 +1,5 @@
 import 'package:animated_weight_picker/animated_weight_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pulse_pro/features/profile/cubit/profile_cubit.dart';
 import 'package:pulse_pro/shared/helpers/animated_number_picker.dart';
