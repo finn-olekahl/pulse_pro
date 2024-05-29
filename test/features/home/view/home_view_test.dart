@@ -11,7 +11,7 @@ import 'home_view_test.mocks.dart';
 @GenerateNiceMocks([MockSpec<HomeCubit>()])
 void main() {
   group('HomeView', () {
-    testPulseProWidget('test home view appbar', (tester) async {
+    testPulseProWidget('test home view dock', (tester) async {
       await tester.pumpWidget(MaterialApp(
         home: BlocProvider(
           create: (context) => MockHomeCubit(),
@@ -19,7 +19,10 @@ void main() {
         ),
       ));
 
-      expect(find.text('Fitness App'), findsOneWidget);
+      expect(find.text('Profile'), findsOneWidget);
+      expect(find.text('Overview'), findsOneWidget);
+      expect(find.text('Discover'), findsOneWidget);
+      expect(find.text('Workout'), findsOneWidget);
     });
   });
 }

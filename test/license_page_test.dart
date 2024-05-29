@@ -15,6 +15,6 @@ void main() {
     expect(find.byType(LicensesView), findsOneWidget);
 
     // Print a message indicating the test has passed
-    print('LicensesView is present in the LicensesPage.');
+    ('LicensesView is present in the LicensesPage.');
   });
 }

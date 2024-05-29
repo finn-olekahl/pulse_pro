@@ -18,34 +18,30 @@ void main() {
 
     testWidgets('should have email and password input fields and a login button', (WidgetTester tester) async {
       await tester.pumpWidget(createTestWidget(child: const LoginView()));
-      print('Widget geladen.');
+      debugPrint('Widget geladen.');
 
       expect(find.byType(TextField), findsNWidgets(2));
-      print('Textfelder gefunden.');
+      debugPrint('Textfelder gefunden.');
 
-      final loginButton = find.byKey(Key('loginButton'));
+      final loginButton = find.byKey(const Key('loginButton'));
       expect(loginButton, findsOneWidget);
-      print('Login-Button gefunden.');
-
+      debugPrint('Login-Button gefunden.');
 
       try {
         await tester.enterText(find.byType(TextField).at(0), 'test@example.com');
-        print('E-Mail eingegeben.');
+        debugPrint('E-Mail eingegeben.');
         await tester.enterText(find.byType(TextField).at(1), 'password');
-        print('Passwort eingegeben.');
+        debugPrint('Passwort eingegeben.');
         await tester.pump();
 
-
         await tester.tap(loginButton);
-        print('Login-Button gedrückt.');
+        debugPrint('Login-Button gedrückt.');
         await tester.pumpAndSettle();
 
-
-        print('Login-Button Aktion abgeschlossen.');
+        debugPrint('Login-Button Aktion abgeschlossen.');
       } catch (e) {
-        print('Fehler beim Testen des Login-Buttons: $e');
+        debugPrint('Fehler beim Testen des Login-Buttons: $e');
       }
-
     });
   });
 }
