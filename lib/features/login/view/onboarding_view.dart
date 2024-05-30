@@ -873,14 +873,14 @@ class OnboardingViewState extends State<OnboardingView> {
                 style: const TextStyle(fontSize: 24.0, fontFamily: 'sansman'),
                 children: <TextSpan>[
                   TextSpan(
-                    text: 'Is this too ',
+                    text: 'Is This Too ',
                     style: TextStyle(
                       color: Colors.grey.shade300,
                       fontSize: 32,
                     ),
                   ),
                   TextSpan(
-                    text: 'personal?',
+                    text: 'Personal?',
                     style: TextStyle(
                       color: Colors.deepPurple.shade300,
                       fontWeight: FontWeight.bold,
