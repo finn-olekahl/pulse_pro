@@ -6,6 +6,7 @@ import 'package:pulse_pro/features/home/view/widgets/muscle_indicator.dart';
 import 'package:pulse_pro/features/trainings_plan/cubit/trainings_plan_cubit.dart';
 import 'package:pulse_pro/repositories/exercise_repository.dart';
 import 'package:pulse_pro/repositories/user_repository.dart';
+import 'package:pulse_pro/shared/helpers/enum_to_text.dart';
 import 'package:pulse_pro/shared/models/split_day.dart';
 import 'package:pulse_pro/shared/models/workout_plan.dart';
 
@@ -101,11 +102,12 @@ class HomeContentState extends State<HomeContent>
                                                 flex: 4,
                                                 child: Text(
                                                   splitDay.target!.map((entry) {
-                                                    String str = entry
-                                                        .toString()
-                                                        .split('.')
-                                                        .last;
-                                                    return '${str[0].toUpperCase()}${str.substring(1)}';
+                                                    String str = enumToText(
+                                                        entry
+                                                            .toString()
+                                                            .split('.')
+                                                            .last);
+                                                    return str;
                                                   }).join(' & '),
                                                   style: TextStyle(
                                                       fontSize: 27,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pulse_pro/features/trainings_plan/cubit/trainings_plan_cubit.dart';
+import 'package:pulse_pro/shared/helpers/enum_to_text.dart';
 import 'package:pulse_pro/shared/models/day_entry.dart';
 import 'package:pulse_pro/shared/models/split_day.dart';
 import 'package:pulse_pro/shared/models/user_exercise.dart';
@@ -136,8 +137,8 @@ class _SplitDayCardState extends State<SplitDayCard> {
     if (widget.splitDay.restDay) return const Text('Rest Day');
     return Text(
       widget.splitDay.target!.map((entry) {
-        String str = entry.toString().split('.').last;
-        return '${str[0].toUpperCase()}${str.substring(1)}';
+        String str = enumToText(entry.toString().split('.').last);
+        return str;
       }).join(' & '),
       style: TextStyle(
           fontWeight: FontWeight.bold,
