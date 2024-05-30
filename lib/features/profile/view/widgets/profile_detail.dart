@@ -18,7 +18,8 @@ class ProfileDetail extends StatefulWidget {
   State<ProfileDetail> createState() => _ProfileDetailState();
 }
 
-class _ProfileDetailState extends State<ProfileDetail> with SingleTickerProviderStateMixin {
+class _ProfileDetailState extends State<ProfileDetail>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 
   @override
@@ -35,7 +36,8 @@ class _ProfileDetailState extends State<ProfileDetail> with SingleTickerProvider
     return BlocConsumer<ProfileCubit, ProfileState>(
       listenWhen: (previous, current) => previous.status != current.status,
       listener: (context, state) {
-        if (state.status != ProfileStatus.loaded && state.status != ProfileStatus.initial) {
+        if (state.status != ProfileStatus.loaded &&
+            state.status != ProfileStatus.initial) {
           _controller.repeat(reverse: true);
           return;
         }
@@ -50,9 +52,11 @@ class _ProfileDetailState extends State<ProfileDetail> with SingleTickerProvider
                   angle: _controller.isAnimating ? _controller.value * 0.03 : 0,
                   child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.deepPurple.shade300.withOpacity(0.175), borderRadius: BorderRadius.circular(20)),
+                        color: Colors.deepPurple.shade300.withOpacity(0.175),
+                        borderRadius: BorderRadius.circular(20)),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 10),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,20 +66,24 @@ class _ProfileDetailState extends State<ProfileDetail> with SingleTickerProvider
                               Text(
                                 widget.label,
                                 style: TextStyle(
-                                  color: Colors.deepPurple.shade100.withOpacity(0.4),
+                                  color: Colors.deepPurple.shade100
+                                      .withOpacity(0.4),
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              if (state.status != ProfileStatus.loaded && state.status != ProfileStatus.initial)
+                              if (state.status != ProfileStatus.loaded &&
+                                  state.status != ProfileStatus.initial)
                                 const Spacer(),
-                              if (state.status != ProfileStatus.loaded && state.status != ProfileStatus.initial)
+                              if (state.status != ProfileStatus.loaded &&
+                                  state.status != ProfileStatus.initial)
                                 GestureDetector(
                                   onTap: widget.onEdit,
                                   child: Container(
                                     decoration: BoxDecoration(
                                         color: Colors.deepPurple.shade400,
-                                        borderRadius: const BorderRadius.all(Radius.circular(50.0))),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(50.0))),
                                     child: Padding(
                                       padding: const EdgeInsets.all(5.0),
                                       child: Icon(
@@ -97,6 +105,8 @@ class _ProfileDetailState extends State<ProfileDetail> with SingleTickerProvider
                               transform: Matrix4.skewX(-0.15),
                               child: Text(
                                 widget.value,
+                                maxLines: 1,
+                                overflow: TextOverflow.fade,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   color: Colors.deepPurple.shade100,
