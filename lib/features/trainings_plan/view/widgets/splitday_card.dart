@@ -1,11 +1,10 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pulse_pro/features/trainings_plan/cubit/trainings_plan_cubit.dart';
 import 'package:pulse_pro/shared/models/day_entry.dart';
 import 'package:pulse_pro/shared/models/split_day.dart';
+import 'package:pulse_pro/shared/models/user_exercise.dart';
 
 class SplitDayCard extends StatefulWidget {
   const SplitDayCard({super.key, required this.splitDay, this.historyDayEntry});
@@ -18,71 +17,27 @@ class SplitDayCard extends StatefulWidget {
 }
 
 class _SplitDayCardState extends State<SplitDayCard> {
-  Timer? _durationTimer;
-  Timer? _exerciseTimer;
-
-  //Duration? _duration;
-  //Duration? _exerciseDuration;
-  //String? _currentExerciseName;
-
-  void _startDurationTimer(DateTime start) {
-    _durationTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        //final now = DateTime.now();
-        //_duration = now.difference(start);
-      });
-    });
-  }
-
-  void _resetExerciseTimer(DateTime start) {
-    //_exerciseDuration = null;
-    _exerciseTimer?.cancel();
-    _exerciseTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        //final now = DateTime.now();
-        //_exerciseDuration = now.difference(start);
-      });
-    });
-  }
-
-  void _stateUpdate(TrainingsPlanState state) {
-    if (state.timestamps.isEmpty) return;
-    if (_durationTimer == null && state.timestamps.containsKey('start')) {
-      _startDurationTimer(state.timestamps['start']!);
+  String getDuration() {
+    int duration = 0;
+    if (widget.splitDay.warmUp != null) {
+      duration += widget.splitDay.warmUp!.duration;
+    }
+    for (int i = 0; i < widget.splitDay.exercises!.length; i++) {
+      duration += (widget.splitDay.timeBetweenExercises! / 1000 / 60).round();
+    }
+    for (UserExercise exercise in widget.splitDay.exercises!) {
+      duration += (exercise.sets * 0.5).round();
+      duration += (((exercise.sets - 1) * exercise.timeBetweenSets) / 1000 / 60)
+          .round();
     }
 
-    final newestEntry = state.timestamps.entries.reduce((value, element) =>
-        value.value.isAfter(element.value) ? value : element);
-    if (newestEntry.key == 'start') return;
-
-    if (newestEntry.key == 'end') {
-      _durationTimer?.cancel();
-      _exerciseTimer?.cancel();
-      //_exerciseDuration = null;
-      return;
-    }
-
-    //_currentExerciseName = state.exercises[newestEntry.key]?.name;
-    _resetExerciseTimer(newestEntry.value);
-  }
-
-  @override
-  void initState() {
-    _stateUpdate(context.read<TrainingsPlanCubit>().state);
-    super.initState();
+    return "${duration}min";
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<TrainingsPlanCubit, TrainingsPlanState>(
-      listenWhen: (previous, current) =>
-          previous.timestamps.length != current.timestamps.length,
-      listener: (context, state) => _stateUpdate(state),
+    return BlocBuilder<TrainingsPlanCubit, TrainingsPlanState>(
       builder: (context, state) {
-        if (widget.historyDayEntry != null) {
-          //_duration = widget.historyDayEntry!.duration;
-        }
-
         return Center(
           child: SizedBox(
             width: double.infinity,
@@ -103,7 +58,7 @@ class _SplitDayCardState extends State<SplitDayCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Flexible(flex: 999, child: _getTargetText()),
+                        Flexible(flex: 999, child: getTargetText()),
                         const SizedBox(
                           width: 20,
                         ),
@@ -112,8 +67,12 @@ class _SplitDayCardState extends State<SplitDayCard> {
                             onTap: () {
                               context
                                   .read<TrainingsPlanCubit>()
-                                  .startTraining(context);
-                              context.push('/workoutPage');
+                                  .startTraining(context)
+                                  .then(
+                                (value) {
+                                  context.push('/workoutPage');
+                                },
+                              );
                             },
                             child: Container(
                               decoration: const BoxDecoration(
@@ -126,6 +85,21 @@ class _SplitDayCardState extends State<SplitDayCard> {
                                   Icons.play_arrow,
                                   color: Colors.white,
                                 ),
+                              ),
+                            ),
+                          ),
+                        if (state.todayDone)
+                          Container(
+                            decoration: const BoxDecoration(
+                                color: Colors.deepPurple,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(999.0))),
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              child: Text(
+                                "Training Done!",
+                                style: TextStyle(color: Colors.white),
                               ),
                             ),
                           ),
@@ -142,7 +116,7 @@ class _SplitDayCardState extends State<SplitDayCard> {
                                 fontSize: 18.0,
                                 color: Colors.deepPurple.shade100)),
                         const Spacer(),
-                        Text('120min',
+                        Text(getDuration(),
                             style: TextStyle(
                                 fontSize: 18.0,
                                 color: Colors.deepPurple.shade100))
@@ -158,7 +132,7 @@ class _SplitDayCardState extends State<SplitDayCard> {
     );
   }
 
-  Text _getTargetText() {
+  Text getTargetText() {
     if (widget.splitDay.restDay) return const Text('Rest Day');
     return Text(
       widget.splitDay.target!.map((entry) {

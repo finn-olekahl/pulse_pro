@@ -333,9 +333,9 @@ class WorkoutViewState extends State<WorkoutView> {
                                   style: OutlinedButton.styleFrom(
                                     padding: EdgeInsets.zero,
                                     backgroundColor:
-                                        Colors.deepPurple.withOpacity(0.5),
+                                        Colors.deepPurple.withOpacity(0.3),
                                     disabledBackgroundColor:
-                                        Colors.deepPurple.withOpacity(0.25),
+                                        Colors.deepPurple.withOpacity(0.15),
                                     foregroundColor: Colors.white,
                                     disabledForegroundColor:
                                         Colors.white.withOpacity(0.5),
@@ -345,7 +345,7 @@ class WorkoutViewState extends State<WorkoutView> {
                                     ),
                                   ),
                                   onPressed: currentExercise <
-                                          splitDay.exercises!.length
+                                          splitDay.exercises!.length - 1
                                       ? () {
                                           showCupertinoModalPopup(
                                             context: context,
@@ -410,22 +410,34 @@ class WorkoutViewState extends State<WorkoutView> {
                                     ),
                                   ),
                                   onPressed: currentExercise <
-                                          splitDay.exercises!.length
+                                          splitDay.exercises!.length - 1
                                       ? () {
                                           setState(() {
                                             currentExercise++;
                                           });
                                         }
-                                      : null,
+                                      : () async {
+                                          context
+                                              .read<TrainingsPlanCubit>()
+                                              .finishTraining()
+                                              .then(
+                                            (value) {
+                                              context.pushReplacement('/');
+                                            },
+                                          );
+                                        },
                                   child: AnimatedContainer(
                                       duration:
                                           const Duration(milliseconds: 300),
                                       curve: Curves.easeInOutQuad,
                                       height: 50,
-                                      child: const Center(
+                                      child: Center(
                                           child: Text(
-                                        'Start Exercise',
-                                        style: TextStyle(
+                                        currentExercise <
+                                                splitDay.exercises!.length - 1
+                                            ? 'Next Exercise'
+                                            : 'Finish Workout',
+                                        style: const TextStyle(
                                           fontSize: 16,
                                         ),
                                       ))),

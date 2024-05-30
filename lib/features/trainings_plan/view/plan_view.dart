@@ -86,6 +86,45 @@ class TrainingsPlanViewState extends State<TrainingsPlanView> {
                               const SizedBox(
                                 height: 20,
                               ),
+                              if (state.todayDone)
+                                Column(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          color: Colors.green.withOpacity(0.3)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20, vertical: 15),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text(
+                                              "Congratulations!",
+                                              style: TextStyle(
+                                                  fontFamily: 'sansman',
+                                                  fontSize: 20,
+                                                  color: Colors.white),
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Text(
+                                                "You Finished Today's Workout!\nKeep It Going, Stay Consistent and Trust the Process to Become the Best Version of Yourself!",
+                                                style: TextStyle(
+                                                    color: Colors.white
+                                                        .withOpacity(0.75)))
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                  ],
+                                ),
                               Flexible(
                                 child: Container(
                                   clipBehavior: Clip.antiAlias,
@@ -126,7 +165,12 @@ class TrainingsPlanViewState extends State<TrainingsPlanView> {
                         );
                       }
                     }
-                    return const SizedBox();
+                    return const Expanded(
+                      child: Center(
+                          child: CircularProgressIndicator(
+                        color: Colors.deepPurple,
+                      )),
+                    );
                   },
                 ),
                 SizedBox(

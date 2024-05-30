@@ -1,6 +1,5 @@
 import 'package:animated_weight_picker/animated_weight_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pulse_pro/features/profile/cubit/profile_cubit.dart';
 import 'package:pulse_pro/shared/helpers/animated_number_picker.dart';
@@ -25,82 +24,99 @@ class _ProfileSettingPanelState extends State<ProfileSettingPanel> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Color.fromARGB(255, 37, 28, 54),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
+    return Padding(
+      padding: const EdgeInsets.only(top: 2),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.black,
+          border: Border.all(
+              color: Colors.deepPurple.shade300.withOpacity(0.15),
+              width: 2,
+              strokeAlign: BorderSide.strokeAlignOutside),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
         ),
-      ),
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        children: [
-          BlocBuilder<ProfileCubit, ProfileState>(
-            builder: (context, state) {
-              switch (state.status) {
-                case ProfileStatus.editName:
-                  return _editNamePage();
-                case ProfileStatus.editEmail:
-                  return _editEmailPage();
-                case ProfileStatus.editBirthDate:
-                  return _editBirthDatePage();
-                case ProfileStatus.editGender:
-                  return _editGenderPage();
-                case ProfileStatus.editHeight:
-                  return _editHeightPage();
-                case ProfileStatus.editWeight:
-                  return _editWeightPage();
-                default:
-                  return const SizedBox();
-              }
-            },
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          SizedBox(
-            width: double.infinity,
-            height: 45,
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple.shade500,
-                  foregroundColor: Colors.deepPurple.shade500,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            BlocBuilder<ProfileCubit, ProfileState>(
+              builder: (context, state) {
+                switch (state.status) {
+                  case ProfileStatus.editName:
+                    return _editNamePage();
+                  case ProfileStatus.editEmail:
+                    return _editEmailPage();
+                  case ProfileStatus.editBirthDate:
+                    return _editBirthDatePage();
+                  case ProfileStatus.editGender:
+                    return _editGenderPage();
+                  case ProfileStatus.editHeight:
+                    return _editHeightPage();
+                  case ProfileStatus.editWeight:
+                    return _editWeightPage();
+                  default:
+                    return const SizedBox();
+                }
+              },
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            SizedBox(
+              width: double.infinity,
+              height: 45,
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.deepPurple.shade500,
+                    foregroundColor: Colors.deepPurple.shade500,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                   ),
-                ),
-                onPressed: () {
-                  if (_nameController.text.isNotEmpty) {
-                    context.read<ProfileCubit>().updateValue('name', _nameController.text);
-                  }
-                  if (_emailController.text.isNotEmpty) {
-                    context.read<ProfileCubit>().updateValue('email', _emailController.text);
-                  }
-                  if (_birthDate != null) {
-                    context.read<ProfileCubit>().updateValue('birthdate', _birthDate!.millisecondsSinceEpoch);
-                  }
-                  if (_gender != null) {
-                    context.read<ProfileCubit>().updateValue('gender', _gender!.toString().split('.').last);
-                  }
-                  if (_height != null) {
-                    context.read<ProfileCubit>().updateValue('height', _height);
-                  }
-                  if (_weight != null) {
-                    context.read<ProfileCubit>().updateValue('weight', _weight);
-                  }
+                  onPressed: () {
+                    if (_nameController.text.isNotEmpty) {
+                      context
+                          .read<ProfileCubit>()
+                          .updateValue('name', _nameController.text);
+                    }
+                    if (_emailController.text.isNotEmpty) {
+                      context
+                          .read<ProfileCubit>()
+                          .updateValue('email', _emailController.text);
+                    }
+                    if (_birthDate != null) {
+                      context.read<ProfileCubit>().updateValue(
+                          'birthdate', _birthDate!.millisecondsSinceEpoch);
+                    }
+                    if (_gender != null) {
+                      context.read<ProfileCubit>().updateValue(
+                          'gender', _gender!.toString().split('.').last);
+                    }
+                    if (_height != null) {
+                      context
+                          .read<ProfileCubit>()
+                          .updateValue('height', _height);
+                    }
+                    if (_weight != null) {
+                      context
+                          .read<ProfileCubit>()
+                          .updateValue('weight', _weight);
+                    }
 
-                  context.read<ProfileCubit>().edit();
-                },
-                child: Text(
-                  'Save & Close',
-                  style: TextStyle(
-                    color: Colors.deepPurple.shade100,
-                    fontSize: 15,
-                  ),
-                )),
-          )
-        ],
+                    context.read<ProfileCubit>().edit();
+                  },
+                  child: Text(
+                    'Save & Close',
+                    style: TextStyle(
+                      color: Colors.deepPurple.shade100,
+                      fontSize: 15,
+                    ),
+                  )),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -113,18 +129,18 @@ class _ProfileSettingPanelState extends State<ProfileSettingPanel> {
             style: const TextStyle(fontSize: 24.0, fontFamily: 'sansman'),
             children: <TextSpan>[
               TextSpan(
-                text: 'Edit your ',
+                text: 'Edit Your ',
                 style: TextStyle(
                   color: Colors.grey.shade300,
-                  fontSize: 32,
+                  fontSize: 22,
                 ),
               ),
               TextSpan(
-                text: 'name.',
+                text: 'Name.',
                 style: TextStyle(
                   color: Colors.deepPurple.shade300,
                   fontWeight: FontWeight.bold,
-                  fontSize: 32,
+                  fontSize: 22,
                 ),
               ),
             ],
@@ -146,8 +162,11 @@ class _ProfileSettingPanelState extends State<ProfileSettingPanel> {
                 decoration: InputDecoration(
                   hintText: state.pulseProUser!.name,
                   hintStyle: const TextStyle(color: Colors.grey),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0), borderSide: BorderSide.none),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                      borderSide: BorderSide.none),
                   filled: true,
                   fillColor: Colors.white.withAlpha(30),
                 ),
@@ -167,18 +186,18 @@ class _ProfileSettingPanelState extends State<ProfileSettingPanel> {
             style: const TextStyle(fontSize: 24.0, fontFamily: 'sansman'),
             children: <TextSpan>[
               TextSpan(
-                text: 'Edit your ',
+                text: 'Edit Your ',
                 style: TextStyle(
                   color: Colors.grey.shade300,
-                  fontSize: 32,
+                  fontSize: 22,
                 ),
               ),
               TextSpan(
-                text: 'mail.',
+                text: 'Mail.',
                 style: TextStyle(
                   color: Colors.deepPurple.shade300,
                   fontWeight: FontWeight.bold,
-                  fontSize: 32,
+                  fontSize: 22,
                 ),
               ),
             ],
@@ -200,8 +219,11 @@ class _ProfileSettingPanelState extends State<ProfileSettingPanel> {
                 decoration: InputDecoration(
                   hintText: state.pulseProUser!.email,
                   hintStyle: const TextStyle(color: Colors.grey),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0), borderSide: BorderSide.none),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                      borderSide: BorderSide.none),
                   filled: true,
                   fillColor: Colors.white.withAlpha(30),
                 ),
@@ -221,10 +243,10 @@ class _ProfileSettingPanelState extends State<ProfileSettingPanel> {
             style: const TextStyle(fontSize: 24.0, fontFamily: 'sansman'),
             children: <TextSpan>[
               TextSpan(
-                text: 'Edit your ',
+                text: 'Edit Your ',
                 style: TextStyle(
                   color: Colors.grey.shade300,
-                  fontSize: 32,
+                  fontSize: 22,
                 ),
               ),
               TextSpan(
@@ -232,7 +254,7 @@ class _ProfileSettingPanelState extends State<ProfileSettingPanel> {
                 style: TextStyle(
                   color: Colors.deepPurple.shade300,
                   fontWeight: FontWeight.bold,
-                  fontSize: 32,
+                  fontSize: 22,
                 ),
               ),
             ],
@@ -250,12 +272,14 @@ class _ProfileSettingPanelState extends State<ProfileSettingPanel> {
                 child: ScrollWheelDatePicker(
                   onSelectedItemChanged: (value) => _birthDate = value,
                   listenAfterAnimation: false,
-                  startDate: DateTime.now().add(const Duration(days: -(365 * 100))),
+                  startDate:
+                      DateTime.now().add(const Duration(days: -(365 * 100))),
                   lastDate: DateTime.now(),
                   theme: CurveDatePickerTheme(
                     wheelPickerHeight: 200.0,
                     overlay: ScrollWheelDatePickerOverlay.highlight,
-                    itemTextStyle: defaultItemTextStyle.copyWith(color: Colors.white),
+                    itemTextStyle:
+                        defaultItemTextStyle.copyWith(color: Colors.white),
                     overlayColor: Colors.deepPurple.shade300.withOpacity(0.5),
                     overAndUnderCenterOpacity: 0.3,
                   ),
@@ -274,10 +298,10 @@ class _ProfileSettingPanelState extends State<ProfileSettingPanel> {
             style: const TextStyle(fontSize: 24.0, fontFamily: 'sansman'),
             children: <TextSpan>[
               TextSpan(
-                text: 'Edit your ',
+                text: 'Edit Your ',
                 style: TextStyle(
                   color: Colors.grey.shade300,
-                  fontSize: 32,
+                  fontSize: 22,
                 ),
               ),
               TextSpan(
@@ -285,7 +309,7 @@ class _ProfileSettingPanelState extends State<ProfileSettingPanel> {
                 style: TextStyle(
                   color: Colors.deepPurple.shade300,
                   fontWeight: FontWeight.bold,
-                  fontSize: 32,
+                  fontSize: 22,
                 ),
               ),
             ],
@@ -306,7 +330,8 @@ class _ProfileSettingPanelState extends State<ProfileSettingPanel> {
                 final name = enumToText(newGender.name);
 
                 return Padding(
-                  padding: EdgeInsets.only(bottom: newGender != Gender.values.lastOrNull ? 15 : 0),
+                  padding: EdgeInsets.only(
+                      bottom: newGender != Gender.values.lastOrNull ? 15 : 0),
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
                       backgroundColor: Colors.white.withAlpha(30),
@@ -353,10 +378,10 @@ class _ProfileSettingPanelState extends State<ProfileSettingPanel> {
             style: const TextStyle(fontSize: 24.0, fontFamily: 'sansman'),
             children: <TextSpan>[
               TextSpan(
-                text: 'Edit your ',
+                text: 'Edit Your ',
                 style: TextStyle(
                   color: Colors.grey.shade300,
-                  fontSize: 32,
+                  fontSize: 22,
                 ),
               ),
               TextSpan(
@@ -364,7 +389,7 @@ class _ProfileSettingPanelState extends State<ProfileSettingPanel> {
                 style: TextStyle(
                   color: Colors.deepPurple.shade300,
                   fontWeight: FontWeight.bold,
-                  fontSize: 32,
+                  fontSize: 22,
                 ),
               ),
             ],
@@ -378,7 +403,13 @@ class _ProfileSettingPanelState extends State<ProfileSettingPanel> {
             return const LinearGradient(
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
-              colors: [Colors.transparent, Colors.white, Colors.white, Colors.white, Colors.transparent],
+              colors: [
+                Colors.transparent,
+                Colors.white,
+                Colors.white,
+                Colors.white,
+                Colors.transparent
+              ],
             ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
           },
           child: BlocBuilder<ProfileCubit, ProfileState>(
@@ -402,7 +433,8 @@ class _ProfileSettingPanelState extends State<ProfileSettingPanel> {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.white.withOpacity(0.3), width: 3),
+                  border: Border.all(
+                      color: Colors.white.withOpacity(0.3), width: 3),
                 ),
                 onChanged: (value) => setState(() => _height = value),
               );
@@ -431,18 +463,18 @@ class _ProfileSettingPanelState extends State<ProfileSettingPanel> {
             style: const TextStyle(fontSize: 24.0, fontFamily: 'sansman'),
             children: <TextSpan>[
               TextSpan(
-                text: 'Edit your ',
+                text: 'Edit Your ',
                 style: TextStyle(
                   color: Colors.grey.shade300,
-                  fontSize: 32,
+                  fontSize: 22,
                 ),
               ),
               TextSpan(
-                text: 'weight.',
+                text: 'Weight.',
                 style: TextStyle(
                   color: Colors.deepPurple.shade300,
                   fontWeight: FontWeight.bold,
-                  fontSize: 32,
+                  fontSize: 22,
                 ),
               ),
             ],
@@ -467,7 +499,10 @@ class _ProfileSettingPanelState extends State<ProfileSettingPanel> {
             squeeze: 4,
             dialHeight: 45,
             division: 0.5,
-            selectedValueStyle: TextStyle(fontFamily: 'sansman', fontSize: 30, color: Colors.deepPurple.shade500),
+            selectedValueStyle: TextStyle(
+                fontFamily: 'sansman',
+                fontSize: 30,
+                color: Colors.deepPurple.shade500),
             onChange: (newValue) {
               setState(() {
                 _weight = double.parse(newValue);

@@ -10,6 +10,7 @@ import 'package:pulse_pro/features/login/login_page.dart';
 import 'package:pulse_pro/features/profile/profile_page.dart';
 import 'package:pulse_pro/features/splash/view/splash_screen.dart';
 import 'package:pulse_pro/features/login/onboarding_page.dart';
+import 'package:pulse_pro/features/trainings_plan/workout_exercise_page.dart';
 import 'package:pulse_pro/features/trainings_plan/workout_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -51,13 +52,14 @@ class AppRouter {
           builder: (context, state) => const ProfilePage(),
         ),
         GoRoute(
-          path: '/workoutPage',
-          builder: (context, state) => const WorkoutPage(),
-        ),
-        GoRoute(
-          path: '/workoutPage',
-          builder: (context, state) => const WorkoutPage(),
-        ),
+            path: '/workoutPage',
+            builder: (context, state) => const WorkoutPage(),
+            routes: [
+              GoRoute(
+                path: 'workoutExercisePage',
+                builder: (context, state) => const WorkoutExercisePage(),
+              ),
+            ]),
         GoRoute(
             path: '/licenses',
             builder: (context, state) => const LicensesPage()),
@@ -103,7 +105,6 @@ class AppRouter {
         if (isOnSplashScreen || isOnLoginPage || isCreateAccountLoadingPage) {
           return '/';
         }
-
         return null;
       },
       refreshListenable: _appStateBloc);

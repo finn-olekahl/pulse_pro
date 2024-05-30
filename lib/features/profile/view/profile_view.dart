@@ -22,7 +22,8 @@ class ProfileView extends StatelessWidget {
       body: BlocConsumer<ProfileCubit, ProfileState>(
         listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) {
-          if (state.status == ProfileStatus.initial || state.status == ProfileStatus.loaded) return;
+          if (state.status == ProfileStatus.initial ||
+              state.status == ProfileStatus.loaded) return;
           if (state.status == ProfileStatus.edit) {
             _panelController.close();
             return;
@@ -40,7 +41,9 @@ class ProfileView extends StatelessWidget {
             children: [
               const ProfilePageHeader(),
               Padding(
-                padding: EdgeInsets.only(top: MediaQuery.sizeOf(context).width * (2 / 3 - 0.05) - 30),
+                padding: EdgeInsets.only(
+                    top:
+                        MediaQuery.sizeOf(context).width * (2 / 3 - 0.05) - 30),
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.black,
@@ -63,14 +66,18 @@ class ProfileView extends StatelessWidget {
                               ProfileDetail(
                                   label: 'Name',
                                   value: state.pulseProUser!.name,
-                                  onEdit: () => context.read<ProfileCubit>().editValue(ProfileStatus.editName)),
+                                  onEdit: () => context
+                                      .read<ProfileCubit>()
+                                      .editValue(ProfileStatus.editName)),
                               const SizedBox(
                                 width: 10,
                               ),
                               ProfileDetail(
                                   label: 'Email',
                                   value: state.pulseProUser!.email,
-                                  onEdit: () => context.read<ProfileCubit>().editValue(ProfileStatus.editEmail))
+                                  onEdit: () => context
+                                      .read<ProfileCubit>()
+                                      .editValue(ProfileStatus.editEmail))
                             ],
                           ),
                           const SizedBox(
@@ -81,16 +88,24 @@ class ProfileView extends StatelessWidget {
                             children: [
                               ProfileDetail(
                                 label: 'Birthdate',
-                                value: formatDate(state.pulseProUser!.birthDate),
-                                onEdit: () => context.read<ProfileCubit>().editValue(ProfileStatus.editBirthDate),
+                                value:
+                                    formatDate(state.pulseProUser!.birthDate),
+                                onEdit: () => context
+                                    .read<ProfileCubit>()
+                                    .editValue(ProfileStatus.editBirthDate),
                               ),
                               const SizedBox(
                                 width: 10,
                               ),
                               ProfileDetail(
                                   label: 'Gender',
-                                  value: capitalize(state.pulseProUser!.gender.toString().split('.').last),
-                                  onEdit: () => context.read<ProfileCubit>().editValue(ProfileStatus.editGender))
+                                  value: capitalize(state.pulseProUser!.gender
+                                      .toString()
+                                      .split('.')
+                                      .last),
+                                  onEdit: () => context
+                                      .read<ProfileCubit>()
+                                      .editValue(ProfileStatus.editGender))
                             ],
                           ),
                           const SizedBox(
@@ -102,14 +117,18 @@ class ProfileView extends StatelessWidget {
                               ProfileDetail(
                                   label: 'Height',
                                   value: '${state.pulseProUser!.height} cm',
-                                  onEdit: () => context.read<ProfileCubit>().editValue(ProfileStatus.editHeight)),
+                                  onEdit: () => context
+                                      .read<ProfileCubit>()
+                                      .editValue(ProfileStatus.editHeight)),
                               const SizedBox(
                                 width: 10,
                               ),
                               ProfileDetail(
                                   label: 'Weight',
                                   value: '${state.pulseProUser!.weight} kg',
-                                  onEdit: () => context.read<ProfileCubit>().editValue(ProfileStatus.editWeight))
+                                  onEdit: () => context
+                                      .read<ProfileCubit>()
+                                      .editValue(ProfileStatus.editWeight))
                             ],
                           ),
                           const SizedBox(
@@ -149,8 +168,11 @@ class ProfileView extends StatelessWidget {
                 controller: _panelController,
                 panelBuilder: (scrollController) => const ProfileSettingPanel(),
                 defaultPanelState: PanelState.CLOSED,
-                maxHeight: MediaQuery.sizeOf(context).height,
-                padding: EdgeInsets.only(top: MediaQuery.sizeOf(context).width * (2 / 3 - 0.05) - 30),
+                maxHeight: MediaQuery.sizeOf(context).height + 2,
+                padding: EdgeInsets.only(
+                    top: MediaQuery.sizeOf(context).width * (2 / 3 - 0.05) -
+                        30 -
+                        2),
                 minHeight: 0,
               )
             ],
