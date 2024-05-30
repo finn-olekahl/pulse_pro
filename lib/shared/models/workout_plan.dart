@@ -82,7 +82,7 @@ enum WorkoutGoal {
   fatLoss,
   muscleGain,
   strengthGain,
-  endurance, loseWeight,
+  endurance,
 }
 
 enum WorkoutIntensity { low, moderate, high, extreme, medium }
