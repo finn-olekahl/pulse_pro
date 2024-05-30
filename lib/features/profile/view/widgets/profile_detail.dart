@@ -106,7 +106,7 @@ class _ProfileDetailState extends State<ProfileDetail>
                               child: Text(
                                 widget.value,
                                 maxLines: 1,
-                                overflow: TextOverflow.fade,
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   color: Colors.deepPurple.shade100,
