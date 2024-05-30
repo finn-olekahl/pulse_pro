@@ -135,7 +135,7 @@ class _CreateAccountLoadingViewState extends State<CreateAccountLoadingView> {
                   padding: const EdgeInsets.only(top: 20),
                   child: Text(
                     loadingText(context),
-                    style: TextStyle(color: Colors.white.withOpacity(0.75)),
+                    style: TextStyle(color: Colors.deepPurple.shade100.withOpacity(0.75)),
                   ),
                 )
               ],
@@ -192,7 +192,7 @@ class SettingUpTextState extends State<SettingUpText> {
       textAlign: TextAlign.center,
       style: TextStyle(
         fontFamily: 'sansman',
-        color: Colors.white.withOpacity(0.75),
+        color: Colors.deepPurple.shade100.withOpacity(1),
         fontSize: 30,
       ),
     );

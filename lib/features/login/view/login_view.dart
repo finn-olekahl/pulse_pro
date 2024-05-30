@@ -16,10 +16,12 @@ class LoginView extends StatefulWidget {
   State<LoginView> createState() => _LoginViewState();
 }
 
-class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMixin {
+class _LoginViewState extends State<LoginView>
+    with SingleTickerProviderStateMixin {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController repeatPasswordController = TextEditingController();
+  final TextEditingController repeatPasswordController =
+      TextEditingController();
 
   late AnimationController loginPopupAnimationController;
   late Animation<double> loginPopupAnimation;
@@ -38,11 +40,15 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
       vsync: this,
     );
 
-    loginPopupAnimation = Tween<double>(begin: 1, end: 0).animate(CurvedAnimation(
-        parent: loginPopupAnimationController, curve: Curves.easeOutCubic, reverseCurve: Curves.easeInCubic));
+    loginPopupAnimation = Tween<double>(begin: 1, end: 0).animate(
+        CurvedAnimation(
+            parent: loginPopupAnimationController,
+            curve: Curves.easeOutCubic,
+            reverseCurve: Curves.easeInCubic));
   }
 
-  InputDecoration inputFieldDecoration({required String hintText}) => InputDecoration(
+  InputDecoration inputFieldDecoration({required String hintText}) =>
+      InputDecoration(
         hintStyle: const TextStyle(color: Colors.grey),
         contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
         hintText: hintText,
@@ -77,7 +83,9 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
           height: 3,
           width: (MediaQuery.of(context).size.width - 60) / pageCount - 8,
           decoration: BoxDecoration(
-            color: currentIndex == index ? Colors.white : Colors.white.withOpacity(0.5),
+            color: currentIndex == index
+                ? Colors.white
+                : Colors.white.withOpacity(0.5),
             borderRadius: BorderRadius.circular(10),
           ),
         );
@@ -87,7 +95,9 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    if (context.watch<LoginCubit>().state.status == LoginStatus.postOnboarding && !isLoginPopupOpen) {
+    if (context.watch<LoginCubit>().state.status ==
+            LoginStatus.postOnboarding &&
+        !isLoginPopupOpen) {
       toggleLoginPopup();
     }
     return Scaffold(
@@ -129,7 +139,8 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
                 width: MediaQuery.sizeOf(context).width,
                 height: MediaQuery.sizeOf(context).height * 0.55,
                 child: ColorFiltered(
-                  colorFilter: const ColorFilter.mode(Colors.white, BlendMode.saturation),
+                  colorFilter: const ColorFilter.mode(
+                      Colors.white, BlendMode.saturation),
                   child: Image.asset(
                     'assets/images/login_slide1.jpg',
                     gaplessPlayback: true,
@@ -160,7 +171,8 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
                 width: MediaQuery.sizeOf(context).width,
                 height: MediaQuery.sizeOf(context).height * 0.55,
                 child: ColorFiltered(
-                  colorFilter: const ColorFilter.mode(Colors.white, BlendMode.saturation),
+                  colorFilter: const ColorFilter.mode(
+                      Colors.white, BlendMode.saturation),
                   child: Image.asset(
                     'assets/images/login_slide2.jpg',
                     gaplessPlayback: true,
@@ -191,7 +203,8 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
                 width: MediaQuery.sizeOf(context).width,
                 height: MediaQuery.sizeOf(context).height * 0.55,
                 child: ColorFiltered(
-                  colorFilter: const ColorFilter.mode(Colors.white, BlendMode.saturation),
+                  colorFilter: const ColorFilter.mode(
+                      Colors.white, BlendMode.saturation),
                   child: Image.asset(
                     'assets/images/login_slide3.jpg',
                     gaplessPlayback: true,
@@ -206,7 +219,8 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
           Opacity(
             opacity: 0.6,
             child: Padding(
-              padding: EdgeInsets.only(top: MediaQuery.viewPaddingOf(context).top + 10, left: 20),
+              padding: EdgeInsets.only(
+                  top: MediaQuery.viewPaddingOf(context).top + 10, left: 20),
               child: Image.asset(
                 'assets/images/app_logo_white.png',
                 gaplessPlayback: true,
@@ -216,7 +230,8 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
               ),
             ),
           ),
-          if (context.read<LoginCubit>().state.status == LoginStatus.preOnboarding)
+          if (context.read<LoginCubit>().state.status ==
+              LoginStatus.preOnboarding)
             Center(
               child: Padding(
                 padding: EdgeInsets.only(
@@ -249,12 +264,15 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
                                       alignment: Alignment.centerLeft,
                                       child: Text.rich(
                                         TextSpan(
-                                          style: const TextStyle(fontSize: 24.0, fontFamily: 'sansman'),
+                                          style: const TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'sansman'),
                                           children: <TextSpan>[
                                             TextSpan(
                                               text: 'Pulse',
                                               style: TextStyle(
-                                                color: Colors.deepPurple.shade300,
+                                                color:
+                                                    Colors.deepPurple.shade300,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 32,
                                               ),
@@ -276,7 +294,8 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
                                             TextSpan(
                                               text: 'Pro',
                                               style: TextStyle(
-                                                color: Colors.deepPurple.shade300,
+                                                color:
+                                                    Colors.deepPurple.shade300,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 32,
                                               ),
@@ -297,10 +316,12 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
                                           children: const <TextSpan>[
                                             TextSpan(text: 'Get Ready!'),
                                             TextSpan(
-                                              text: '\nWelcome to the first AI assisted workout planner.',
+                                              text:
+                                                  '\nWelcome to the first AI assisted workout planner.',
                                             ),
                                             TextSpan(
-                                              text: '\nDesigned to elevate your spirit and body.',
+                                              text:
+                                                  '\nDesigned to elevate your spirit and body.',
                                             ),
                                           ],
                                         ),
@@ -321,7 +342,9 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
                                   alignment: Alignment.centerLeft,
                                   child: Text.rich(
                                     TextSpan(
-                                      style: const TextStyle(fontSize: 24.0, fontFamily: 'sansman'),
+                                      style: const TextStyle(
+                                          fontSize: 24.0,
+                                          fontFamily: 'sansman'),
                                       children: <TextSpan>[
                                         TextSpan(
                                           text: 'Workouts, Tailored to ',
@@ -352,13 +375,15 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
                                         color: Colors.grey.shade400,
                                       ),
                                       children: const <TextSpan>[
-                                        TextSpan(text: 'It doesn\'t get simpler.'),
+                                        TextSpan(
+                                            text: 'It doesn\'t get simpler.'),
                                         TextSpan(
                                           text:
                                               '\nGenerate Workout Plans based on your personal needs with the help of Artifical Intelligence',
                                         ),
                                         TextSpan(
-                                          text: '\nBring your workouts to the next level!',
+                                          text:
+                                              '\nBring your workouts to the next level!',
                                         ),
                                       ],
                                     ),
@@ -377,7 +402,9 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
                                   alignment: Alignment.centerLeft,
                                   child: Text.rich(
                                     TextSpan(
-                                      style: const TextStyle(fontSize: 24.0, fontFamily: 'sansman'),
+                                      style: const TextStyle(
+                                          fontSize: 24.0,
+                                          fontFamily: 'sansman'),
                                       children: <TextSpan>[
                                         TextSpan(
                                           text: 'Its just ',
@@ -420,7 +447,8 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
                                               'All exercises are come along with detailed explanations and easy-to-understand videos.',
                                         ),
                                         TextSpan(
-                                          text: '\nNever struggle with doing your workouts correctly EVER again!',
+                                          text:
+                                              '\nNever struggle with doing your workouts correctly EVER again!',
                                         ),
                                       ],
                                     ),
@@ -444,31 +472,40 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
                             style: OutlinedButton.styleFrom(
                               backgroundColor: Colors.deepPurple.shade400,
                               foregroundColor: Colors.white,
-                              side: BorderSide(color: Colors.white.withOpacity(0.3), width: 0),
+                              side: BorderSide(
+                                  color: Colors.white.withOpacity(0.3),
+                                  width: 0),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30),
                               ),
                             ),
                             onPressed: () {
-                              context.read<LoginCubit>().startOnboarding(context);
+                              context
+                                  .read<LoginCubit>()
+                                  .startOnboarding(context);
                             },
                             child: SizedBox(
                                 width: MediaQuery.sizeOf(context).width,
-                                child: const Center(child: Text('Get Started'))),
+                                child:
+                                    const Center(child: Text('Get Started'))),
                           ),
                           OutlinedButton(
-                            key: const Key('loginButton'), // Schlüssel hinzugefügt
+                            key: const Key(
+                                'loginButton'), // Schlüssel hinzugefügt
                             style: OutlinedButton.styleFrom(
                               backgroundColor: Colors.black.withAlpha(30),
                               foregroundColor: Colors.white,
-                              side: BorderSide(color: Colors.white.withOpacity(0.3), width: 3),
+                              side: BorderSide(
+                                  color: Colors.white.withOpacity(0.3),
+                                  width: 3),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30),
                               ),
                             ),
                             onPressed: toggleLoginPopup,
                             child: SizedBox(
-                                width: MediaQuery.sizeOf(context).width, child: const Center(child: Text('Login'))),
+                                width: MediaQuery.sizeOf(context).width,
+                                child: const Center(child: Text('Login'))),
                           ),
                         ],
                       ),
@@ -505,7 +542,8 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
                   child: Stack(
                     children: [
                       GestureDetector(
-                        onTap: context.read<LoginCubit>().state.status == LoginStatus.preOnboarding
+                        onTap: context.read<LoginCubit>().state.status ==
+                                LoginStatus.preOnboarding
                             ? () {
                                 toggleLoginPopup();
                                 FocusScope.of(context).unfocus();
@@ -522,160 +560,267 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(35),
                                 child: BackdropFilter(
-                                  filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                                  filter:
+                                      ImageFilter.blur(sigmaX: 20, sigmaY: 20),
                                   child: Container(
                                     decoration: BoxDecoration(
                                       color: Colors.black.withOpacity(0.6),
                                     ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(30),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            context.read<LoginCubit>().state.status == LoginStatus.preOnboarding
-                                                ? "Login"
-                                                : "Signup",
-                                            style: TextStyle(
-                                              color: Colors.white.withOpacity(0.75),
-                                              fontSize: 25,
-                                              fontWeight: FontWeight.w600,
+                                    child: SingleChildScrollView(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(30),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              context
+                                                          .read<LoginCubit>()
+                                                          .state
+                                                          .status ==
+                                                      LoginStatus.preOnboarding
+                                                  ? "Login"
+                                                  : "Signup",
+                                              style: TextStyle(
+                                                color: Colors.white
+                                                    .withOpacity(0.75),
+                                                fontSize: 25,
+                                                fontWeight: FontWeight.w600,
+                                              ),
                                             ),
-                                          ),
-                                          const SizedBox(height: 25),
-                                          SizedBox(
-                                            height: 40,
-                                            child: TextField(
-                                              autocorrect: false,
-                                              controller: emailController,
-                                              style: const TextStyle(color: Colors.white),
-                                              keyboardType: TextInputType.emailAddress,
-                                              decoration: inputFieldDecoration(hintText: "Email"),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 15),
-                                          SizedBox(
-                                            height: 40,
-                                            child: TextField(
-                                              autocorrect: false,
-                                              controller: passwordController,
-                                              style: const TextStyle(color: Colors.white),
-                                              keyboardType: TextInputType.visiblePassword,
-                                              obscureText: true,
-                                              decoration: inputFieldDecoration(hintText: "Password"),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 15),
-                                          if (context.read<LoginCubit>().state.status == LoginStatus.postOnboarding)
+                                            const SizedBox(height: 25),
                                             SizedBox(
                                               height: 40,
                                               child: TextField(
                                                 autocorrect: false,
-                                                controller: repeatPasswordController,
-                                                style: const TextStyle(color: Colors.white),
-                                                keyboardType: TextInputType.visiblePassword,
-                                                obscureText: true,
-                                                decoration: inputFieldDecoration(hintText: "Repeat Password"),
+                                                controller: emailController,
+                                                style: const TextStyle(
+                                                    color: Colors.white),
+                                                keyboardType:
+                                                    TextInputType.emailAddress,
+                                                decoration:
+                                                    inputFieldDecoration(
+                                                        hintText: "Email"),
                                               ),
                                             ),
-                                          if (context.read<LoginCubit>().state.status == LoginStatus.postOnboarding)
                                             const SizedBox(height: 15),
-                                          ButtonTheme(
-                                            child: OutlinedButton(
-                                              style: OutlinedButton.styleFrom(
-                                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                                minimumSize: const Size(double.infinity, 40),
-                                                backgroundColor: Colors.black.withAlpha(30),
-                                                foregroundColor: Colors.white,
-                                                side: BorderSide(color: Colors.deepPurple.shade300, width: 3),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(30),
+                                            SizedBox(
+                                              height: 40,
+                                              child: TextField(
+                                                autocorrect: false,
+                                                controller: passwordController,
+                                                style: const TextStyle(
+                                                    color: Colors.white),
+                                                keyboardType: TextInputType
+                                                    .visiblePassword,
+                                                obscureText: true,
+                                                decoration:
+                                                    inputFieldDecoration(
+                                                        hintText: "Password"),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 15),
+                                            if (context
+                                                    .read<LoginCubit>()
+                                                    .state
+                                                    .status ==
+                                                LoginStatus.postOnboarding)
+                                              SizedBox(
+                                                height: 40,
+                                                child: TextField(
+                                                  autocorrect: false,
+                                                  controller:
+                                                      repeatPasswordController,
+                                                  style: const TextStyle(
+                                                      color: Colors.white),
+                                                  keyboardType: TextInputType
+                                                      .visiblePassword,
+                                                  obscureText: true,
+                                                  decoration:
+                                                      inputFieldDecoration(
+                                                          hintText:
+                                                              "Repeat Password"),
                                                 ),
                                               ),
-                                              onPressed:
-                                                  context.read<LoginCubit>().state.status == LoginStatus.preOnboarding
-                                                      ? () {
-                                                          context
-                                                              .read<LoginCubit>()
-                                                              .signInWithEmailAndPassword(
-                                                                  email: emailController.text,
-                                                                  password: passwordController.text)
-                                                              .then((value) {
-                                                            if (value) context.push("/login/createAccountLoading");
-                                                          });
-                                                        }
-                                                      : () {
-                                                          context.read<LoginCubit>().signUpWithEmailAndPassword(
-                                                              email: emailController.text,
-                                                              password: passwordController.text);
-                                                        },
-                                              child: Text(
-                                                  context.read<LoginCubit>().state.status == LoginStatus.preOnboarding
-                                                      ? "Login"
-                                                      : "Signup"),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 30),
-                                          const Row(children: <Widget>[
-                                            Expanded(child: Divider()),
-                                            Padding(
-                                              padding: EdgeInsets.symmetric(horizontal: 5),
-                                              child: Text(
-                                                "OR",
-                                                style: TextStyle(color: Colors.grey),
-                                              ),
-                                            ),
-                                            Expanded(
-                                                child: Divider(
-                                              color: Colors.grey,
-                                            )),
-                                          ]),
-                                          const SizedBox(height: 15),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              IconButton(
-                                                  icon: const FaIcon(color: Colors.grey, FontAwesomeIcons.google),
-                                                  onPressed: () => context.read<LoginCubit>().signInWithGoogle()),
-                                              IconButton(
-                                                  icon: const FaIcon(color: Colors.grey, FontAwesomeIcons.apple),
-                                                  onPressed: () => context.read<LoginCubit>().signInWithApple())
-                                            ],
-                                          ),
-                                          if (context.read<LoginCubit>().state.gender != null)
-                                            Padding(
-                                              padding: const EdgeInsets.only(top: 15),
-                                              child: ButtonTheme(
-                                                child: OutlinedButton(
-                                                  style: OutlinedButton.styleFrom(
-                                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                                    minimumSize: const Size(double.infinity, 40),
-                                                    backgroundColor: Colors.black.withAlpha(30),
-                                                    foregroundColor: Colors.white,
-                                                    side: BorderSide(color: Colors.grey.shade700, width: 3),
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(30),
-                                                    ),
+                                            if (context
+                                                    .read<LoginCubit>()
+                                                    .state
+                                                    .status ==
+                                                LoginStatus.postOnboarding)
+                                              const SizedBox(height: 15),
+                                            ButtonTheme(
+                                              child: OutlinedButton(
+                                                style: OutlinedButton.styleFrom(
+                                                  tapTargetSize:
+                                                      MaterialTapTargetSize
+                                                          .shrinkWrap,
+                                                  minimumSize: const Size(
+                                                      double.infinity, 40),
+                                                  backgroundColor: Colors.black
+                                                      .withAlpha(30),
+                                                  foregroundColor: Colors.white,
+                                                  side: BorderSide(
+                                                      color: Colors
+                                                          .deepPurple.shade300,
+                                                      width: 3),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            30),
                                                   ),
-                                                  onPressed: context.read<LoginCubit>().state.status ==
-                                                          LoginStatus.postOnboarding
-                                                      ? () {
-                                                          setState(() {
-                                                            context.read<LoginCubit>().cancelOnboarding(context);
-                                                          });
-                                                        }
-                                                      : () {
-                                                          setState(() {
-                                                            context.read<LoginCubit>().continueOnboarding();
-                                                          });
-                                                        },
-                                                  child: Text(context.read<LoginCubit>().state.status ==
-                                                          LoginStatus.postOnboarding
-                                                      ? "Login instead"
-                                                      : "Signup instead"),
                                                 ),
+                                                onPressed: context
+                                                            .read<LoginCubit>()
+                                                            .state
+                                                            .status ==
+                                                        LoginStatus
+                                                            .preOnboarding
+                                                    ? () {
+                                                        context
+                                                            .read<LoginCubit>()
+                                                            .signInWithEmailAndPassword(
+                                                                email:
+                                                                    emailController
+                                                                        .text,
+                                                                password:
+                                                                    passwordController
+                                                                        .text)
+                                                            .then((value) {
+                                                          if (value) {
+                                                            context.push(
+                                                                "/login/createAccountLoading");
+                                                          }
+                                                        });
+                                                      }
+                                                    : () {
+                                                        context
+                                                            .read<LoginCubit>()
+                                                            .signUpWithEmailAndPassword(
+                                                                email:
+                                                                    emailController
+                                                                        .text,
+                                                                password:
+                                                                    passwordController
+                                                                        .text);
+                                                      },
+                                                child: Text(context
+                                                            .read<LoginCubit>()
+                                                            .state
+                                                            .status ==
+                                                        LoginStatus
+                                                            .preOnboarding
+                                                    ? "Login"
+                                                    : "Signup"),
                                               ),
                                             ),
-                                        ],
+                                            const SizedBox(height: 30),
+                                            const Row(children: <Widget>[
+                                              Expanded(child: Divider()),
+                                              Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 5),
+                                                child: Text(
+                                                  "OR",
+                                                  style: TextStyle(
+                                                      color: Colors.grey),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                  child: Divider(
+                                                color: Colors.grey,
+                                              )),
+                                            ]),
+                                            const SizedBox(height: 15),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                IconButton(
+                                                    icon: const FaIcon(
+                                                        color: Colors.grey,
+                                                        FontAwesomeIcons
+                                                            .google),
+                                                    onPressed: () => context
+                                                        .read<LoginCubit>()
+                                                        .signInWithGoogle()),
+                                                IconButton(
+                                                    icon: const FaIcon(
+                                                        color: Colors.grey,
+                                                        FontAwesomeIcons.apple),
+                                                    onPressed: () => context
+                                                        .read<LoginCubit>()
+                                                        .signInWithApple())
+                                              ],
+                                            ),
+                                            if (context
+                                                    .read<LoginCubit>()
+                                                    .state
+                                                    .gender !=
+                                                null)
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 15),
+                                                child: ButtonTheme(
+                                                  child: OutlinedButton(
+                                                    style: OutlinedButton
+                                                        .styleFrom(
+                                                      tapTargetSize:
+                                                          MaterialTapTargetSize
+                                                              .shrinkWrap,
+                                                      minimumSize: const Size(
+                                                          double.infinity, 40),
+                                                      backgroundColor: Colors
+                                                          .black
+                                                          .withAlpha(30),
+                                                      foregroundColor:
+                                                          Colors.white,
+                                                      side: BorderSide(
+                                                          color: Colors
+                                                              .grey.shade700,
+                                                          width: 3),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(30),
+                                                      ),
+                                                    ),
+                                                    onPressed: context
+                                                                .read<
+                                                                    LoginCubit>()
+                                                                .state
+                                                                .status ==
+                                                            LoginStatus
+                                                                .postOnboarding
+                                                        ? () {
+                                                            setState(() {
+                                                              context
+                                                                  .read<
+                                                                      LoginCubit>()
+                                                                  .cancelOnboarding(
+                                                                      context);
+                                                            });
+                                                          }
+                                                        : () {
+                                                            setState(() {
+                                                              context
+                                                                  .read<
+                                                                      LoginCubit>()
+                                                                  .continueOnboarding();
+                                                            });
+                                                          },
+                                                    child: Text(context
+                                                                .read<
+                                                                    LoginCubit>()
+                                                                .state
+                                                                .status ==
+                                                            LoginStatus
+                                                                .postOnboarding
+                                                        ? "Login instead"
+                                                        : "Signup instead"),
+                                                  ),
+                                                ),
+                                              ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
