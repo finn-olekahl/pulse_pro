@@ -2,7 +2,7 @@
 
 ## Overview
 
-Welcome to Pulse Pro! Pulse Pro is an innovative gym app that leverages the power of AI to create personalized workout plans tailored to your fitness goals, preferences, and progress. This README file provides an overview of the app, instructions for setup, usage, and other important information.
+Welcome to Pulse Pro! Pulse Pro is an innovative gym app that leverages the power of AI to create personalized workout plans tailored to your fitness goals, preferences, and progress.
 
 ## Table of Contents
 1. [Features](#features)
@@ -44,7 +44,3 @@ Welcome to Pulse Pro! Pulse Pro is an innovative gym app that leverages the powe
 ## License
 
 Pulse Pro is licensed under the [MIT License](https://opensource.org/licenses/MIT). For more details, please refer to the LICENSE file.
-
----
-
-Thank you for choosing Pulse Pro! We are excited to help you achieve your fitness goals with the power of AI.
