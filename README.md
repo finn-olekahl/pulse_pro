@@ -43,4 +43,4 @@ Welcome to Pulse Pro! Pulse Pro is an innovative gym app that leverages the powe
 
 ## License
 
-Pulse Pro is licensed under the [MIT License](https://opensource.org/licenses/MIT). For more details, please refer to the LICENSE file.
+Pulse Pro is licensed under the [PolyForm Noncommercial License 1.0.0]([https://opensource.org/licenses/MIT](https://polyformproject.org/licenses/noncommercial/1.0.0/)). For more details, please refer to the LICENSE file.
